@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string-array name="theme_names">
+        <item>"Blue"</item>
+        <item>"Gray"</item>
+        <item>"Green"</item>
+        <item>"Orange"</item>
+        <item>"Red"</item>
+        <item>"Purple"</item>
+        <item>"White"</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>"blue"</item>
+        <item>"gray"</item>
+        <item>"green"</item>
+        <item>"orange"</item>
+        <item>"red"</item>
+        <item>"purple"</item>
+        <item>"white"</item>
+    </string-array>
+
+    <array name="blue_colors">
+        <item>0xff0060a0</item>
+        <item>0xff00b0f0</item>
+        <item>0xff0080c0</item>
+        <item>0xff00a0e0</item>
+        <item>0xff0070b0</item>
+        <item>0xff0090d0</item>
+    </array>
+
+    <array name="gray_colors">
+        <item>0xff222222</item>
+        <item>0xff303030</item>
+        <item>0xff242424</item>
+        <item>0xff2a2a2a</item>
+        <item>0xff202020</item>
+        <item>0xff282828</item>
+    </array>
+
+    <array name="green_colors">
+        <item>0xff00a060</item>
+        <item>0xff00f0b0</item>
+        <item>0xff00c080</item>
+        <item>0xff00e0a0</item>
+        <item>0xff00b070</item>
+        <item>0xff00d090</item>
+    </array>
+
+    <array name="orange_colors">
+        <item>0xffd06000</item>
+        <item>0xfff0b000</item>
+        <item>0xffc08000</item>
+        <item>0xffe0a000</item>
+        <item>0xffb07000</item>
+        <item>0xffd09000</item>
+    </array>
+
+    <array name="red_colors">
+        <item>0xffd00000</item>
+        <item>0xfff00000</item>
+        <item>0xffc00000</item>
+        <item>0xffe00000</item>
+        <item>0xffb00000</item>
+        <item>0xffd00000</item>
+    </array>
+
+    <array name="purple_colors">
+        <item>0xffa00060</item>
+        <item>0xfff000b0</item>
+        <item>0xffc00080</item>
+        <item>0xffe000a0</item>
+        <item>0xffb00070</item>
+        <item>0xffd00090</item>
+    </array>
+
+    <array name="white_colors">
+        <item>0xffa0a0a0</item>
+        <item>0xfff0f0f0</item>
+        <item>0xffc0c0c0</item>
+        <item>0xffe0e0e0</item>
+        <item>0xffb0b0b0</item>
+        <item>0xffd0d0d0</item>
+    </array>
+
+</resources>
