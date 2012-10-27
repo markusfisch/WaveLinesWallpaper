@@ -1,6 +1,15 @@
+/*
+ *   O         ,-
+ *  ° o    . -´  '     ,-
+ *   °  .´        ` . ´,´
+ *     ( °   ))     . (
+ *      `-;_    . -´ `.`.
+ *          `._'       ´
+ *
+ * 2012 Markus Fisch <mf@markusfisch.de>
+ * Public Domain
+ */
 package de.markusfisch.android.wavelines;
-
-import de.markusfisch.android.wavelines.R;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,8 +26,9 @@ public class Settings
 		getPreferenceManager().setSharedPreferencesName(
 			WaveLinesWallpaper.SHARED_PREFERENCES_NAME );
 		addPreferencesFromResource( R.xml.settings );
-		getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(
-			this );
+		getPreferenceManager()
+			.getSharedPreferences()
+			.registerOnSharedPreferenceChangeListener( this );
 	}
 
 	@Override
