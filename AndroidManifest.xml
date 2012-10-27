@@ -2,29 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="de.markusfisch.android.wavelines" android:versionCode="1"
 	android:versionName="1.0">
-
+	<uses-sdk
+		android:minSdkVersion="7"
+		android:targetSdkVersion="16"/>
+	<uses-feature android:name="android.software.live_wallpaper"/>
 	<application android:label="@string/title"
-                 android:icon="@drawable/ic_launcher_wallpaper">
-
-		<service android:label="@string/title" android:name=".WaveLinesWallpaper"
+		android:icon="@drawable/ic_launcher_wallpaper">
+		<service android:label="@string/title"
+			android:name=".WaveLinesWallpaper"
 			android:permission="android.permission.BIND_WALLPAPER">
 			<intent-filter>
-				<action android:name="android.service.wallpaper.WallpaperService" />
+				<action
+					android:name="android.service.wallpaper.WallpaperService"/>
 			</intent-filter>
 			<meta-data android:name="android.service.wallpaper"
-				android:resource="@xml/wavelines" />
+				android:resource="@xml/wavelines"/>
 		</service>
-
-        <activity
-                android:label="@string/settings"
-                android:name=".Settings"
-                android:theme="@android:style/Theme.Light.WallpaperSettings"
-                android:exported="true">
-        </activity>
-
+		<activity
+			android:label="@string/settings"
+			android:name=".Settings"
+			android:theme="@android:style/Theme.Light.WallpaperSettings"
+			android:exported="true">
+		</activity>
 	</application>
-
-	<uses-sdk android:minSdkVersion="7" />
-
-	<uses-feature android:name="android.software.live_wallpaper" />
 </manifest>
