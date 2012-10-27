@@ -85,7 +85,7 @@ public abstract class Wallpaper extends WallpaperService
 			nextFrame();
 		}
 
-		protected abstract void drawFrame( final Canvas c, final float t );
+		protected abstract void drawFrame( final Canvas c, final long e );
 
 		protected void nextFrame()
 		{
@@ -102,7 +102,7 @@ public abstract class Wallpaper extends WallpaperService
 				if( (c = holder.lockCanvas()) != null )
 				{
 					final long now = SystemClock.elapsedRealtime();
-					drawFrame( c, (float)delay/(now-time) );
+					drawFrame( c, now-time );
 					time = now;
 				}
 			}

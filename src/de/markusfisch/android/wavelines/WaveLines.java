@@ -38,7 +38,7 @@ public class WaveLines
 		waveLines = null;
 	}
 
-	public void draw( final Canvas c, final float t )
+	public void draw( final Canvas c, final long e )
 	{
 		if( waveLines == null )
 			create(
@@ -46,12 +46,13 @@ public class WaveLines
 				c.getHeight() );
 		else
 		{
+			final double elapsed = e/1000.0;
 			float r = 0;
 
 			for( int n = lines;
 				n-- > 0; )
 			{
-				waveLines[n].flow( t );
+				waveLines[n].flow( elapsed );
 
 				// build path
 				{
@@ -141,8 +142,8 @@ public class WaveLines
 
 			// calculate growth of master rows
 			{
-				final float min = h*.00001f;
-				final float max = h*.00020f;
+				final float min = h*.0001f;
+				final float max = h*.0020f;
 
 				for( int n = hl;
 					n-- > 0; )
@@ -220,10 +221,10 @@ public class WaveLines
 				amplitude = amplitudeMin+(float)Math.ceil(
 					Math.random()*(amplitudeMax-amplitudeMin) );
 				power = coupled ?
-					.01f+amplitudeMax*.037f :
-					.01f+(float)Math.random()*(amplitudeMax*.075f);
+					.1f+amplitudeMax*.37f :
+					.1f+(float)Math.random()*(amplitudeMax*.75f);
 				shift = -(float)Math.random()*(length*2);
-				speed = (width*.001f)+(float)Math.random()*(width*.003125f);
+				speed = (width*.01f)+(float)Math.random()*(width*.03125f);
 			}
 			else
 			{
@@ -240,18 +241,18 @@ public class WaveLines
 			yang = y;
 		}
 
-		public void flow( final float t )
+		public void flow( final double e )
 		{
 			// raise the power if the wave gets shallow to avoid
-			// having straight waveLines for too long
-			float p = (amplitudeMax-Math.abs( amplitude ))*.1f;
+			// having straight lines for too long
+			float p = amplitudeMax-Math.abs( amplitude );
 
 			if( Math.abs( power ) > p )
 				p = power;
 			else if( power < 0 )
 				p = -p;
 
-			amplitude += p/t;
+			amplitude += p*e;
 
 			if( amplitude > amplitudeMax ||
 				amplitude < amplitudeMin )
@@ -264,16 +265,17 @@ public class WaveLines
 				power = -power;
 			}
 
-			shift += speed/t;
+			shift += speed*e;
 
 			if( shift > 0 )
 				shift -= length*2;
 
 			if( yang > -1 )
-				thickness = (thicknessMax+thicknessMin)-waveLines[yang].thickness;
+				thickness =
+					(thicknessMax+thicknessMin)-waveLines[yang].thickness;
 			else if( growth != 0 )
 			{
-				thickness += growth/t;
+				thickness += growth*e;
 
 				if( thickness > thicknessMax ||
 					thickness < thicknessMin )

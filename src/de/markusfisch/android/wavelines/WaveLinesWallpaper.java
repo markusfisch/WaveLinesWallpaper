@@ -51,10 +51,10 @@ public class WaveLinesWallpaper extends Wallpaper
 		}
 
 		@Override
-		protected void drawFrame( final Canvas c, final float t )
+		protected void drawFrame( final Canvas c, final long e )
 		{
 			c.save();
-			w.draw( c, t );
+			w.draw( c, e );
 			c.restore();
 		}
 
