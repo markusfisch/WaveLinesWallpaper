@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="title">Wave Lines</string>
-    <string name="description">Moving wave lines.</string>
-    <string name="settings">Settings</string>
-    <string name="theme">Color theme</string>
-    <string name="theme_summary">Choose color theme</string>
-    <string name="coupled">Coupled waves</string>
-    <string name="coupled_summary">All lines share the same wave</string>
-    <string name="uniform">Uniform lines</string>
-    <string name="uniform_summary">Lines have uniform width</string>
-    <string name="lines">Lines</string>
-    <string name="lines_summary">Number of wave lines</string>
-    <string name="waves">Waves</string>
-    <string name="waves_summary">Number of waves in a line</string>
-    <string name="amplitude">Amplitude</string>
-    <string name="amplitude_summary">Maximum amplitude in percent</string>
-
+	<string name="title">Wave Lines</string>
+	<string name="description">Moving wave lines.</string>
+	<string name="settings">Settings</string>
+	<string name="theme">Color theme</string>
+	<string name="theme_summary">Choose color theme</string>
+	<string name="coupled">Coupled waves</string>
+	<string name="coupled_summary">All lines share the same wave</string>
+	<string name="uniform">Uniform lines</string>
+	<string name="uniform_summary">Lines have uniform width</string>
+	<string name="lines">Lines</string>
+	<string name="lines_summary">Number of wave lines</string>
+	<string name="waves">Waves</string>
+	<string name="waves_summary">Number of waves in a line</string>
+	<string name="amplitude">Amplitude</string>
+	<string name="amplitude_summary">Maximum amplitude in percent</string>
+	<string name="delay">Frame rate</string>
+	<string name="delay_summary">Use a lower value to save battery and resources</string>
 </resources>

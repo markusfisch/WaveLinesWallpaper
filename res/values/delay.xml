@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+	<string-array name="delay_names">
+		<item>"10 (default)"</item>
+		<item>"20"</item>
+		<item>"30"</item>
+		<item>"60"</item>
+	</string-array>
+
+	<string-array name="delay_values">
+		<item>"100"</item>
+		<item>"50"</item>
+		<item>"33"</item>
+		<item>"16"</item>
+	</string-array>
+
+</resources>

@@ -46,8 +46,6 @@ public class WaveLinesWallpaper extends Wallpaper
 				SHARED_PREFERENCES_NAME, 0 );
 			p.registerOnSharedPreferenceChangeListener( this );
 			onSharedPreferenceChanged( p, null );
-
-			delay = 100;
 		}
 
 		@Override
@@ -60,6 +58,8 @@ public class WaveLinesWallpaper extends Wallpaper
 
 		public void onSharedPreferenceChanged( SharedPreferences p, String k )
 		{
+			delay = Integer.parseInt( p.getString( "delay", "100" ) );
+
 			w.coupled = p.getBoolean( "coupled", true );
 			w.uniform = p.getBoolean( "uniform", false );
 			w.lines = Integer.parseInt(
