@@ -180,7 +180,7 @@ public class WaveLines
 
 		for( int n = lines;
 			n-- > 0;
-			c = (++c)%6 )
+			c = (++c)%colors.length )
 			last = waveLines[n] = new WaveLine(
 				coupled ? last : null,
 				l,
