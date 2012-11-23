@@ -9,11 +9,11 @@
 		<item>"15%"</item>
 	</string-array>
 	<string-array name="amplitude_values">
-		<item>".01"</item>
-		<item>".02"</item>
-		<item>".04"</item>
-		<item>".08"</item>
-		<item>".10"</item>
-		<item>".15"</item>
+		<item>"0.01"</item>
+		<item>"0.02"</item>
+		<item>"0.04"</item>
+		<item>"0.08"</item>
+		<item>"0.10"</item>
+		<item>"0.15"</item>
 	</string-array>
 </resources>
