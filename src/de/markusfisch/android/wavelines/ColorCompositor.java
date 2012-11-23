@@ -14,10 +14,21 @@ package de.markusfisch.android.wavelines;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 public class ColorCompositor extends Activity
 {
@@ -38,6 +49,7 @@ public class ColorCompositor extends Activity
 	private int indexOfViewToMove;
 	private int lastIndex;
 	private float itemHeight;
+	private boolean longClickToastShown = false;
 
 	static public int[] getCustomColors( final SharedPreferences p )
 	{
@@ -112,15 +124,38 @@ public class ColorCompositor extends Activity
 				R.id.add_color );
 
 			if( v != null )
+			{
 				v.setOnClickListener(
 					new View.OnClickListener()
 					{
 						@Override
 						public void onClick( final View v )
 						{
-							addNewColor();
+							addNewColor( true );
+
+							if( !longClickToastShown )
+							{
+								Toast.makeText(
+									ColorCompositor.this,
+									R.string.click_long_for_random_color,
+									Toast.LENGTH_SHORT ).show();
+								longClickToastShown = true;
+							}
 						}
 					} );
+
+				v.setOnLongClickListener(
+					new View.OnLongClickListener()
+					{
+						@Override
+						public boolean onLongClick( final View v )
+						{
+							addNewColor( false );
+
+							return true;
+						}
+					} );
+			}
 		}
 
 		// load colors
@@ -170,14 +205,15 @@ public class ColorCompositor extends Activity
 		e.commit();
 	}
 
-	private void addNewColor()
+	private void addNewColor( final boolean matchLatest )
 	{
 		int c = 0xff000000 | (int)(Math.random()*0xffffff);
 		int n;
 
-		if( (n = colorList.getChildCount()) > 0 )
+		if( matchLatest &&
+			(n = colorList.getChildCount()) > 0 )
 		{
-			final View v = colorList.getChildAt( --n );	
+			final View v = colorList.getChildAt( --n );
 
 			if( v instanceof ColorLayout )
 			{

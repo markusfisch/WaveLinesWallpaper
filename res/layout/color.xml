@@ -14,7 +14,7 @@
 		android:layout_width="48dp"
 		android:layout_height="48dp"
 		android:text="&#x2195;"
-		android:textSize="32dp"
+		android:textSize="24dp"
 		android:gravity="center"/>
 	<TextView
 		android:id="@+id/remove_color"

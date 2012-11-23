@@ -27,4 +27,5 @@
 	<string name="performance_settings">Performance settings</string>
 	<string name="delay">Frame rate</string>
 	<string name="delay_summary">Use a lower value to save battery and resources</string>
+	<string name="click_long_for_random_color">Tap short for a matching color, long for a random color.</string>
 </resources>
