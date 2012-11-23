@@ -118,7 +118,7 @@ public class ColorCompositor extends Activity
 						@Override
 						public void onClick( final View v )
 						{
-							addRandomColor();
+							addNewColor();
 						}
 					} );
 		}
@@ -170,9 +170,43 @@ public class ColorCompositor extends Activity
 		e.commit();
 	}
 
-	private void addRandomColor()
+	private void addNewColor()
 	{
-		addColor( 0xff000000 | (int)(Math.random()*0xffffff) );
+		int c = 0xff000000 | (int)(Math.random()*0xffffff);
+		int n;
+
+		if( (n = colorList.getChildCount()) > 0 )
+		{
+			final View v = colorList.getChildAt( --n );	
+
+			if( v instanceof ColorLayout )
+			{
+				final float hsv[] = new float[3];
+				float a = ((float)Math.random()*.5f)-.25f;
+
+				if( Math.abs( a ) < .1f )
+					a = .1f;
+
+				Color.colorToHSV( ((ColorLayout) v).color, hsv );
+
+				final float b = hsv[2]+a;
+
+				if( b > 1f ||
+					b < 0f )
+					a = -a;
+
+				hsv[2] += a;
+
+				if( hsv[2] > 1f )
+					hsv[2] -= 1f;
+				else if( hsv[2] < 0f )
+					hsv[2] += 1f;
+
+				c = Color.HSVToColor( hsv );
+			}
+		}
+
+		addColor( c );
 	}
 
 	private void addColor( final int color )
