@@ -6,6 +6,13 @@
 		android:minSdkVersion="7"
 		android:targetSdkVersion="16"/>
 	<uses-feature android:name="android.software.live_wallpaper"/>
+	<supports-screens
+		android:resizeable="true"
+		android:smallScreens="true"
+		android:normalScreens="true"
+		android:largeScreens="true"
+		android:xlargeScreens="true"
+		android:anyDensity="true"/>
 	<application android:label="@string/title"
 		android:icon="@drawable/ic_launcher_wallpaper">
 		<service android:label="@string/title"
@@ -19,11 +26,13 @@
 				android:resource="@xml/wavelines"/>
 		</service>
 		<activity
+			android:theme="@style/Theme.WaveLinesTheme"
 			android:label="@string/settings"
 			android:name=".Settings"
 			android:exported="true">
 		</activity>
 		<activity
+			android:theme="@style/Theme.WaveLinesTheme"
 			android:label="@string/color_theme_compositor"
 			android:name=".ColorCompositor"
 			android:exported="true">
