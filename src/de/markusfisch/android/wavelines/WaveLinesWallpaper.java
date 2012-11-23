@@ -18,6 +18,7 @@ import android.content.res.TypedArray;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.preference.PreferenceManager;
+import android.view.SurfaceHolder;
 
 public class WaveLinesWallpaper extends Wallpaper
 {
@@ -55,6 +56,7 @@ public class WaveLinesWallpaper extends Wallpaper
 		{
 			delay = Integer.parseInt( p.getString( "delay", "100" ) );
 
+			w.uniform = p.getBoolean( "uniform", false );
 			w.coupled = p.getBoolean( "coupled", true );
 			w.uniform = p.getBoolean( "uniform", false );
 			w.lines = Integer.parseInt(
@@ -68,6 +70,18 @@ public class WaveLinesWallpaper extends Wallpaper
 				p );
 
 			w.reset();
+		}
+
+		@Override
+		public void onSurfaceChanged(
+			final SurfaceHolder holder,
+			final int format,
+			final int width,
+			final int height )
+		{
+			super.onSurfaceChanged( holder, format, width, height );
+
+			w.setup( width, height );
 		}
 
 		@Override

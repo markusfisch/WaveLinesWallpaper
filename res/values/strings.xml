@@ -16,10 +16,10 @@
 	<string name="wave_settings">Wave settings</string>
 	<string name="coupled">Coupled waves</string>
 	<string name="coupled_summary">All lines share the same wave</string>
-	<string name="uniform">Uniform lines</string>
-	<string name="uniform_summary">Lines have uniform width</string>
+	<string name="uniform">Uniform width</string>
+	<string name="uniform_summary">All lines have uniform width</string>
 	<string name="lines">Lines</string>
-	<string name="lines_summary">Number of wave lines</string>
+	<string name="lines_summary">Number of lines</string>
 	<string name="waves">Waves</string>
 	<string name="waves_summary">Number of waves in a line</string>
 	<string name="amplitude">Amplitude</string>
