@@ -24,8 +24,8 @@ public class WaveLines
 	public int waves = 3;
 	public float relativeAmplitude = .02f;
 
-	final private Paint paint = new Paint();
-	final private Path path = new Path();
+	private final Paint paint = new Paint();
+	private final Path path = new Path();
 	private float thicknessMax;
 	private float thicknessMin;
 	private float amplitudeMax;
@@ -77,14 +77,16 @@ public class WaveLines
 					}
 					else
 					{
+						final float a = waveLines[n].amplitude;
+
 						for( ;; lx = x, x += l )
 						{
-							final float a = waveLines[n].amplitude;
+							final float m = lx+h;
 
 							path.cubicTo(
-								lx+h,
+								m,
 								y-a,
-								x-h,
+								m,
 								y+a,
 								x,
 								y );
@@ -108,6 +110,9 @@ public class WaveLines
 
 	private void create( final int w, final int h )
 	{
+		if( colors == null )
+			return;
+
 		paint.setAntiAlias( true );
 
 		// calculates sizes relative to screen size

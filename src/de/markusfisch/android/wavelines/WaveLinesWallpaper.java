@@ -13,14 +13,15 @@ package de.markusfisch.android.wavelines;
 
 import de.markusfisch.android.wallpaper.Wallpaper;
 
-import android.graphics.Canvas;
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.content.res.TypedArray;
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.preference.PreferenceManager;
 
 public class WaveLinesWallpaper extends Wallpaper
 {
-	static final public String SHARED_PREFERENCES_NAME = "WaveLinesSettings";
+	static public final String SHARED_PREFERENCES_NAME = "WaveLinesSettings";
 
 	@Override
 	public Engine onCreateEngine()
@@ -28,11 +29,11 @@ public class WaveLinesWallpaper extends Wallpaper
 		return new WaveLinesEngine();
 	}
 
-	class WaveLinesEngine
+	private class WaveLinesEngine
 		extends WallpaperEngine
 		implements SharedPreferences.OnSharedPreferenceChangeListener
 	{
-		final private WaveLines w = new WaveLines();
+		private final WaveLines w = new WaveLines();
 
 		public WaveLinesEngine()
 		{
@@ -48,15 +49,9 @@ public class WaveLinesWallpaper extends Wallpaper
 			onSharedPreferenceChanged( p, null );
 		}
 
-		@Override
-		protected void drawFrame( final Canvas c, final long e )
-		{
-			c.save();
-			w.draw( c, e );
-			c.restore();
-		}
-
-		public void onSharedPreferenceChanged( SharedPreferences p, String k )
+		public void onSharedPreferenceChanged(
+			final SharedPreferences p,
+			final String key )
 		{
 			delay = Integer.parseInt( p.getString( "delay", "100" ) );
 
@@ -68,27 +63,50 @@ public class WaveLinesWallpaper extends Wallpaper
 				p.getString( "waves", "3" ) );
 			w.relativeAmplitude = Float.parseFloat(
 				p.getString( "amplitude", ".02" ) );
-
-			// load color theme
-			{
-				String theme = p.getString( "theme", "blue" );
-				int themeId = getResources().getIdentifier(
-					theme+"_colors",
-					"array",
-					getPackageName() );
-
-				TypedArray a = getResources().obtainTypedArray( themeId );
-				int colors[] = new int[a.length()];
-				for( int n = 0, l = a.length();
-					n < l;
-					++n )
-					colors[n] = a.getColor( n, 0 );
-				a.recycle();
-
-				w.colors = colors;
-			}
+			w.colors = WaveLinesWallpaper.getThemeColors(
+				getApplicationContext(),
+				p );
 
 			w.reset();
 		}
+
+		@Override
+		protected void drawFrame( final Canvas c, final long e )
+		{
+			c.save();
+			w.draw( c, e );
+			c.restore();
+		}
+	}
+
+	static public int[] getThemeColors(
+		final Context context,
+		final SharedPreferences preferences )
+	{
+		final String theme = preferences.getString( "theme", "blue" );
+
+		if( theme.equals( "custom" ) )
+			return ColorCompositor.getCustomColors( preferences );
+
+		final int themeId = context.getResources().getIdentifier(
+			theme+"_colors",
+			"array",
+			context.getPackageName() );
+
+		if( themeId < 1 )
+			return null;
+
+		final TypedArray a = context.getResources().obtainTypedArray(
+			themeId );
+		final int colors[] = new int[a.length()];
+
+		for( int n = 0, l = a.length();
+			n < l;
+			++n )
+			colors[n] = a.getColor( n, 0 );
+
+		a.recycle();
+
+		return colors;
 	}
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView
+		android:id="@+id/add_color"
+		android:layout_width="fill_parent"
+		android:layout_height="48dp"
+		android:text="+"
+		android:textSize="32dp"
+		android:gravity="center"/>
+	<ScrollView
+		android:id="@+id/scroll_view"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<LinearLayout
+			android:id="@+id/colors"
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"/>
+	</ScrollView>
+</LinearLayout>

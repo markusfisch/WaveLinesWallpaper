@@ -23,5 +23,10 @@
 			android:name=".Settings"
 			android:exported="true">
 		</activity>
+		<activity
+			android:label="@string/color_theme_compositor"
+			android:name=".ColorCompositor"
+			android:exported="true">
+		</activity>
 	</application>
 </manifest>

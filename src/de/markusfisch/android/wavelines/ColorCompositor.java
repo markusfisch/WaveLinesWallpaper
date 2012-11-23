@@ -1,0 +1,399 @@
+/*
+ *   O         ,-
+ *  ° o    . -´  '     ,-
+ *   °  .´        ` . ´,´
+ *     ( °   ))     . (
+ *      `-;_    . -´ `.`.
+ *          `._'       ´
+ *
+ * 2012 Markus Fisch <mf@markusfisch.de>
+ * Public Domain
+ */
+package de.markusfisch.android.wavelines;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.*;
+import android.os.Bundle;
+import android.view.*;
+import android.widget.*;
+
+public class ColorCompositor extends Activity
+{
+	private final int loc[] = new int[2];
+
+	private SharedPreferences preferences = null;
+	private ScrollView scrollView;
+	private LinearLayout colorList;
+	private ColorPickerDialog picker;
+	private View viewToMove = null;
+	private ImageView dragView;
+	private WindowManager windowManager;
+	private WindowManager.LayoutParams dragViewParams;
+	private int shadowRadius;
+	private int dragY;
+	private int offsetY;
+	private int topY;
+	private int indexOfViewToMove;
+	private int lastIndex;
+	private float itemHeight;
+
+	static public int[] getCustomColors( final SharedPreferences p )
+	{
+		final int l = p.getInt( "custom_colors", 0 );
+
+		if( l < 1 )
+			return null;
+
+		final int colors[] = new int[l];
+
+		for( int n = 0; n < l; ++n )
+			colors[n] = p.getInt( "custom_color"+n, 0 );
+
+		return colors;
+	}
+
+	@Override
+	public void onCreate( Bundle state )
+	{
+		super.onCreate( state );
+		setContentView( R.layout.compositor );
+
+		if( (preferences = getSharedPreferences(
+				WaveLinesWallpaper.SHARED_PREFERENCES_NAME,
+				0 )) == null ||
+			(windowManager = (WindowManager)getSystemService(
+				Context.WINDOW_SERVICE )) == null ||
+			(scrollView = (ScrollView)findViewById(
+				R.id.scroll_view )) == null ||
+			(colorList = (LinearLayout)findViewById(
+				R.id.colors )) == null )
+			return;
+
+		picker = new ColorPickerDialog( this );
+
+		shadowRadius = Math.round(
+			getResources().getDisplayMetrics().density*8f );
+
+		// wire scroll view
+		scrollView.setOnTouchListener(
+			new View.OnTouchListener()
+			{
+				@Override
+				public boolean onTouch(
+					final View v,
+					final MotionEvent e )
+				{
+					if( viewToMove != null )
+					{
+						switch( e.getAction() )
+						{
+							case MotionEvent.ACTION_MOVE:
+								dragY = (int)e.getRawY();
+								drag();
+								break;
+							case MotionEvent.ACTION_UP:
+							case MotionEvent.ACTION_CANCEL:
+								stopDragging();
+								break;
+						}
+
+						return true;
+					}
+
+					return false;
+				}
+			} );
+
+		// wire add button
+		{
+			final View v = findViewById(
+				R.id.add_color );
+
+			if( v != null )
+				v.setOnClickListener(
+					new View.OnClickListener()
+					{
+						@Override
+						public void onClick( final View v )
+						{
+							addRandomColor();
+						}
+					} );
+		}
+
+		// load colors
+		{
+			int c[] = getCustomColors( preferences );
+
+			if( c == null )
+				c = WaveLinesWallpaper.getThemeColors(
+					getApplicationContext(),
+					preferences );
+
+			if( c == null )
+				return;
+
+			for( int n = 0, l = c.length; n < l; ++n )
+				addColor( c[n] );
+		}
+	}
+
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+
+		saveColors();
+	}
+
+	private void saveColors()
+	{
+		final int count = colorList.getChildCount();
+		final SharedPreferences.Editor e = preferences.edit();
+
+		e.putInt( "custom_colors", count );
+
+		for( int n = 0; n < count; ++n )
+		{
+			View v = colorList.getChildAt( n );
+
+			if( v instanceof ColorLayout )
+			{
+				e.remove( "custom_color"+n );
+				e.putInt( "custom_color"+n, ((ColorLayout) v).color );
+			}
+		}
+
+		e.putString( "theme", count > 0 ? "custom" : "blue" );
+		e.commit();
+	}
+
+	private void addRandomColor()
+	{
+		addColor( 0xff000000 | (int)(Math.random()*0xffffff) );
+	}
+
+	private void addColor( final int color )
+	{
+		colorList.addView( new ColorLayout( this, color ) );
+	}
+
+	private void startDragging( final View v )
+	{
+		stopDragging();
+
+		if( (lastIndex = colorList.getChildCount()-1) < 0 ||
+			(indexOfViewToMove = colorList.indexOfChild( v )) < 0 )
+			return;
+
+		v.setVisibility( View.INVISIBLE );
+		v.setDrawingCacheEnabled( true );
+		viewToMove = v;
+
+		v.getLocationOnScreen( loc );
+		offsetY = dragY-loc[1];
+
+		scrollView.getLocationOnScreen( loc );
+		topY = loc[1];
+		itemHeight = v.getHeight();
+
+		dragView = new ImageView( this );
+
+		// draw copy of view to move with a shadow
+		{
+			final int w;
+			final int h;
+			final Bitmap i = Bitmap.createBitmap( v.getDrawingCache() );
+			final Bitmap o = Bitmap.createBitmap(
+				(w = i.getWidth()),
+				(h = i.getHeight())+(shadowRadius << 1),
+				Bitmap.Config.ARGB_8888 );
+			final Canvas c = new Canvas( o );
+			final Paint p = new Paint( Paint.ANTI_ALIAS_FLAG );
+
+			p.setColor( 0xff000000 );
+			p.setShadowLayer( shadowRadius, 0, 0, 0xff000000 );
+			c.drawRect( 0, shadowRadius, w, shadowRadius+h, p );
+			c.drawBitmap( i, 0, shadowRadius, null );
+			dragView.setImageBitmap( o );
+
+			offsetY += shadowRadius;
+		}
+
+		dragViewParams = new WindowManager.LayoutParams();
+		dragViewParams.gravity = Gravity.TOP | Gravity.LEFT;
+		dragViewParams.x = 0;
+		dragViewParams.y = dragY-offsetY;
+		dragViewParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		dragViewParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+		dragViewParams.flags =
+			WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+			WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |
+			WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+			WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+			WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+		dragViewParams.format = PixelFormat.TRANSLUCENT;
+		dragViewParams.windowAnimations = 0;
+
+		windowManager.addView( dragView, dragViewParams );
+	}
+
+	private void drag()
+	{
+		dragViewParams.y = dragY-offsetY;
+		windowManager.updateViewLayout(
+			dragView,
+			dragViewParams );
+
+		int overIndex = (int)Math.floor(
+			(dragY-topY+scrollView.getScrollY())/itemHeight );
+
+		if( overIndex > lastIndex )
+			overIndex = lastIndex;
+		else if( overIndex < 0 )
+			overIndex = 0;
+
+		if( overIndex != indexOfViewToMove )
+		{
+			final View v = colorList.getChildAt( overIndex );
+
+			colorList.removeView( v );
+			colorList.removeView( viewToMove );
+
+			if( overIndex < indexOfViewToMove )
+			{
+				colorList.addView( viewToMove, overIndex );
+				colorList.addView( v, indexOfViewToMove );
+			}
+			else
+			{
+				colorList.addView( v, indexOfViewToMove );
+				colorList.addView( viewToMove, overIndex );
+			}
+
+			indexOfViewToMove = overIndex;
+		}
+	}
+
+	private void stopDragging()
+	{
+		if( viewToMove == null )
+			return;
+
+		dragView.setVisibility( View.GONE );
+		dragView.setImageBitmap( null );
+		windowManager.removeView( dragView );
+		dragView = null;
+		dragViewParams = null;
+
+		viewToMove.setVisibility( View.VISIBLE );
+		viewToMove = null;
+
+		indexOfViewToMove = -1;
+	}
+
+	private class ColorLayout
+		extends LinearLayout
+		implements ColorPickerDialog.OnColorChangedListener
+	{
+		public int color;
+
+		private View colorView = null;
+
+		public ColorLayout( final Context context, final int color )
+		{
+			super( context );
+
+			final View l;
+
+			// inflate layout
+			{
+				final LayoutInflater i = (LayoutInflater)getSystemService(
+					Context.LAYOUT_INFLATER_SERVICE );
+
+				if( (l = i.inflate(
+					R.layout.color,
+					this,
+					false )) == null )
+					return;
+
+				addView( l );
+			}
+
+			// set up color button
+			{
+				colorView = l.findViewById(
+					R.id.edit_color );
+
+				if( colorView != null )
+				{
+					colorView.setBackgroundColor( (this.color = color) );
+					colorView.setOnClickListener(
+						new View.OnClickListener()
+						{
+							@Override
+							public void onClick( final View v )
+							{
+								picker.show(
+									ColorLayout.this,
+									ColorLayout.this.color );
+							}
+						} );
+				}
+			}
+
+			// wire move handler
+			{
+				final View v = l.findViewById(
+					R.id.move_color );
+
+				if( v != null )
+					v.setOnTouchListener(
+						new View.OnTouchListener()
+						{
+							@Override
+							public boolean onTouch(
+								final View v,
+								final MotionEvent e )
+							{
+								if( viewToMove == null )
+									switch( e.getAction() )
+									{
+										case MotionEvent.ACTION_DOWN:
+										case MotionEvent.ACTION_MOVE:
+											dragY = (int)e.getRawY();
+											startDragging( ColorLayout.this );
+											break;
+									}
+
+								return false;
+							}
+						} );
+			}
+
+			// wire remove button
+			{
+				final View v = l.findViewById(
+					R.id.remove_color );
+
+				if( v != null )
+					v.setOnClickListener(
+						new OnClickListener()
+						{
+							@Override
+							public void onClick( final View v )
+							{
+								colorList.removeView( ColorLayout.this );
+							}
+						} );
+			}
+		}
+
+		public void onColorChanged( final int color )
+		{
+			colorView.setBackgroundColor( (this.color = color) );
+		}
+	}
+}
