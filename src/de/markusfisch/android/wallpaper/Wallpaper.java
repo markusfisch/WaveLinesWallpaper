@@ -23,14 +23,15 @@ public abstract class Wallpaper extends WallpaperService
 	{
 		protected int delay = 40;
 
-		private Handler handler = new Handler();
-		private Runnable runnable = new Runnable()
+		final private Handler handler = new Handler();
+		final private Runnable runnable = new Runnable()
 		{
 			public void run()
 			{
 				nextFrame();
 			}
 		};
+
 		private boolean visible = false;
 		private long time = 0;
 
@@ -38,7 +39,8 @@ public abstract class Wallpaper extends WallpaperService
 		public void onDestroy()
 		{
 			super.onDestroy();
-			handler.removeCallbacks( runnable );
+
+			stopRunnable();
 		}
 
 		@Override
@@ -62,15 +64,18 @@ public abstract class Wallpaper extends WallpaperService
 			int width,
 			int height )
 		{
+			super.onSurfaceChanged( holder, format, width, height );
+
 			nextFrame();
 		}
 
 		@Override
 		public void onSurfaceDestroyed( SurfaceHolder holder )
 		{
-			super.onSurfaceDestroyed( holder );
 			visible = false;
 			stopRunnable();
+
+			super.onSurfaceDestroyed( holder );
 		}
 
 		@Override
@@ -91,15 +96,17 @@ public abstract class Wallpaper extends WallpaperService
 		{
 			stopRunnable();
 
-			if( visible )
-				handler.postDelayed( runnable, delay );
+			if( !visible )
+				return;
 
-			final SurfaceHolder holder = getSurfaceHolder();
+			handler.postDelayed( runnable, delay );
+
+			final SurfaceHolder h = getSurfaceHolder();
 			Canvas c = null;
 
 			try
 			{
-				if( (c = holder.lockCanvas()) != null )
+				if( (c = h.lockCanvas()) != null )
 				{
 					final long now = SystemClock.elapsedRealtime();
 					drawFrame( c, now-time );
@@ -109,7 +116,7 @@ public abstract class Wallpaper extends WallpaperService
 			finally
 			{
 				if( c != null )
-					holder.unlockCanvasAndPost( c );
+					h.unlockCanvasAndPost( c );
 			}
 		}
 
