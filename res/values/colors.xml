@@ -3,18 +3,12 @@
 	<string-array name="theme_names">
 		<item>"Blue"</item>
 		<item>"Dark"</item>
-		<item>"Green"</item>
-		<item>"Orange"</item>
-		<item>"Purple"</item>
 		<item>"White"</item>
 		<item>"Custom"</item>
 	</string-array>
 	<string-array name="theme_values">
 		<item>"blue"</item>
 		<item>"dark"</item>
-		<item>"green"</item>
-		<item>"orange"</item>
-		<item>"purple"</item>
 		<item>"white"</item>
 		<item>"custom"</item>
 	</string-array>
@@ -33,30 +27,6 @@
 		<item>0xff424242</item>
 		<item>0xff292929</item>
 		<item>0xff3a3a3a</item>
-	</array>
-	<array name="green_colors">
-		<item>0xff00a060</item>
-		<item>0xff00f0b0</item>
-		<item>0xff00c080</item>
-		<item>0xff00e0a0</item>
-		<item>0xff00b070</item>
-		<item>0xff00d090</item>
-	</array>
-	<array name="orange_colors">
-		<item>0xffd06000</item>
-		<item>0xfff0b000</item>
-		<item>0xffc08000</item>
-		<item>0xffe0a000</item>
-		<item>0xffb07000</item>
-		<item>0xffd09000</item>
-	</array>
-	<array name="purple_colors">
-		<item>0xffa00060</item>
-		<item>0xfff000b0</item>
-		<item>0xffc00080</item>
-		<item>0xffe000a0</item>
-		<item>0xffb00070</item>
-		<item>0xffd00090</item>
 	</array>
 	<array name="white_colors">
 		<item>0xfff0f0f0</item>
