@@ -1,8 +1,10 @@
-A discreet live wallpaper of moving wave lines for Android.
+A simple, unobstrusive live wallpaper for Android showing slowly moving
+wave lines.
 
-You can choose from a number of colors, change if the lines should grow
-and shrink or if they should have a uniform width. The lines may swing in
-harmony or each line for itself. Further, you may set up the number of
-waves in a line or change the maximum amplitude.
+You can choose a color theme, build your own, change if the lines should
+grow and shrink or if they should have a uniform width. The lines may swing
+in harmony or each line independently. You may set the number of lines, the
+number of waves in a line and the maximum amplitude.
 
-I wrote this wallpaper on my phone using AIDE. 
+I wrote the original version of this wallpaper on my phone using
+[AIDE](https://play.google.com/store/apps/details?id=com.aide.ui).
