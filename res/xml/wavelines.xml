@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
-    android:thumbnail="@drawable/thumbnail"
+	android:thumbnail="@drawable/thumbnail"
 	android:description="@string/description"
-    android:settingsActivity="de.markusfisch.android.wavelines.Settings"/>
+	android:settingsActivity="de.markusfisch.android.wavelines.Settings"/>
