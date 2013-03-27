@@ -17,7 +17,7 @@
 		android:anyDensity="true"/>
 	<application
 		android:label="@string/title"
-		android:icon="@drawable/ic_launcher_wallpaper">
+		android:icon="@drawable/ic_launcher">
 		<service
 			android:label="@string/title"
 			android:name=".WaveLinesWallpaper"
