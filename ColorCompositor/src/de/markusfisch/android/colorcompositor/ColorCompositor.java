@@ -9,11 +9,10 @@
  * 2012 Markus Fisch <mf@markusfisch.de>
  * Public Domain
  */
-package de.markusfisch.android.wavelines;
+package de.markusfisch.android.colorcompositor;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -34,9 +33,9 @@ public class ColorCompositor extends Activity
 {
 	private final int loc[] = new int[2];
 
-	private SharedPreferences preferences = null;
+	protected LinearLayout colorList;
+
 	private ScrollView scrollView;
-	private LinearLayout colorList;
 	private ColorPickerDialog picker;
 	private View viewToMove = null;
 	private ImageView dragView;
@@ -51,31 +50,13 @@ public class ColorCompositor extends Activity
 	private float itemHeight;
 	private boolean longClickToastShown = false;
 
-	static public int[] getCustomColors( final SharedPreferences p )
-	{
-		final int l = p.getInt( "custom_colors", 0 );
-
-		if( l < 1 )
-			return null;
-
-		final int colors[] = new int[l];
-
-		for( int n = 0; n < l; ++n )
-			colors[n] = p.getInt( "custom_color"+n, 0 );
-
-		return colors;
-	}
-
 	@Override
 	public void onCreate( Bundle state )
 	{
 		super.onCreate( state );
 		setContentView( R.layout.compositor );
 
-		if( (preferences = getSharedPreferences(
-				WaveLinesWallpaper.SHARED_PREFERENCES_NAME,
-				0 )) == null ||
-			(windowManager = (WindowManager)getSystemService(
+		if( (windowManager = (WindowManager)getSystemService(
 				Context.WINDOW_SERVICE )) == null ||
 			(scrollView = (ScrollView)findViewById(
 				R.id.scroll_view )) == null ||
@@ -157,52 +138,11 @@ public class ColorCompositor extends Activity
 					} );
 			}
 		}
-
-		// load colors
-		{
-			int c[] = getCustomColors( preferences );
-
-			if( c == null )
-				c = WaveLinesWallpaper.getThemeColors(
-					getApplicationContext(),
-					preferences );
-
-			if( c == null )
-				return;
-
-			for( int n = 0, l = c.length; n < l; ++n )
-				addColor( c[n] );
-		}
 	}
 
-	@Override
-	public void onPause()
+	protected void addColor( final int color )
 	{
-		super.onPause();
-
-		saveColors();
-	}
-
-	private void saveColors()
-	{
-		final int count = colorList.getChildCount();
-		final SharedPreferences.Editor e = preferences.edit();
-
-		e.putInt( "custom_colors", count );
-
-		for( int n = 0; n < count; ++n )
-		{
-			View v = colorList.getChildAt( n );
-
-			if( v instanceof ColorLayout )
-			{
-				e.remove( "custom_color"+n );
-				e.putInt( "custom_color"+n, ((ColorLayout) v).color );
-			}
-		}
-
-		e.putString( "theme", count > 0 ? "custom" : "blue" );
-		e.commit();
+		colorList.addView( new ColorLayout( this, color ) );
 	}
 
 	private void addNewColor( final boolean matchLatest )
@@ -243,11 +183,6 @@ public class ColorCompositor extends Activity
 		}
 
 		addColor( c );
-	}
-
-	private void addColor( final int color )
-	{
-		colorList.addView( new ColorLayout( this, color ) );
 	}
 
 	private void startDragging( final View v )
@@ -364,7 +299,7 @@ public class ColorCompositor extends Activity
 		indexOfViewToMove = -1;
 	}
 
-	private class ColorLayout
+	protected class ColorLayout
 		extends LinearLayout
 		implements ColorPickerDialog.OnColorChangedListener
 	{

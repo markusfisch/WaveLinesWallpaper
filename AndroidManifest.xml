@@ -39,7 +39,7 @@
 		<activity
 			android:theme="@style/Theme.WaveLinesTheme"
 			android:label="@string/color_theme_compositor"
-			android:name=".ColorCompositor"
+			android:name=".Compositor"
 			android:exported="true">
 		</activity>
 	</application>

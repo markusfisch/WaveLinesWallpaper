@@ -18,7 +18,7 @@
 			<intent
 				android:action="android.intent.action.VIEW"
 				android:targetPackage="de.markusfisch.android.wavelines"
-				android:targetClass="de.markusfisch.android.wavelines.ColorCompositor"/>
+				android:targetClass="de.markusfisch.android.wavelines.Compositor"/>
 		</Preference>
 	</PreferenceCategory>
 	<PreferenceCategory

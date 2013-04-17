@@ -100,7 +100,7 @@ public class WaveLinesWallpaper extends Wallpaper
 		final String theme = preferences.getString( "theme", "blue" );
 
 		if( theme.equals( "custom" ) )
-			return ColorCompositor.getCustomColors( preferences );
+			return Compositor.getCustomColors( preferences );
 
 		final int themeId = context.getResources().getIdentifier(
 			theme+"_colors",

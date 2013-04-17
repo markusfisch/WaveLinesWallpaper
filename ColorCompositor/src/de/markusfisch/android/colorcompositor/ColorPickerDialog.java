@@ -9,7 +9,7 @@
  * 2012 Markus Fisch <mf@markusfisch.de>
  * Public Domain
  */
-package de.markusfisch.android.wavelines;
+package de.markusfisch.android.colorcompositor;
 
 import android.app.Activity;
 import android.app.AlertDialog;

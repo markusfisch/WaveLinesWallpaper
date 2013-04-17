@@ -3,16 +3,11 @@
 	<string name="title">Wave Lines</string>
 	<string name="description">Moving wave lines.</string>
 	<string name="settings">Settings</string>
-	<string name="color_theme_compositor">Color Theme Compositor</string>
 	<string name="color_settings">Color settings</string>
 	<string name="theme">Color theme</string>
 	<string name="theme_summary">Choose color theme</string>
 	<string name="compositor">Custom colors</string>
 	<string name="compositor_summary">Composite a theme</string>
-	<string name="remove_color">Remove color?</string>
-	<string name="ok">Ok</string>
-	<string name="cancel">Cancel</string>
-	<string name="pick_a_color">Pick a color</string>
 	<string name="wave_settings">Wave settings</string>
 	<string name="coupled">Coupled waves</string>
 	<string name="coupled_summary">All lines share the same wave</string>
@@ -27,5 +22,4 @@
 	<string name="performance_settings">Performance settings</string>
 	<string name="delay">Frame rate</string>
 	<string name="delay_summary">Use a lower value to save battery and resources</string>
-	<string name="click_long_for_random_color">Tap short for a matching color, long for a random color.</string>
 </resources>
