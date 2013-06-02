@@ -13,6 +13,7 @@ package de.markusfisch.android.colorcompositor;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -137,6 +138,60 @@ public class ColorCompositor extends Activity
 						}
 					} );
 			}
+		}
+
+		// set initial colors from intent
+		{
+			final Intent i = getIntent();
+
+			if( i != null )
+			{
+				final int colors[] = i.getIntArrayExtra( "colors" );
+
+				if( colors != null )
+					for( int n = 0, l = colors.length;
+						n < l;
+						++n )
+						addColor( colors[n] );
+			}
+		}
+	}
+
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+
+		final Intent i = getIntent();
+
+		if( i != null )
+		{
+			final int childs = colorList.getChildCount();
+			int count = 0;
+
+			for( int n = childs; n-- > 0; )
+			{
+				View v = colorList.getChildAt( n );
+
+				if( v instanceof ColorLayout )
+					++count;
+			}
+
+			final int[] colors = new int[count];
+
+			for( int c = 0, n = 0, l = childs;
+				n < l;
+				++n )
+			{
+				View v = colorList.getChildAt( n );
+
+				if( v instanceof ColorLayout )
+					colors[c++] = ((ColorLayout) v).color;
+			}
+
+			i.putExtra( "colors", colors );
+
+			setResult( RESULT_OK, i );
 		}
 	}
 
