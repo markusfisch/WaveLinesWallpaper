@@ -38,7 +38,7 @@
 		</activity>
 		<activity
 			android:theme="@style/Theme.WaveLinesTheme"
-			android:label="@string/color_theme_compositor"
+			android:label="@string/theme"
 			android:name=".Compositor"
 			android:exported="true">
 		</activity>
