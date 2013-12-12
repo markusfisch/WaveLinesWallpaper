@@ -16,3 +16,9 @@ You can choose a color theme, build your own, change if the lines should
 grow and shrink or if they should have a uniform width. The lines may swing
 in harmony or each line independently. You may set the number of lines, the
 number of waves in a line and the maximum amplitude.
+
+License
+-------
+
+This software is licensed under the
+[MIT license](http://www.opensource.org/licenses/mit-license.php).
