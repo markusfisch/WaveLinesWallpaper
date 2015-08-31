@@ -6,7 +6,7 @@
 	android:installLocation="auto">
 	<uses-sdk
 		android:minSdkVersion="4"
-		android:targetSdkVersion="17"/>
+		android:targetSdkVersion="23"/>
 	<supports-screens
 		android:resizeable="true"
 		android:smallScreens="true"
