@@ -6,7 +6,7 @@
 	android:installLocation="auto">
 	<uses-sdk
 		android:minSdkVersion="7"
-		android:targetSdkVersion="17"/>
+		android:targetSdkVersion="23"/>
 	<uses-feature android:name="android.software.live_wallpaper"/>
 	<supports-screens
 		android:resizeable="true"
