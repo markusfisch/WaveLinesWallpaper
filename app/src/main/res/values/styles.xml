@@ -1,0 +1,21 @@
+<resources>
+	<style name="AppTheme" parent="Theme.AppCompat">
+		<item name="background">@android:color/transparent</item>
+		<item name="colorPrimary">@color/primary</item>
+		<item name="colorPrimaryDark">@color/primary_dark</item>
+		<item name="colorAccent">@color/accent</item>
+		<item name="android:textColor">@android:color/primary_text_dark</item>
+	</style>
+	<style name="EditorSeekBar" parent="Widget.AppCompat.SeekBar">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:paddingLeft">30dp</item>
+		<item name="android:paddingStart">30dp</item>
+		<item name="android:paddingRight">30dp</item>
+		<item name="android:paddingEnd">30dp</item>
+	</style>
+	<style name="ColorButton" parent="Widget.AppCompat.ImageButton">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+	</style>
+</resources>

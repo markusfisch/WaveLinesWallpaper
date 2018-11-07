@@ -1,0 +1,24 @@
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<de.markusfisch.android.wavelines.widget.ThemesView
+		android:id="@+id/themes"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+	<android.support.design.widget.FloatingActionButton
+		tools:ignore="UnusedAttribute"
+		android:id="@+id/add_theme"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true"
+		android:layout_margin="20dp"
+		android:contentDescription="@string/add_theme"
+		android:src="@drawable/ic_add_theme"
+		app:elevation="4dp"/>
+	<include layout="@layout/progress_view"/>
+</RelativeLayout>

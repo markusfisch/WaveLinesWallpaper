@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="title">Color Compositor</string>
-	<string name="remove_color">Remove color?</string>
-	<string name="ok">Ok</string>
-	<string name="cancel">Cancel</string>
-	<string name="pick_a_color">Pick a color</string>
-	<string name="click_long_for_random_color">Tap short for a matching color, long for a random color.</string>
-</resources>

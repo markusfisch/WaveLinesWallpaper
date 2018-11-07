@@ -1,4 +1,7 @@
-build.xml
-bin
-gen
+*.swp
+*.iml
+.idea
+.gradle
+.aside
+build
 local.properties

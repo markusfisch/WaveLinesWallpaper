@@ -1,0 +1,8 @@
+<resources>
+	<color name="primary">#222</color>
+	<color name="primary_dark">#111</color>
+	<color name="accent">#fff</color>
+	<color name="background_colors">#222</color>
+	<color name="background_progress">#8000</color>
+	<color name="ic_launcher_background">#0090d0</color>
+</resources>

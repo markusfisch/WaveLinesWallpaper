@@ -1,0 +1,47 @@
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:ignore="UnusedAttribute"
+	package="de.markusfisch.android.wavelines"
+	android:installLocation="auto">
+	<supports-screens
+		android:largeScreens="true"
+		android:xlargeScreens="true"/>
+	<uses-feature android:name="android.software.live_wallpaper"/>
+	<application
+		android:name=".app.WaveLinesApp"
+		android:allowBackup="true"
+		android:supportsRtl="true"
+		android:resizeableActivity="true"
+		android:label="@string/app_name"
+		android:icon="@mipmap/ic_launcher"
+		android:theme="@style/AppTheme">
+		<service
+			android:label="@string/app_name"
+			android:name=".service.WaveLinesWallpaperService"
+			android:permission="android.permission.BIND_WALLPAPER">
+			<intent-filter>
+				<action android:name="android.service.wallpaper.WallpaperService"/>
+			</intent-filter>
+			<meta-data
+				android:name="android.service.wallpaper"
+				android:resource="@xml/wallpaper"/>
+		</service>
+		<activity
+			android:name=".activity.MainActivity"
+			android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
+				<data
+					android:host="www.markusfisch.de"
+					android:scheme="http"/>
+			</intent-filter>
+		</activity>
+	</application>
+</manifest>

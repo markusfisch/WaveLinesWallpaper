@@ -1,0 +1,24 @@
+<resources>
+	<string name="app_name">Wave Lines Wallpaper</string>
+	<string name="description">Moving wave lines</string>
+	<string name="themes">Theme %d of %d</string>
+	<string name="add_theme">Add theme</string>
+	<string name="delete_theme">Delete theme</string>
+	<string name="set_theme">Use as wallpaper</string>
+	<string name="edit_theme">Edit theme</string>
+	<string name="set_as_wallpaper">Set as wallpaper</string>
+	<string name="coupled">Coupled waves</string>
+	<string name="uniform">Uniform width</string>
+	<string name="lines">Lines: %d</string>
+	<string name="waves">Waves: %d</string>
+	<string name="amplitude">Amplitude: %.02f</string>
+	<string name="colors">Colors</string>
+	<string name="add_color">Add color</string>
+	<string name="remove_color">Remove color</string>
+	<string name="shift_left">Shift left</string>
+	<string name="shift_right">Shift right</string>
+	<string name="hue">Hue: %d</string>
+	<string name="saturation">Saturation: %.02f</string>
+	<string name="value">Value: %.02f</string>
+	<string name="color">Color</string>
+</resources>
