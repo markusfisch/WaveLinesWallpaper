@@ -66,6 +66,7 @@ public class ThemeEditorFragment extends Fragment {
 	private long themeId;
 	private SwitchCompat coupledSwitch;
 	private SwitchCompat uniformSwitch;
+	private SwitchCompat shuffleSwitch;
 	private TextView linesLabel;
 	private String linesTemplate;
 	private SeekBar linesBar;
@@ -133,6 +134,7 @@ public class ThemeEditorFragment extends Fragment {
 		return new Theme(
 			coupledSwitch.isChecked(),
 			uniformSwitch.isChecked(),
+			shuffleSwitch.isChecked(),
 			linesBar.getProgress(),
 			wavesBar.getProgress(),
 			amplitudeBar.getProgress() / 100f,
@@ -143,6 +145,7 @@ public class ThemeEditorFragment extends Fragment {
 	private void initViews(View view) {
 		coupledSwitch = view.findViewById(R.id.coupled);
 		uniformSwitch = view.findViewById(R.id.uniform);
+		shuffleSwitch = view.findViewById(R.id.shuffle);
 		linesLabel = view.findViewById(R.id.lines_label);
 		linesTemplate = getString(R.string.lines);
 		linesBar = view.findViewById(R.id.lines);
@@ -211,6 +214,7 @@ public class ThemeEditorFragment extends Fragment {
 	private void setTheme(LayoutInflater inflater, Theme theme) {
 		coupledSwitch.setChecked(theme.coupled);
 		uniformSwitch.setChecked(theme.uniform);
+		shuffleSwitch.setChecked(theme.shuffle);
 		linesBar.setProgress(theme.lines);
 		wavesBar.setProgress(theme.waves);
 		amplitudeBar.setProgress((int) Math.round(theme.amplitude * 100f));

@@ -159,7 +159,7 @@ public class WaveLinesRenderer {
 
 		// create wave lines
 		{
-			int c = (int) Math.round(Math.random() *
+			int c = !theme.shuffle ? 0 : (int) Math.round(Math.random() *
 					(theme.colors.length - 1));
 			final float thickness = maxSize / theme.lines;
 

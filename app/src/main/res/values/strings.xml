@@ -10,6 +10,7 @@
 	<string name="set_as_wallpaper">Set as wallpaper</string>
 	<string name="coupled">Coupled waves</string>
 	<string name="uniform">Uniform width</string>
+	<string name="shuffle">Random start color</string>
 	<string name="lines">Lines: %d</string>
 	<string name="waves">Waves: %d</string>
 	<string name="amplitude">Amplitude: %.02f</string>

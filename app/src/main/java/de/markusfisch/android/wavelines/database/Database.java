@@ -15,6 +15,7 @@ public class Database {
 	public static final String THEMES_ID = "_id";
 	public static final String THEMES_COUPLED = "coupled";
 	public static final String THEMES_UNIFORM = "uniform";
+	public static final String THEMES_SHUFFLE = "shuffle";
 	public static final String THEMES_LINES = "lines";
 	public static final String THEMES_WAVES = "waves";
 	public static final String THEMES_AMPLITUDE = "amplitude";
@@ -33,6 +34,7 @@ public class Database {
 						THEMES_ID + "," +
 						THEMES_COUPLED + "," +
 						THEMES_UNIFORM + "," +
+						THEMES_SHUFFLE + "," +
 						THEMES_LINES + "," +
 						THEMES_WAVES + "," +
 						THEMES_AMPLITUDE + "," +
@@ -69,6 +71,7 @@ public class Database {
 						THEMES_ID + "," +
 						THEMES_COUPLED + "," +
 						THEMES_UNIFORM + "," +
+						THEMES_SHUFFLE + "," +
 						THEMES_LINES + "," +
 						THEMES_WAVES + "," +
 						THEMES_AMPLITUDE + "," +
@@ -131,6 +134,7 @@ public class Database {
 		return new Theme(
 				cursor.getInt(cursor.getColumnIndex(THEMES_COUPLED)) > 0,
 				cursor.getInt(cursor.getColumnIndex(THEMES_UNIFORM)) > 0,
+				cursor.getInt(cursor.getColumnIndex(THEMES_SHUFFLE)) > 0,
 				cursor.getInt(cursor.getColumnIndex(THEMES_LINES)),
 				cursor.getInt(cursor.getColumnIndex(THEMES_WAVES)),
 				cursor.getFloat(cursor.getColumnIndex(THEMES_AMPLITUDE)),
@@ -153,6 +157,7 @@ public class Database {
 		ContentValues cv = new ContentValues();
 		cv.put(THEMES_COUPLED, theme.coupled);
 		cv.put(THEMES_UNIFORM, theme.uniform);
+		cv.put(THEMES_SHUFFLE, theme.shuffle);
 		cv.put(THEMES_LINES, theme.lines);
 		cv.put(THEMES_WAVES, theme.waves);
 		cv.put(THEMES_AMPLITUDE, theme.amplitude);
@@ -162,7 +167,7 @@ public class Database {
 	}
 
 	private static void insertDefaultThemes(SQLiteDatabase db) {
-		insertTheme(db, new Theme(true, false, 24, 3, .02f, new int[]{
+		insertTheme(db, new Theme(true, false, true, 24, 3, .02f, new int[]{
 			0xff0060a0,
 			0xff00b0f0,
 			0xff0080c0,
@@ -170,7 +175,7 @@ public class Database {
 			0xff0070b0,
 			0xff0090d0
 		}));
-		insertTheme(db, new Theme(false, false, 4, 2, .04f, new int[]{
+		insertTheme(db, new Theme(false, false, true, 4, 2, .04f, new int[]{
 			0xff00b06c,
 			0xff007ac6,
 			0xffe86f13,
@@ -184,15 +189,21 @@ public class Database {
 				THEMES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
 				THEMES_COUPLED + " INTEGER," +
 				THEMES_UNIFORM + " INTEGER," +
+				THEMES_SHUFFLE + " INTEGER," +
 				THEMES_LINES + " INTEGER," +
 				THEMES_WAVES + " INTEGER," +
 				THEMES_AMPLITUDE + " DOUBLE," +
 				THEMES_COLORS + " BLOB);");
 	}
 
+	private static void addShuffle(SQLiteDatabase db) {
+		db.execSQL("ALTER TABLE " + THEMES +
+				" ADD COLUMN " + THEMES_SHUFFLE + " INTEGER;");
+	}
+
 	private static class OpenHelper extends SQLiteOpenHelper {
 		public OpenHelper(Context context) {
-			super(context, "themes.db", null, 1);
+			super(context, "themes.db", null, 2);
 		}
 
 		@Override
@@ -213,6 +224,9 @@ public class Database {
 				SQLiteDatabase db,
 				int oldVersion,
 				int newVersion) {
+			if (oldVersion < 2) {
+				addShuffle(db);
+			}
 		}
 	}
 }

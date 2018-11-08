@@ -20,6 +20,12 @@
 			android:layout_height="wrap_content"
 			android:text="@string/uniform"
 			android:padding="16dp"/>
+		<android.support.v7.widget.SwitchCompat
+			android:id="@+id/shuffle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/shuffle"
+			android:padding="16dp"/>
 		<TextView
 			android:id="@+id/lines_label"
 			android:layout_width="match_parent"

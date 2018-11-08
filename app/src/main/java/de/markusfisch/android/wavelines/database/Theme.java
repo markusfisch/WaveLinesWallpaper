@@ -7,6 +7,7 @@ import android.graphics.Color;
 public class Theme {
 	public final boolean coupled;
 	public final boolean uniform;
+	public final boolean shuffle;
 	public final int lines;
 	public final int waves;
 	public final float amplitude;
@@ -16,6 +17,7 @@ public class Theme {
 	public Theme() {
 		coupled = Math.random() > .5f ? true : false;
 		uniform = Math.random() > .5f ? true : false;
+		shuffle = Math.random() > .5f ? true : false;
 		lines = 2 + (int) Math.round(Math.random() * 8);
 		waves = 1 + (int) Math.round(Math.random() * 5);
 		amplitude = .02f + Math.round(Math.random() * .13f);
@@ -31,12 +33,14 @@ public class Theme {
 	public Theme(
 			boolean coupled,
 			boolean uniform,
+			boolean shuffle,
 			int lines,
 			int waves,
 			float amplitude,
 			int colors[]) {
 		this.coupled = coupled;
 		this.uniform = uniform;
+		this.shuffle = shuffle;
 		this.lines = lines;
 		this.waves = waves;
 		this.amplitude = amplitude;
