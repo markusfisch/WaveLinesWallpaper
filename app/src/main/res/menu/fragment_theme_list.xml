@@ -2,6 +2,11 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:material="http://schemas.android.com/apk/res-auto">
 	<item
+		android:id="@+id/set_theme"
+		android:icon="@drawable/ic_wallpaper_unset"
+		android:title="@string/set_theme"
+		material:showAsAction="ifRoom"/>
+	<item
 		android:id="@+id/edit_theme"
 		android:icon="@drawable/ic_edit"
 		android:title="@string/edit_theme"
@@ -10,10 +15,5 @@
 		android:id="@+id/delete_theme"
 		android:icon="@drawable/ic_delete"
 		android:title="@string/delete_theme"
-		material:showAsAction="ifRoom"/>
-	<item
-		android:id="@+id/set_theme"
-		android:icon="@drawable/ic_wallpaper_unset"
-		android:title="@string/set_theme"
 		material:showAsAction="ifRoom"/>
 </menu>
