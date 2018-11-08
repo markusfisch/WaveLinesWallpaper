@@ -8,6 +8,8 @@ import de.markusfisch.android.wavelines.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -96,7 +98,7 @@ public class ThemeListFragment extends Fragment {
 						ThemeEditorFragment.newInstance(id));
 				return true;
 			case R.id.delete_theme:
-				deleteTheme(id);
+				askDeleteTheme(id);
 				return true;
 			case R.id.set_theme:
 				setAsWallpaper(id, item);
@@ -154,6 +156,28 @@ public class ThemeListFragment extends Fragment {
 	private void addTheme() {
 		WaveLinesApp.db.insertTheme(new Theme());
 		queryThemesAsync(themesView.getCount());
+	}
+
+	private void askDeleteTheme(final long id) {
+		Activity activity = getActivity();
+		if (activity == null) {
+			return;
+		}
+		new AlertDialog.Builder(activity)
+				.setTitle(R.string.delete_theme)
+				.setMessage(R.string.sure_to_delete_theme)
+				.setPositiveButton(
+						android.R.string.ok,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(
+									DialogInterface dialog,
+									int whichButton) {
+								deleteTheme(id);
+							}
+						})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
 	}
 
 	private void deleteTheme(long id) {
