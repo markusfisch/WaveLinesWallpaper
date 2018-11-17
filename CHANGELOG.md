@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.5.0
+* Move Edit Theme action into FAB and Add Theme into action bar
+* Add a Cancel action to theme editor
+* Add actions to duplicate colors and themes
+* Show a hue scale in the background of the hue seek bar
+* Make newly added colors similar to selected one
+
 ## 1.4.0
 * Make picking a random start color optional
 * Ask before deleting a theme
