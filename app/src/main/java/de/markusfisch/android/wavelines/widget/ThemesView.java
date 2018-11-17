@@ -223,7 +223,6 @@ public class ThemesView extends SurfaceView {
 	private void initSurfaceHolder() {
 		surfaceHolder = getHolder();
 		surfaceHolder.addCallback(new SurfaceHolder.Callback() {
-
 			@Override
 			public void surfaceChanged(
 					SurfaceHolder holder,
