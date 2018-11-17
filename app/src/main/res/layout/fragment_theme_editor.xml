@@ -34,6 +34,7 @@
 			android:padding="16dp"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
+			tools:ignore="UnusedAttribute"
 			android:id="@+id/lines"
 			android:min="2"
 			android:max="24"/>
@@ -45,6 +46,7 @@
 			android:padding="16dp"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
+			tools:ignore="UnusedAttribute"
 			android:id="@+id/waves"
 			android:min="1"
 			android:max="12"/>

@@ -1,4 +1,5 @@
-<resources>
+<resources
+	xmlns:tools="http://schemas.android.com/tools">
 	<style name="AppTheme" parent="Theme.AppCompat">
 		<item name="background">@android:color/transparent</item>
 		<item name="colorPrimary">@color/primary</item>
@@ -16,7 +17,7 @@
 	</style>
 	<style name="HueSeekBar" parent="EditorSeekBar">
 		<item name="android:progressDrawable">@drawable/hue_seek_bar</item>
-		<item name="android:splitTrack">false</item>
+		<item name="android:splitTrack" tools:targetApi="21">false</item>
 	</style>
 	<style name="ColorButton" parent="Widget.AppCompat.ImageButton">
 		<item name="android:layout_width">wrap_content</item>
