@@ -9,6 +9,7 @@
 	<string name="set_theme">Use as wallpaper</string>
 	<string name="edit_theme">Edit theme</string>
 	<string name="set_as_wallpaper">Set as wallpaper</string>
+	<string name="cancel">Cancel</string>
 	<string name="coupled">Coupled waves</string>
 	<string name="uniform">Uniform width</string>
 	<string name="shuffle">Random start color</string>
