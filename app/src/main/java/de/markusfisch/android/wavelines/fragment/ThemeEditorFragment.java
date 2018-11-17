@@ -242,6 +242,10 @@ public class ThemeEditorFragment extends Fragment {
 	}
 
 	private void addNewColor() {
+		addNewColor(Theme.getSimilarColor(colors.get(selectedColor)));
+	}
+
+	private void addNewColor(int color) {
 		Activity activity = getActivity();
 		if (activity == null) {
 			return;
@@ -251,7 +255,6 @@ public class ThemeEditorFragment extends Fragment {
 			return;
 		}
 		int count = colorsList.getChildCount();
-		int color = Theme.getSimilarColor(colors.get(count - 1));
 		addColorView(inflater, color);
 		colors.add(color);
 		selectedColor = count;
