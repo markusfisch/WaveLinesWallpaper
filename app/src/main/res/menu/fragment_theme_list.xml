@@ -7,9 +7,9 @@
 		android:title="@string/set_theme"
 		material:showAsAction="ifRoom"/>
 	<item
-		android:id="@+id/edit_theme"
-		android:icon="@drawable/ic_edit"
-		android:title="@string/edit_theme"
+		android:id="@+id/add_theme"
+		android:icon="@drawable/ic_add_theme"
+		android:title="@string/add_theme"
 		material:showAsAction="ifRoom"/>
 	<item
 		android:id="@+id/delete_theme"

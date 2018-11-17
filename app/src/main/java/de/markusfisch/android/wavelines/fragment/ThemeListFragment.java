@@ -57,11 +57,13 @@ public class ThemeListFragment extends Fragment {
 			}
 		});
 
-		view.findViewById(R.id.add_theme).setOnClickListener(
+		view.findViewById(R.id.edit_theme).setOnClickListener(
 				new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addTheme();
+				AbstractActivity.addFragment(getFragmentManager(),
+						ThemeEditorFragment.newInstance(
+								themesView.getSelectedThemeId()));
 			}
 		});
 
@@ -93,15 +95,14 @@ public class ThemeListFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		long id = themesView.getSelectedThemeId();
 		switch (item.getItemId()) {
-			case R.id.edit_theme:
-				AbstractActivity.addFragment(getFragmentManager(),
-						ThemeEditorFragment.newInstance(id));
+			case R.id.set_theme:
+				setAsWallpaper(id, item);
+				return true;
+			case R.id.add_theme:
+				addTheme();
 				return true;
 			case R.id.delete_theme:
 				askDeleteTheme(id);
-				return true;
-			case R.id.set_theme:
-				setAsWallpaper(id, item);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
