@@ -123,7 +123,7 @@
 			android:text="@string/hue"
 			android:padding="16dp"/>
 		<SeekBar
-			style="@style/EditorSeekBar"
+			style="@style/HueSeekBar"
 			android:id="@+id/hue"
 			android:max="360"/>
 		<TextView
