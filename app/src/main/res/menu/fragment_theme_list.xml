@@ -16,4 +16,9 @@
 		android:icon="@drawable/ic_delete"
 		android:title="@string/delete_theme"
 		material:showAsAction="ifRoom"/>
+	<item
+		android:id="@+id/duplicate_theme"
+		android:icon="@drawable/ic_duplicate"
+		android:title="@string/duplicate_theme"
+		material:showAsAction="ifRoom"/>
 </menu>

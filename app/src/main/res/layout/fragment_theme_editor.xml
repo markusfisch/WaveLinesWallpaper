@@ -91,7 +91,7 @@
 				style="@style/ColorButton"
 				android:id="@+id/duplicate_color"
 				android:contentDescription="@string/duplicate_color"
-				android:src="@drawable/ic_duplicate_color"/>
+				android:src="@drawable/ic_duplicate"/>
 			<ImageButton
 				style="@style/ColorButton"
 				android:id="@+id/shift_left"

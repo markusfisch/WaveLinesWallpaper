@@ -104,6 +104,9 @@ public class ThemeListFragment extends Fragment {
 			case R.id.delete_theme:
 				askDeleteTheme(id);
 				return true;
+			case R.id.duplicate_theme:
+				duplicateTheme(id);
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -156,6 +159,11 @@ public class ThemeListFragment extends Fragment {
 
 	private void addTheme() {
 		WaveLinesApp.db.insertTheme(new Theme());
+		queryThemesAsync(themesView.getCount());
+	}
+
+	private void duplicateTheme(long id) {
+		WaveLinesApp.db.insertTheme(WaveLinesApp.db.getTheme(id));
 		queryThemesAsync(themesView.getCount());
 	}
 
