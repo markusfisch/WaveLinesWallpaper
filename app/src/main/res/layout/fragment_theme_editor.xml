@@ -89,6 +89,11 @@
 				android:src="@drawable/ic_remove_color"/>
 			<ImageButton
 				style="@style/ColorButton"
+				android:id="@+id/duplicate_color"
+				android:contentDescription="@string/duplicate_color"
+				android:src="@drawable/ic_duplicate_color"/>
+			<ImageButton
+				style="@style/ColorButton"
 				android:id="@+id/shift_left"
 				android:contentDescription="@string/shift_left"
 				android:src="@drawable/ic_shift_left"/>

@@ -195,6 +195,13 @@ public class ThemeEditorFragment extends Fragment {
 				removeColor();
 			}
 		});
+		view.findViewById(R.id.duplicate_color).setOnClickListener(
+				new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				duplicateColor();
+			}
+		});
 		view.findViewById(R.id.shift_left).setOnClickListener(
 				new View.OnClickListener() {
 			@Override
@@ -276,6 +283,10 @@ public class ThemeEditorFragment extends Fragment {
 			}
 			updateColorControls();
 		}
+	}
+
+	private void duplicateColor() {
+		addNewColor(colors.get(selectedColor));
 	}
 
 	private void shiftLeft() {

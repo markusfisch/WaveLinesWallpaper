@@ -17,6 +17,7 @@
 	<string name="colors">Colors</string>
 	<string name="add_color">Add color</string>
 	<string name="remove_color">Remove color</string>
+	<string name="duplicate_color">Duplicate color</string>
 	<string name="shift_left">Shift left</string>
 	<string name="shift_right">Shift right</string>
 	<string name="hue">Hue: %d</string>
