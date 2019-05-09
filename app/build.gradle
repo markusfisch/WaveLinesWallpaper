@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'findbugs'
+
 android {
 	compileSdkVersion sdk_version
 	buildToolsVersion build_tools_version
