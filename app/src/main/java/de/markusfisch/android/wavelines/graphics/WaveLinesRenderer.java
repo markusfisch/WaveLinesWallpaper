@@ -44,7 +44,8 @@ public class WaveLinesRenderer {
 		float r = 0;
 
 		for (int i = theme.lines; i-- > 0; ) {
-			flow(theme.waveLines[i], elapsed);
+			WaveLine wl = theme.waveLines[i];
+			flow(wl, elapsed);
 
 			if (r > height) {
 				continue;
@@ -52,9 +53,9 @@ public class WaveLinesRenderer {
 
 			// build path
 			{
-				final float l = theme.waveLines[i].length;
+				final float l = wl.length;
 				final float h = l / 2;
-				float lx = theme.waveLines[i].shift;
+				float lx = wl.shift;
 				float y = r;
 				float ly = y;
 				float x = lx + l;
@@ -66,7 +67,7 @@ public class WaveLinesRenderer {
 					x = width;
 					path.lineTo(x, y);
 				} else {
-					final float a = theme.waveLines[i].amplitude;
+					final float a = wl.amplitude;
 
 					for (; ; lx = x, x += l) {
 						final float m = lx + h;
@@ -86,13 +87,13 @@ public class WaveLinesRenderer {
 					}
 				}
 
-				r += theme.waveLines[i].thickness;
+				r += wl.thickness;
 				ly = r + amplitudeMax * 2;
 				path.lineTo(x, ly);
 				path.lineTo(0, ly);
 			}
 
-			paint.setColor(theme.waveLines[i].color);
+			paint.setColor(wl.color);
 			canvas.drawPath(path, paint);
 		}
 	}
