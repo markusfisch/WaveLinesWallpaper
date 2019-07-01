@@ -5,6 +5,7 @@ import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 import de.markusfisch.android.wavelines.database.Database;
 import de.markusfisch.android.wavelines.database.Theme;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -58,7 +59,7 @@ public class ThemesView extends SurfaceView {
 			long now = System.currentTimeMillis();
 			drawView(now - lastDraw);
 			lastDraw = now;
-			postDelayed(drawRunnable, 16l);
+			postDelayed(drawRunnable, 16L);
 		}
 	};
 
@@ -171,6 +172,7 @@ public class ThemesView extends SurfaceView {
 		}
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		// ignore all input while animating
@@ -232,7 +234,7 @@ public class ThemesView extends SurfaceView {
 				renderer.setSize(width, height);
 				drawing = true;
 				lastDraw = System.currentTimeMillis();
-				postDelayed(drawRunnable, 16l);
+				postDelayed(drawRunnable, 16L);
 			}
 
 			@Override
@@ -345,9 +347,11 @@ public class ThemesView extends SurfaceView {
 
 	private void refreshPreview(int index) {
 		ThemePreview preview = getThemePreview(index);
-		Canvas canvas = new Canvas(preview.bitmap);
-		renderer.setTheme(preview.theme);
-		renderer.draw(canvas, 16l);
+		if (preview != null && preview.bitmap != null) {
+			Canvas canvas = new Canvas(preview.bitmap);
+			renderer.setTheme(preview.theme);
+			renderer.draw(canvas, 16L);
+		}
 	}
 
 	private void swipe(MotionEvent event) {
@@ -487,14 +491,14 @@ public class ThemesView extends SurfaceView {
 		if (preview == null || theme == null) {
 			return;
 		}
-		int width = (int) Math.round(bounds.width());
-		int height = (int) Math.round(bounds.height());
+		int width = Math.round(bounds.width());
+		int height = Math.round(bounds.height());
 		Bitmap bitmap = Bitmap.createBitmap(width, height,
 				Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
 		renderer.setSize(width, height);
 		renderer.setTheme(theme);
-		renderer.draw(canvas, 16l);
+		renderer.draw(canvas, 16L);
 		preview.set(bitmap, theme);
 	}
 

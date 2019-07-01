@@ -115,7 +115,7 @@ public class Database {
 	}
 
 	public static int[] colorsFromCursor(Cursor cursor) {
-		byte bytes[] = cursor.getBlob(
+		byte[] bytes = cursor.getBlob(
 				cursor.getColumnIndex(THEMES_COLORS));
 
 		if (bytes == null) {
@@ -127,7 +127,7 @@ public class Database {
 				.order(ByteOrder.nativeOrder())
 				.asIntBuffer();
 
-		int colors[] = new int[ib.remaining()];
+		int[] colors = new int[ib.remaining()];
 		ib.get(colors);
 
 		return colors;
@@ -223,7 +223,7 @@ public class Database {
 	}
 
 	private static class OpenHelper extends SQLiteOpenHelper {
-		public OpenHelper(Context context) {
+		private OpenHelper(Context context) {
 			super(context, "themes.db", null, 3);
 		}
 

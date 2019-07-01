@@ -23,8 +23,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 public class ThemeListFragment extends Fragment {
-	private static final String SELECTED_THEME = "selected_theme";
-
 	private ThemesView themesView;
 	private MenuItem setThemeMenuItem;
 	private View progressView;

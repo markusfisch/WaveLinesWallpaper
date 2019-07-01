@@ -12,13 +12,13 @@ public class Theme {
 	public final int waves;
 	public final float amplitude;
 	public final int rotation;
-	public final int colors[];
-	public final WaveLinesRenderer.WaveLine waveLines[];
+	public final int[] colors;
+	public final WaveLinesRenderer.WaveLine[] waveLines;
 
 	public Theme() {
-		coupled = Math.random() > .5f ? true : false;
-		uniform = Math.random() > .5f ? true : false;
-		shuffle = Math.random() > .5f ? true : false;
+		coupled = Math.random() > .5f;
+		uniform = Math.random() > .5f;
+		shuffle = Math.random() > .5f;
 		lines = 2 + (int) Math.round(Math.random() * 8);
 		waves = 1 + (int) Math.round(Math.random() * 5);
 		amplitude = .02f + Math.round(Math.random() * .13f);
@@ -40,7 +40,7 @@ public class Theme {
 			int waves,
 			float amplitude,
 			int rotation,
-			int colors[]) {
+			int[] colors) {
 		this.coupled = coupled;
 		this.uniform = uniform;
 		this.shuffle = shuffle;
@@ -53,7 +53,7 @@ public class Theme {
 	}
 
 	public static int getSimilarColor(int color) {
-		float hsv[] = new float[3];
+		float[] hsv = new float[3];
 		Color.RGBToHSV(
 			(color >> 16) & 0xff,
 			(color >> 8) & 0xff,

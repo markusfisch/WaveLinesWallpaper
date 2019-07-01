@@ -23,7 +23,7 @@ public class ThemeView extends SurfaceView {
 			long now = System.currentTimeMillis();
 			drawView(now - lastDraw);
 			lastDraw = now;
-			postDelayed(drawRunnable, 16l);
+			postDelayed(drawRunnable, 16L);
 		}
 	};
 
@@ -33,12 +33,12 @@ public class ThemeView extends SurfaceView {
 
 	public ThemeView(Context context) {
 		super(context);
-		initView(context);
+		initView();
 	}
 
 	public ThemeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initView(context);
+		initView();
 	}
 
 	public ThemeView(
@@ -46,7 +46,7 @@ public class ThemeView extends SurfaceView {
 			AttributeSet attrs,
 			int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		initView(context);
+		initView();
 	}
 
 	public void setTheme(Theme theme) {
@@ -66,7 +66,7 @@ public class ThemeView extends SurfaceView {
 		}
 	}
 
-	private void initView(Context context) {
+	private void initView() {
 		surfaceHolder = getHolder();
 		surfaceHolder.addCallback(new SurfaceHolder.Callback() {
 			@Override
@@ -78,7 +78,7 @@ public class ThemeView extends SurfaceView {
 				renderer.setSize(width, height);
 				drawing = true;
 				lastDraw = System.currentTimeMillis();
-				postDelayed(drawRunnable, 16l);
+				postDelayed(drawRunnable, 16L);
 			}
 
 			@Override

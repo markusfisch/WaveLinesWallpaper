@@ -29,8 +29,6 @@ import java.util.regex.Pattern;
 
 public class ThemeEditorFragment extends Fragment {
 	private static final String ID = "id";
-	private static final Pattern HEX_PATTERN = Pattern.compile(
-			"^[0-9a-f]{1,6}$");
 
 	private final ArrayList<Integer> colors = new ArrayList<>();
 	private final SeekBar.OnSeekBarChangeListener updateColorFromBarsListener =
@@ -281,7 +279,7 @@ public class ThemeEditorFragment extends Fragment {
 		shuffleSwitch.setChecked(theme.shuffle);
 		linesBar.setProgress(theme.lines);
 		wavesBar.setProgress(theme.waves);
-		amplitudeBar.setProgress((int) Math.round(theme.amplitude * 100f));
+		amplitudeBar.setProgress(Math.round(theme.amplitude * 100f));
 		rotationBar.setProgress(theme.rotation);
 		toList(colors, theme.colors);
 		colorsList.removeAllViews();
@@ -294,7 +292,7 @@ public class ThemeEditorFragment extends Fragment {
 	}
 
 	private void addColorView(LayoutInflater inflater, int color) {
-		View view = (ImageView) inflater.inflate(R.layout.item_color,
+		View view = inflater.inflate(R.layout.item_color,
 				colorsList, false);
 		view.setBackgroundColor(color);
 		view.setOnClickListener(new View.OnClickListener() {
@@ -317,9 +315,6 @@ public class ThemeEditorFragment extends Fragment {
 			return;
 		}
 		LayoutInflater inflater = activity.getLayoutInflater();
-		if (inflater == null) {
-			return;
-		}
 		int count = colorsList.getChildCount();
 		addColorView(inflater, color);
 		colors.add(color);
@@ -389,7 +384,7 @@ public class ThemeEditorFragment extends Fragment {
 
 	private void updateColorControls() {
 		int color = colors.get(selectedColor);
-		float hsv[] = new float[3];
+		float[] hsv = new float[3];
 		Color.RGBToHSV(
 			(color >> 16) & 0xff,
 			(color >> 8) & 0xff,
@@ -397,9 +392,9 @@ public class ThemeEditorFragment extends Fragment {
 			hsv
 		);
 		setHSVBarListener(null);
-		hueBar.setProgress((int) Math.round(hsv[0]));
-		satBar.setProgress((int) Math.round(hsv[1] * 100f));
-		valBar.setProgress((int) Math.round(hsv[2] * 100f));
+		hueBar.setProgress(Math.round(hsv[0]));
+		satBar.setProgress(Math.round(hsv[1] * 100f));
+		valBar.setProgress(Math.round(hsv[2] * 100f));
 		updateHSVLabels();
 		setHSVBarListener(updateColorFromBarsListener);
 		updateSelectionMarker();
@@ -430,14 +425,14 @@ public class ThemeEditorFragment extends Fragment {
 
 	private static int[] toArray(List<Integer> list) {
 		int size = list.size();
-		int a[] = new int[size];
+		int[] a = new int[size];
 		for (int i = 0; i < size; ++i) {
 			a[i] = list.get(i);
 		}
 		return a;
 	}
 
-	private static void toList(ArrayList<Integer> list, int a[]) {
+	private static void toList(ArrayList<Integer> list, int[] a) {
 		for (int i = 0, l = a.length; i < l; ++i) {
 			list.add(a[i]);
 		}

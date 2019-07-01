@@ -78,7 +78,7 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 				return;
 			}
 
-			handler.postDelayed(runnable, 32l);
+			handler.postDelayed(runnable, 32L);
 
 			SurfaceHolder holder = getSurfaceHolder();
 			Canvas canvas = null;

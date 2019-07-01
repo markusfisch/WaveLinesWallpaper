@@ -138,8 +138,8 @@ public class WaveLinesRenderer {
 		sizeUpdate = false;
 
 		int hl = 0;
-		float growths[] = null;
-		int indices[] = null;
+		float[] growths = null;
+		int[] indices = null;
 
 		if (!theme.uniform) {
 			hl = (int) Math.ceil(theme.lines / 2f);
@@ -178,7 +178,7 @@ public class WaveLinesRenderer {
 					(theme.colors.length - 1));
 			final float thickness = maxSize / theme.lines;
 
-			final int length = (int) Math.ceil((float) maxSize / theme.waves);
+			final int length = (int) Math.ceil(maxSize / theme.waves);
 			final float v = length * .1f;
 			final float hv = v / 2f;
 			WaveLine last = null;
