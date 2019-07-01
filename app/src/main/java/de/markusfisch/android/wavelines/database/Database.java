@@ -19,6 +19,7 @@ public class Database {
 	public static final String THEMES_LINES = "lines";
 	public static final String THEMES_WAVES = "waves";
 	public static final String THEMES_AMPLITUDE = "amplitude";
+	public static final String THEMES_ROTATION = "rotation";
 	public static final String THEMES_COLORS = "colors";
 
 	private SQLiteDatabase db;
@@ -38,6 +39,7 @@ public class Database {
 						THEMES_LINES + "," +
 						THEMES_WAVES + "," +
 						THEMES_AMPLITUDE + "," +
+						THEMES_ROTATION + "," +
 						THEMES_COLORS +
 						" FROM " + THEMES +
 						" ORDER BY " + THEMES_ID,
@@ -75,6 +77,7 @@ public class Database {
 						THEMES_LINES + "," +
 						THEMES_WAVES + "," +
 						THEMES_AMPLITUDE + "," +
+						THEMES_ROTATION + "," +
 						THEMES_COLORS +
 						" FROM " + THEMES +
 						" WHERE " + THEMES_ID + "=" + id,
@@ -138,6 +141,7 @@ public class Database {
 				cursor.getInt(cursor.getColumnIndex(THEMES_LINES)),
 				cursor.getInt(cursor.getColumnIndex(THEMES_WAVES)),
 				cursor.getFloat(cursor.getColumnIndex(THEMES_AMPLITUDE)),
+				cursor.getInt(cursor.getColumnIndex(THEMES_ROTATION)),
 				colorsFromCursor(cursor));
 	}
 
@@ -161,13 +165,14 @@ public class Database {
 		cv.put(THEMES_LINES, theme.lines);
 		cv.put(THEMES_WAVES, theme.waves);
 		cv.put(THEMES_AMPLITUDE, theme.amplitude);
+		cv.put(THEMES_ROTATION, theme.rotation);
 		cv.put(THEMES_COLORS, bb.array());
 
 		return cv;
 	}
 
 	private static void insertDefaultThemes(SQLiteDatabase db) {
-		insertTheme(db, new Theme(true, false, true, 24, 3, .02f, new int[]{
+		insertTheme(db, new Theme(true, false, true, 24, 3, .02f, 0, new int[]{
 			0xff0060a0,
 			0xff00b0f0,
 			0xff0080c0,
@@ -175,17 +180,17 @@ public class Database {
 			0xff0070b0,
 			0xff0090d0
 		}));
-		insertTheme(db, new Theme(false, false, true, 4, 2, .04f, new int[]{
+		insertTheme(db, new Theme(false, false, true, 4, 2, .04f, 0, new int[]{
 			0xff00b06c,
 			0xff007ac6,
 			0xffe86f13,
 			0xffcf6310
 		}));
-		insertTheme(db, new Theme(false, false, false, 2, 3, .05f, new int[]{
+		insertTheme(db, new Theme(false, false, false, 2, 3, .05f, 0, new int[]{
 			0xffbd8119,
 			0xfff7aa21
 		}));
-		insertTheme(db, new Theme(true, false, false, 4, 3, .02f, new int[]{
+		insertTheme(db, new Theme(true, false, false, 4, 3, .02f, 0, new int[]{
 			0xff8c2fb5,
 			0xffb33ce8,
 			0xff58299f,
@@ -203,6 +208,7 @@ public class Database {
 				THEMES_LINES + " INTEGER," +
 				THEMES_WAVES + " INTEGER," +
 				THEMES_AMPLITUDE + " DOUBLE," +
+				THEMES_ROTATION + " INTEGER," +
 				THEMES_COLORS + " BLOB);");
 	}
 
@@ -211,9 +217,14 @@ public class Database {
 				" ADD COLUMN " + THEMES_SHUFFLE + " INTEGER;");
 	}
 
+	private static void addRotation(SQLiteDatabase db) {
+		db.execSQL("ALTER TABLE " + THEMES +
+				" ADD COLUMN " + THEMES_ROTATION + " INTEGER;");
+	}
+
 	private static class OpenHelper extends SQLiteOpenHelper {
 		public OpenHelper(Context context) {
-			super(context, "themes.db", null, 2);
+			super(context, "themes.db", null, 3);
 		}
 
 		@Override
@@ -236,6 +247,9 @@ public class Database {
 				int newVersion) {
 			if (oldVersion < 2) {
 				addShuffle(db);
+			}
+			if (oldVersion < 3) {
+				addRotation(db);
 			}
 		}
 	}

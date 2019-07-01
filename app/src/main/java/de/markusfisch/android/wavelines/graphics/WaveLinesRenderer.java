@@ -17,6 +17,7 @@ public class WaveLinesRenderer {
 	private float amplitudeMin;
 	private float width;
 	private float height;
+	private float maxSize;
 	private boolean themeUpdate = true;
 	private boolean sizeUpdate = true;
 
@@ -40,6 +41,17 @@ public class WaveLinesRenderer {
 			}
 		}
 
+		canvas.save();
+		{
+			float cx = width * .5f;
+			float cy = height * .5f;
+			canvas.translate(cx, cy);
+			canvas.rotate(theme.rotation);
+			canvas.translate(
+					(maxSize - width) * -.5f - cx,
+					(maxSize - height) * -.5f - cy);
+		}
+
 		final double elapsed = delta / 1000.0;
 		float r = 0;
 
@@ -47,7 +59,7 @@ public class WaveLinesRenderer {
 			WaveLine wl = theme.waveLines[i];
 			flow(wl, elapsed);
 
-			if (r > height) {
+			if (r > maxSize) {
 				continue;
 			}
 
@@ -64,7 +76,7 @@ public class WaveLinesRenderer {
 				path.moveTo(lx, ly);
 
 				if (y == 0) {
-					x = width;
+					x = maxSize;
 					path.lineTo(x, y);
 				} else {
 					final float a = wl.amplitude;
@@ -81,7 +93,7 @@ public class WaveLinesRenderer {
 								y
 						);
 
-						if (x > width) {
+						if (x > maxSize) {
 							break;
 						}
 					}
@@ -96,6 +108,8 @@ public class WaveLinesRenderer {
 			paint.setColor(wl.color);
 			canvas.drawPath(path, paint);
 		}
+
+		canvas.restore();
 	}
 
 	private boolean create() {
@@ -109,7 +123,7 @@ public class WaveLinesRenderer {
 		}
 
 		// calculate sizes relative to screen size
-		final float maxSize = Math.max(width, height);
+		maxSize = (float) Math.sqrt(width*width + height*height);
 
 		thicknessMax = (float) Math.ceil(
 				(maxSize / theme.lines) * 2f);
@@ -196,8 +210,8 @@ public class WaveLinesRenderer {
 								amplitudeMax * .37f :
 								(float) Math.random() * amplitudeMax * .75f),
 						-(float) Math.random() * length * 2,
-						width * .01f + (float) Math.random() *
-								(width * .03125f),
+						maxSize * .01f + (float) Math.random() *
+								(maxSize * .03125f),
 						color,
 						yang
 					);
