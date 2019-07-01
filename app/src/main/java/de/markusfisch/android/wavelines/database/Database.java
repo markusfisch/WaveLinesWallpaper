@@ -172,7 +172,7 @@ public class Database {
 	}
 
 	private static void insertDefaultThemes(SQLiteDatabase db) {
-		insertTheme(db, new Theme(true, false, true, 24, 3, .02f, 0, new int[]{
+		insertTheme(db, new Theme(true, false, false, 24, 3, .02f, 0, new int[]{
 			0xff0060a0,
 			0xff00b0f0,
 			0xff0080c0,
@@ -180,7 +180,7 @@ public class Database {
 			0xff0070b0,
 			0xff0090d0
 		}));
-		insertTheme(db, new Theme(false, false, true, 4, 2, .04f, 0, new int[]{
+		insertTheme(db, new Theme(false, false, false, 4, 2, .04f, 0, new int[]{
 			0xff00b06c,
 			0xff007ac6,
 			0xffe86f13,
