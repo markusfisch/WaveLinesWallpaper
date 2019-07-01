@@ -10,10 +10,12 @@
 	<style name="EditorSeekBar" parent="Widget.AppCompat.SeekBar">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">wrap_content</item>
-		<item name="android:paddingLeft">30dp</item>
-		<item name="android:paddingStart">30dp</item>
-		<item name="android:paddingRight">30dp</item>
-		<item name="android:paddingEnd">30dp</item>
+		<item name="android:paddingTop">16dp</item>
+		<item name="android:paddingBottom">16dp</item>
+		<item name="android:paddingLeft">32dp</item>
+		<item name="android:paddingStart">32dp</item>
+		<item name="android:paddingRight">32dp</item>
+		<item name="android:paddingEnd">32dp</item>
 	</style>
 	<style name="HueSeekBar" parent="EditorSeekBar">
 		<item name="android:progressDrawable">@drawable/hue_seek_bar</item>
