@@ -56,8 +56,8 @@ public class ThemesView extends SurfaceView {
 				return;
 			}
 			long now = System.currentTimeMillis();
-			drawView(now - drawLast);
-			drawLast = now;
+			drawView(now - lastDraw);
+			lastDraw = now;
 			postDelayed(drawRunnable, 16l);
 		}
 	};
@@ -79,7 +79,7 @@ public class ThemesView extends SurfaceView {
 	private float finalX;
 	private long initialTime;
 	private long completeSwipeLast;
-	private long drawLast = 0;
+	private long lastDraw = 0;
 	private OnChangeListener onChangeListener;
 
 	public ThemesView(Context context) {
@@ -231,7 +231,7 @@ public class ThemesView extends SurfaceView {
 					int height) {
 				renderer.setSize(width, height);
 				drawing = true;
-				drawLast = System.currentTimeMillis();
+				lastDraw = System.currentTimeMillis();
 				postDelayed(drawRunnable, 16l);
 			}
 

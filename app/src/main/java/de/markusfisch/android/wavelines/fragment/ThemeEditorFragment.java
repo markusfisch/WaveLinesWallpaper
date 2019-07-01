@@ -2,6 +2,7 @@ package de.markusfisch.android.wavelines.fragment;
 
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.widget.ThemeView;
 import de.markusfisch.android.wavelines.R;
 
 import android.app.Activity;
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +40,7 @@ public class ThemeEditorFragment extends Fragment {
 				boolean fromUser) {
 			setColorFromHSVBars();
 			updateHSVLabels();
+			updatePreview();
 		}
 
 		@Override
@@ -59,6 +62,7 @@ public class ThemeEditorFragment extends Fragment {
 					amplitudeBar.getProgress() / 100f));
 			rotationLabel.setText(String.format(rotationTemplate,
 					rotationBar.getProgress()));
+			updatePreview();
 		}
 
 		@Override
@@ -67,8 +71,16 @@ public class ThemeEditorFragment extends Fragment {
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {}
 	};
+	private final CompoundButton.OnCheckedChangeListener switchListener =
+			new CompoundButton.OnCheckedChangeListener() {
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			updatePreview();
+		}
+	};
 
 	private long themeId;
+	private ThemeView preview;
 	private SwitchCompat coupledSwitch;
 	private SwitchCompat uniformSwitch;
 	private SwitchCompat shuffleSwitch;
@@ -175,9 +187,13 @@ public class ThemeEditorFragment extends Fragment {
 	}
 
 	private void initViews(View view) {
+		preview = view.findViewById(R.id.preview);
 		coupledSwitch = view.findViewById(R.id.coupled);
+		coupledSwitch.setOnCheckedChangeListener(switchListener);
 		uniformSwitch = view.findViewById(R.id.uniform);
+		uniformSwitch.setOnCheckedChangeListener(switchListener);
 		shuffleSwitch = view.findViewById(R.id.shuffle);
+		shuffleSwitch.setOnCheckedChangeListener(switchListener);
 		linesLabel = view.findViewById(R.id.lines_label);
 		linesTemplate = getString(R.string.lines);
 		linesBar = view.findViewById(R.id.lines);
@@ -222,6 +238,7 @@ public class ThemeEditorFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				addNewColor();
+				updatePreview();
 			}
 		});
 		view.findViewById(R.id.remove_color).setOnClickListener(
@@ -229,6 +246,7 @@ public class ThemeEditorFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				removeColor();
+				updatePreview();
 			}
 		});
 		view.findViewById(R.id.duplicate_color).setOnClickListener(
@@ -236,6 +254,7 @@ public class ThemeEditorFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				duplicateColor();
+				updatePreview();
 			}
 		});
 		view.findViewById(R.id.shift_left).setOnClickListener(
@@ -243,6 +262,7 @@ public class ThemeEditorFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				shiftLeft();
+				updatePreview();
 			}
 		});
 		view.findViewById(R.id.shift_right).setOnClickListener(
@@ -250,6 +270,7 @@ public class ThemeEditorFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				shiftRight();
+				updatePreview();
 			}
 		});
 	}
@@ -269,6 +290,7 @@ public class ThemeEditorFragment extends Fragment {
 		}
 		selectedColor = 0;
 		updateColorControls();
+		updatePreview();
 	}
 
 	private void addColorView(LayoutInflater inflater, int color) {
@@ -400,6 +422,10 @@ public class ThemeEditorFragment extends Fragment {
 				satBar.getProgress() / 100f));
 		valLabel.setText(String.format(valTemplate,
 				valBar.getProgress() / 100f));
+	}
+
+	private void updatePreview() {
+		preview.setTheme(getTheme());
 	}
 
 	private static int[] toArray(List<Integer> list) {
