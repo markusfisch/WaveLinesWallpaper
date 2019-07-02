@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.6.0
+* Show live preview in editor
+* Increase SeekBar sensitivity in editor
+* Add rotation for wave lines
+* Add two new default themes
+
 ## 1.5.0
 * Move Edit Theme action into FAB and Add Theme into action bar
 * Add a Cancel action to theme editor
