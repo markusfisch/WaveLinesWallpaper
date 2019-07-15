@@ -80,8 +80,8 @@ public class Database {
 						THEMES_ROTATION + "," +
 						THEMES_COLORS +
 						" FROM " + THEMES +
-						" WHERE " + THEMES_ID + "=" + id,
-				null);
+						" WHERE " + THEMES_ID + "= ?",
+				new String[]{String.valueOf(id)});
 
 		if (cursor == null) {
 			return null;
@@ -103,15 +103,15 @@ public class Database {
 		db.update(
 				THEMES,
 				getThemeContentValues(theme),
-				THEMES_ID + "=" + id,
-				null);
+				THEMES_ID + "= ?",
+				new String[]{String.valueOf(id)});
 	}
 
 	public void deleteTheme(long id) {
 		db.delete(
 				THEMES,
-				THEMES_ID + "=" + id,
-				null);
+				THEMES_ID + "= ?",
+				new String[]{String.valueOf(id)});
 	}
 
 	public static int[] colorsFromCursor(Cursor cursor) {
