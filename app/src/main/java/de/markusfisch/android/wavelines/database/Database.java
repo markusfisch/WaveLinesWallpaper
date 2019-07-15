@@ -190,7 +190,7 @@ public class Database {
 			0xffbd8119,
 			0xfff7aa21
 		}));
-		insertTheme(db, new Theme(true, false, false, 4, 3, .02f, 0, new int[]{
+		insertTheme(db, new Theme(true, false, false, 4, 3, .02f, 32, new int[]{
 			0xff8c2fb5,
 			0xffb33ce8,
 			0xff58299f,
