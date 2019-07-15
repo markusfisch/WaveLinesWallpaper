@@ -125,8 +125,7 @@ public class WaveLinesRenderer {
 		// calculate sizes relative to screen size
 		maxSize = (float) Math.sqrt(width*width + height*height);
 
-		thicknessMax = (float) Math.ceil(
-				(maxSize / theme.lines) * 2f);
+		thicknessMax = (float) Math.ceil((maxSize / theme.lines) * 2f);
 		thicknessMin = Math.max(2, .01f * maxSize);
 
 		amplitudeMax = theme.amplitude * maxSize;
@@ -137,21 +136,21 @@ public class WaveLinesRenderer {
 		}
 		sizeUpdate = false;
 
-		int hl = 0;
+		int firstHalf = 0;
 		float[] growths = null;
 		int[] indices = null;
 
 		if (!theme.uniform) {
-			hl = (int) Math.ceil(theme.lines / 2f);
-			growths = new float[hl];
-			indices = new int[hl];
+			firstHalf = (int) Math.ceil(theme.lines * .5f);
+			growths = new float[firstHalf];
+			indices = new int[firstHalf];
 
 			// calculate growth of master rows
 			{
 				final float min = maxSize * .0001f;
 				final float max = maxSize * .0020f;
 
-				for (int i = hl; i-- > 0; ) {
+				for (int i = firstHalf; i-- > 0; ) {
 					growths[i] = (Math.random() > .5 ? -1 : 1) *
 							(min + (float) Math.random() * max);
 					indices[i] = i;
@@ -159,34 +158,35 @@ public class WaveLinesRenderer {
 			}
 
 			// mix indices to have random partners
-			for (int i = hl; i-- > 0; ) {
-				int p = (int) Math.round(Math.random() * (hl - 1));
+			for (int i = firstHalf; i-- > 0; ) {
+				int j = (int) Math.round(Math.random() * (firstHalf - 1));
 
-				if (p == i) {
+				if (j == i) {
 					continue;
 				}
 
-				int tmp = indices[p];
-				indices[p] = indices[i];
+				int tmp = indices[j];
+				indices[j] = indices[i];
 				indices[i] = tmp;
 			}
 		}
 
 		// create wave lines
 		{
-			int c = !theme.shuffle ? 0 : (int) Math.round(Math.random() *
-					(theme.colors.length - 1));
+			int colorIndex = !theme.shuffle ? 0 : (int) Math.round(
+					Math.random() * (theme.colors.length - 1));
 			final float thickness = maxSize / theme.lines;
 
-			final int length = (int) Math.ceil(maxSize / theme.waves);
-			final float v = length * .1f;
-			final float hv = v / 2f;
+			final int waveLength = (int) Math.ceil(maxSize / theme.waves);
+			final float lengthVariation = waveLength * .1f;
 			WaveLine last = null;
 
-			for (int i = theme.lines; i-- > 0; ++c) {
-				float growth = !theme.uniform && i < hl ? growths[i] : 0;
-				int color = theme.colors[c % theme.colors.length];
-				int yang = !theme.uniform && i >= hl ? indices[i - hl] : -1;
+			for (int i = theme.lines; i-- > 0; ++colorIndex) {
+				float growth = !theme.uniform && i < firstHalf ?
+						growths[i] : 0;
+				int color = theme.colors[colorIndex % theme.colors.length];
+				int yang = !theme.uniform && i >= firstHalf ?
+						indices[i - firstHalf] : -1;
 				if (theme.coupled && last != null) {
 					last = new WaveLine(
 						last.length,
@@ -200,18 +200,25 @@ public class WaveLinesRenderer {
 						yang
 					);
 				} else {
+					float length = waveLength +
+							((float) Math.random() * lengthVariation -
+									lengthVariation * .5f);
+					float amplitude = amplitudeMin + (float) Math.ceil(
+							Math.random() * (amplitudeMax - amplitudeMin));
+					float power = .1f + (theme.coupled ?
+							amplitudeMax * .37f :
+							(float) Math.random() * amplitudeMax * .75f);
+					float shift = (float) Math.random() * waveLength * -2;
+					float speed = maxSize * .01f +
+							(float) Math.random() * maxSize * .03125f;
 					last = new WaveLine(
-						length + ((float) Math.random() * v - hv),
+						length,
 						thickness,
 						growth,
-						amplitudeMin + (float) Math.ceil(Math.random() *
-								(amplitudeMax - amplitudeMin)),
-						.1f + (theme.coupled ?
-								amplitudeMax * .37f :
-								(float) Math.random() * amplitudeMax * .75f),
-						-(float) Math.random() * length * 2,
-						maxSize * .01f + (float) Math.random() *
-								(maxSize * .03125f),
+						amplitude,
+						power,
+						shift,
+						speed,
 						color,
 						yang
 					);
@@ -236,13 +243,9 @@ public class WaveLinesRenderer {
 
 		wl.amplitude += p * delta;
 
-		if (wl.amplitude > amplitudeMax ||
-				wl.amplitude < amplitudeMin) {
-			if (wl.amplitude > amplitudeMax) {
-				wl.amplitude = amplitudeMax - (wl.amplitude - amplitudeMax);
-			} else {
-				wl.amplitude = amplitudeMin + (amplitudeMin - wl.amplitude);
-			}
+		if (wl.amplitude > amplitudeMax || wl.amplitude < amplitudeMin) {
+			wl.amplitude = clampMirror(wl.amplitude, amplitudeMin,
+					amplitudeMax);
 
 			wl.power = -wl.power;
 		}
@@ -259,19 +262,22 @@ public class WaveLinesRenderer {
 		} else if (wl.growth != 0) {
 			wl.thickness += wl.growth * delta;
 
-			if (wl.thickness > thicknessMax ||
-					wl.thickness < thicknessMin) {
-				if (wl.thickness > thicknessMax) {
-					wl.thickness = thicknessMax -
-							(wl.thickness - thicknessMax);
-				} else {
-					wl.thickness = thicknessMin +
-							(thicknessMin - wl.thickness);
-				}
+			if (wl.thickness > thicknessMax || wl.thickness < thicknessMin) {
+				wl.thickness = clampMirror(wl.thickness, thicknessMin,
+						thicknessMax);
 
 				wl.growth = -wl.growth;
 			}
 		}
+	}
+
+	private static float clampMirror(float v, float min, float max) {
+		if (v > max) {
+			return max - (v - max);
+		} else if (v < min) {
+			return min + (min - v);
+		}
+		return v;
 	}
 
 	public static class WaveLine {
