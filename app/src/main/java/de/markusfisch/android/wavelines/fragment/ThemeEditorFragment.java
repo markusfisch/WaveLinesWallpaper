@@ -1,11 +1,13 @@
 package de.markusfisch.android.wavelines.fragment;
 
+import de.markusfisch.android.wavelines.activity.PreviewActivity;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.widget.ThemeView;
 import de.markusfisch.android.wavelines.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -186,6 +188,14 @@ public class ThemeEditorFragment extends Fragment {
 
 	private void initViews(View view) {
 		preview = view.findViewById(R.id.preview);
+		preview.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				PreviewActivity.previewTheme = getTheme();
+				startActivity(new Intent(v.getContext(),
+						PreviewActivity.class));
+			}
+		});
 		coupledSwitch = view.findViewById(R.id.coupled);
 		coupledSwitch.setOnCheckedChangeListener(switchListener);
 		uniformSwitch = view.findViewById(R.id.uniform);

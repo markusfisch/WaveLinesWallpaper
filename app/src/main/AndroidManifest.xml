@@ -43,5 +43,10 @@
 					android:scheme="http"/>
 			</intent-filter>
 		</activity>
+		<activity
+			android:name=".activity.PreviewActivity"
+			android:theme="@style/PreviewTheme"
+			android:launchMode="singleInstance"
+			android:documentLaunchMode="intoExisting"/>
 	</application>
 </manifest>
