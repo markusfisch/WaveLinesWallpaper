@@ -180,6 +180,8 @@ public class ThemesView extends SurfaceView {
 			return true;
 		}
 		switch (event.getActionMasked()) {
+			default:
+				break;
 			case MotionEvent.ACTION_DOWN:
 				initSwipe(event, -1);
 				return true;
@@ -202,8 +204,11 @@ public class ThemesView extends SurfaceView {
 			case MotionEvent.ACTION_UP:
 				if (swiping) {
 					completeSwipe(event);
+					return true;
+				} else {
+					performClick();
 				}
-				return true;
+				break;
 		}
 		return super.onTouchEvent(event);
 	}

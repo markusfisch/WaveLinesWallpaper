@@ -1,6 +1,7 @@
 package de.markusfisch.android.wavelines.fragment;
 
 import de.markusfisch.android.wavelines.activity.AbstractActivity;
+import de.markusfisch.android.wavelines.activity.PreviewActivity;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.widget.ThemesView;
@@ -40,6 +41,13 @@ public class ThemeListFragment extends Fragment {
 				container, false);
 
 		themesView = view.findViewById(R.id.themes);
+		themesView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				PreviewActivity.show(v.getContext(), WaveLinesApp.db.getTheme(
+						themesView.getSelectedThemeId()));
+			}
+		});
 
 		final String title = getString(R.string.themes);
 		themesView.setOnChangeListener(new ThemesView.OnChangeListener() {

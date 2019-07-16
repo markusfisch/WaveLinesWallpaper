@@ -7,7 +7,6 @@ import de.markusfisch.android.wavelines.widget.ThemeView;
 import de.markusfisch.android.wavelines.R;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,7 +26,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class ThemeEditorFragment extends Fragment {
 	private static final String ID = "id";
@@ -191,9 +189,7 @@ public class ThemeEditorFragment extends Fragment {
 		preview.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				PreviewActivity.previewTheme = getTheme();
-				startActivity(new Intent(v.getContext(),
-						PreviewActivity.class));
+				PreviewActivity.show(v.getContext(), getTheme());
 			}
 		});
 		coupledSwitch = view.findViewById(R.id.coupled);

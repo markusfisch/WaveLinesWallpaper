@@ -4,6 +4,8 @@ import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.widget.ThemeView;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +13,15 @@ import android.view.View;
 import android.view.Window;
 
 public class PreviewActivity extends AppCompatActivity {
-	public static final String THEME = "theme";
-
 	// instead of going through all the hassles of building a proper
 	// parcelable, I'm just going to take it easy and use this fine
 	// static variable
-	public static Theme previewTheme = null;
+	private static Theme previewTheme = null;
+
+	public static void show(Context context, Theme theme) {
+		previewTheme = theme;
+		context.startActivity(new Intent(context, PreviewActivity.class));
+	}
 
 	@Override
 	protected void onCreate(Bundle state) {
@@ -25,11 +30,23 @@ public class PreviewActivity extends AppCompatActivity {
 		hideSystemUi(getWindow());
 		ThemeView view = new ThemeView(this);
 		view.setTheme(previewTheme);
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		setContentView(view);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		clear();
+	}
+
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public static void hideSystemUi(Window window) {
+	private static void hideSystemUi(Window window) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 			return;
 		}
@@ -39,5 +56,9 @@ public class PreviewActivity extends AppCompatActivity {
 						View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 		window.setStatusBarColor(0);
 		window.setNavigationBarColor(0);
+	}
+
+	private static void clear() {
+		previewTheme = null;
 	}
 }
