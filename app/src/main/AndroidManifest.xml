@@ -45,8 +45,6 @@
 		</activity>
 		<activity
 			android:name=".activity.PreviewActivity"
-			android:theme="@style/PreviewTheme"
-			android:launchMode="singleInstance"
-			android:documentLaunchMode="intoExisting"/>
+			android:theme="@style/PreviewTheme"/>
 	</application>
 </manifest>
