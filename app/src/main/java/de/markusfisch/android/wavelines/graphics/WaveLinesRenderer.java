@@ -5,16 +5,17 @@ import de.markusfisch.android.wavelines.database.Theme;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.SystemClock;
 
 public class WaveLinesRenderer {
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	private final Path path = new Path();
 
 	private Theme theme;
+	private long lastTime;
 	private float thicknessMax;
 	private float thicknessMin;
-	private float amplitudeMax;
-	private float amplitudeMin;
+	private float amplitude;
 	private float width;
 	private float height;
 	private float maxSize;
@@ -32,14 +33,20 @@ public class WaveLinesRenderer {
 		sizeUpdate = true;
 	}
 
-	public void draw(Canvas canvas, long delta) {
+	public void draw(Canvas canvas) {
+		long now = SystemClock.elapsedRealtime();
+
 		if (themeUpdate) {
-			if (create()) {
+			if (init()) {
 				themeUpdate = false;
+				lastTime = now - 16L;
 			} else {
 				return;
 			}
 		}
+
+		double factor = (now - lastTime) / 1000.0;
+		lastTime = now;
 
 		canvas.save();
 		{
@@ -49,40 +56,39 @@ public class WaveLinesRenderer {
 			canvas.rotate(theme.rotation);
 			canvas.translate(
 					(maxSize - width) * -.5f - cx,
-					(maxSize - height) * -.5f - cy);
+					(maxSize - height) * -.5f - cy
+			);
 		}
 
-		final double elapsed = delta / 1000.0;
-		float r = 0;
+		float y = 0f;
 
 		for (int i = theme.lines; i-- > 0; ) {
 			WaveLine wl = theme.waveLines[i];
-			flow(wl, elapsed);
+			flow(wl, factor);
 
-			if (r > maxSize) {
+			if (y > maxSize) {
 				continue;
 			}
 
 			// build path
 			{
-				final float l = wl.length;
-				final float h = l / 2;
-				float lx = wl.shift;
-				float y = r;
-				float ly = y;
-				float x = lx + l;
+				float waveLength = wl.length;
+				float halfWaveLength = waveLength / 2;
+				float lastX = wl.shift;
+				float lastY = y;
+				float x = lastX + waveLength;
 
 				path.reset();
-				path.moveTo(lx, ly);
+				path.moveTo(lastX, lastY);
 
 				if (y == 0) {
 					x = maxSize;
 					path.lineTo(x, y);
 				} else {
-					final float a = wl.amplitude;
+					float a = (float) Math.sin(wl.amplitude) * amplitude;
 
-					for (; ; lx = x, x += l) {
-						final float m = lx + h;
+					for (; ; lastX = x, x += waveLength) {
+						float m = lastX + halfWaveLength;
 
 						path.cubicTo(
 								m,
@@ -99,10 +105,10 @@ public class WaveLinesRenderer {
 					}
 				}
 
-				r += wl.thickness;
-				ly = r + amplitudeMax * 2;
-				path.lineTo(x, ly);
-				path.lineTo(0, ly);
+				y += wl.thickness;
+				lastY = y + amplitude * 2;
+				path.lineTo(x, lastY);
+				path.lineTo(0, lastY);
 			}
 
 			paint.setColor(wl.color);
@@ -112,7 +118,7 @@ public class WaveLinesRenderer {
 		canvas.restore();
 	}
 
-	private boolean create() {
+	private boolean init() {
 		if (theme == null ||
 				theme.lines < 1 ||
 				width < 1 ||
@@ -128,8 +134,7 @@ public class WaveLinesRenderer {
 		thicknessMax = (float) Math.ceil((maxSize / theme.lines) * 2f);
 		thicknessMin = Math.max(2, .01f * maxSize);
 
-		amplitudeMax = theme.amplitude * maxSize;
-		amplitudeMin = -amplitudeMax;
+		amplitude = theme.amplitude * maxSize;
 
 		if (!sizeUpdate && theme.waveLines[0] != null) {
 			return true;
@@ -147,8 +152,8 @@ public class WaveLinesRenderer {
 
 			// calculate growth of master rows
 			{
-				final float min = maxSize * .0001f;
-				final float max = maxSize * .0020f;
+				float min = maxSize * .0001f;
+				float max = maxSize * .0020f;
 
 				for (int i = firstHalf; i-- > 0; ) {
 					growths[i] = (Math.random() > .5 ? -1 : 1) *
@@ -171,15 +176,13 @@ public class WaveLinesRenderer {
 			}
 		}
 
-		// create wave lines
+		// calculate wave lines
 		{
 			int colorIndex = !theme.shuffle ? 0 : (int) Math.round(
 					Math.random() * (theme.colors.length - 1));
 			final float thickness = maxSize / theme.lines;
-
 			final int waveLength = (int) Math.ceil(maxSize / theme.waves);
-			final float lengthVariation = waveLength * .1f;
-			WaveLine last = null;
+			WaveLine lastWave = null;
 
 			for (int i = theme.lines; i-- > 0; ++colorIndex) {
 				float growth = !theme.uniform && i < firstHalf ?
@@ -187,71 +190,42 @@ public class WaveLinesRenderer {
 				int color = theme.colors[colorIndex % theme.colors.length];
 				int yang = !theme.uniform && i >= firstHalf ?
 						indices[i - firstHalf] : -1;
-				if (theme.coupled && last != null) {
-					last = new WaveLine(
-						last.length,
-						last.thickness,
+				if (theme.coupled && lastWave != null) {
+					lastWave = new WaveLine(
+						lastWave.length,
+						lastWave.thickness,
 						growth,
-						last.amplitude,
-						last.power,
-						last.shift,
-						last.speed,
+						lastWave.amplitude,
+						lastWave.oscillation,
+						lastWave.shift,
+						lastWave.speed,
 						color,
 						yang
 					);
 				} else {
-					float length = waveLength +
-							((float) Math.random() * lengthVariation -
-									lengthVariation * .5f);
-					float amplitude = amplitudeMin + (float) Math.ceil(
-							Math.random() * (amplitudeMax - amplitudeMin));
-					float power = .1f + (theme.coupled ?
-							amplitudeMax * .37f :
-							(float) Math.random() * amplitudeMax * .75f);
-					float shift = (float) Math.random() * waveLength * -2;
-					float speed = maxSize * .01f +
-							(float) Math.random() * maxSize * .03125f;
-					last = new WaveLine(
-						length,
+					lastWave = new WaveLine(
+						waveLength,
 						thickness,
 						growth,
-						amplitude,
-						power,
-						shift,
-						speed,
+						1.57f,
+						1f,
+						(float) Math.random() * waveLength * -2,
+						maxSize * .01f,
 						color,
 						yang
 					);
 				}
-				theme.waveLines[i] = last;
+				theme.waveLines[i] = lastWave;
 			}
 		}
 
 		return true;
 	}
 
-	private void flow(WaveLine wl, double delta) {
-		// raise the power if the wave gets shallow to avoid
-		// having straight lines for too long
-		float p = amplitudeMax - Math.abs(wl.amplitude);
+	private void flow(WaveLine wl, double factor) {
+		wl.amplitude += wl.oscillation * factor;
 
-		if (Math.abs(wl.power) > p) {
-			p = wl.power;
-		} else if (wl.power < 0) {
-			p = -p;
-		}
-
-		wl.amplitude += p * delta;
-
-		if (wl.amplitude > amplitudeMax || wl.amplitude < amplitudeMin) {
-			wl.amplitude = clampMirror(wl.amplitude, amplitudeMin,
-					amplitudeMax);
-
-			wl.power = -wl.power;
-		}
-
-		wl.shift += wl.speed * delta;
-
+		wl.shift += wl.speed * factor;
 		if (wl.shift > 0) {
 			wl.shift -= wl.length * 2;
 		}
@@ -260,7 +234,7 @@ public class WaveLinesRenderer {
 			wl.thickness = (thicknessMax + thicknessMin) -
 					theme.waveLines[wl.yang].thickness;
 		} else if (wl.growth != 0) {
-			wl.thickness += wl.growth * delta;
+			wl.thickness += wl.growth * factor;
 
 			if (wl.thickness > thicknessMax || wl.thickness < thicknessMin) {
 				wl.thickness = clampMirror(wl.thickness, thicknessMin,
@@ -285,7 +259,7 @@ public class WaveLinesRenderer {
 		private float thickness;
 		private float growth;
 		private float amplitude;
-		private float power;
+		private float oscillation;
 		private float shift;
 		private float speed;
 		private int color;
@@ -296,7 +270,7 @@ public class WaveLinesRenderer {
 				float thickness,
 				float growth,
 				float amplitude,
-				float power,
+				float oscillation,
 				float shift,
 				float speed,
 				int color,
@@ -305,7 +279,7 @@ public class WaveLinesRenderer {
 			this.thickness = thickness;
 			this.growth = growth;
 			this.amplitude = amplitude;
-			this.power = power;
+			this.oscillation = oscillation;
 			this.shift = shift;
 			this.speed = speed;
 			this.color = color;

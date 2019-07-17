@@ -20,15 +20,12 @@ public class ThemeView extends SurfaceView {
 			if (!drawing) {
 				return;
 			}
-			long now = System.currentTimeMillis();
-			drawView(now - lastDraw);
-			lastDraw = now;
+			drawView();
 			postDelayed(drawRunnable, 16L);
 		}
 	};
 
 	private SurfaceHolder surfaceHolder;
-	private long lastDraw = 0;
 	private boolean drawing = false;
 
 	public ThemeView(Context context) {
@@ -77,7 +74,6 @@ public class ThemeView extends SurfaceView {
 					int height) {
 				renderer.setSize(width, height);
 				drawing = true;
-				lastDraw = System.currentTimeMillis();
 				postDelayed(drawRunnable, 16L);
 			}
 
@@ -93,12 +89,12 @@ public class ThemeView extends SurfaceView {
 		});
 	}
 
-	private void drawView(long delta) {
+	private void drawView() {
 		Canvas canvas = surfaceHolder.lockCanvas();
 		if (canvas == null) {
 			return;
 		}
-		renderer.draw(canvas, delta);
+		renderer.draw(canvas);
 		surfaceHolder.unlockCanvasAndPost(canvas);
 	}
 }

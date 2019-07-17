@@ -1,7 +1,6 @@
 package de.markusfisch.android.wavelines.service;
 
 import android.os.Handler;
-import android.os.SystemClock;
 import android.graphics.Canvas;
 import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
@@ -16,7 +15,6 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 		};
 
 		private boolean visible = false;
-		private long last = 0;
 
 		@Override
 		public void onDestroy() {
@@ -29,7 +27,6 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 			visible = v;
 
 			if (visible) {
-				last = SystemClock.elapsedRealtime();
 				nextFrame();
 			} else {
 				stopRunnable();
@@ -69,7 +66,7 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 				int yPixelOffset) {
 		}
 
-		protected abstract void drawFrame(Canvas canvas, long elapsedTime);
+		protected abstract void drawFrame(Canvas canvas);
 
 		protected void nextFrame() {
 			stopRunnable();
@@ -85,9 +82,7 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 
 			try {
 				if ((canvas = holder.lockCanvas()) != null) {
-					long now = SystemClock.elapsedRealtime();
-					drawFrame(canvas, now - last);
-					last = now;
+					drawFrame(canvas);
 				}
 			} finally {
 				if (canvas != null) {

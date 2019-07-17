@@ -43,8 +43,8 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 		}
 
 		@Override
-		protected void drawFrame(Canvas canvas, long delta) {
-			renderer.draw(canvas, delta);
+		protected void drawFrame(Canvas canvas) {
+			renderer.draw(canvas);
 		}
 
 		private void update() {

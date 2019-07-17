@@ -56,9 +56,7 @@ public class ThemesView extends SurfaceView {
 			if (!drawing) {
 				return;
 			}
-			long now = System.currentTimeMillis();
-			drawView(now - lastDraw);
-			lastDraw = now;
+			drawView();
 			postDelayed(drawRunnable, 16L);
 		}
 	};
@@ -80,7 +78,6 @@ public class ThemesView extends SurfaceView {
 	private float finalX;
 	private long initialTime;
 	private long completeSwipeLast;
-	private long lastDraw = 0;
 	private OnChangeListener onChangeListener;
 
 	public ThemesView(Context context) {
@@ -238,7 +235,6 @@ public class ThemesView extends SurfaceView {
 					int height) {
 				renderer.setSize(width, height);
 				drawing = true;
-				lastDraw = System.currentTimeMillis();
 				postDelayed(drawRunnable, 16L);
 			}
 
@@ -254,23 +250,17 @@ public class ThemesView extends SurfaceView {
 		});
 	}
 
-	private void drawView(long delta) {
+	private void drawView() {
 		Canvas canvas = surfaceHolder.lockCanvas();
 		if (canvas == null) {
 			return;
 		}
-		drawView(canvas, delta);
+		drawView(canvas);
 		surfaceHolder.unlockCanvasAndPost(canvas);
 	}
 
-	private void drawView(Canvas canvas, long delta) {
-		if (!swiping) {
-			ThemePreview preview = getThemePreview(currentIndex);
-			if (preview != null && preview.theme != null) {
-				renderer.setTheme(preview.theme);
-				renderer.draw(canvas, delta);
-			}
-		} else {
+	private void drawView(Canvas canvas) {
+		if (swiping) {
 			float boundsWidth = bounds.width();
 			for (int i = Math.max(0, currentIndex - 1),
 					l = Math.min(themeCount - 1, currentIndex + 1);
@@ -282,6 +272,12 @@ public class ThemesView extends SurfaceView {
 							0,
 							null);
 				}
+			}
+		} else {
+			ThemePreview preview = getThemePreview(currentIndex);
+			if (preview != null && preview.theme != null) {
+				renderer.setTheme(preview.theme);
+				renderer.draw(canvas);
 			}
 		}
 		drawEdgeEffects(canvas);
@@ -355,7 +351,7 @@ public class ThemesView extends SurfaceView {
 		if (preview != null && preview.bitmap != null) {
 			Canvas canvas = new Canvas(preview.bitmap);
 			renderer.setTheme(preview.theme);
-			renderer.draw(canvas, 16L);
+			renderer.draw(canvas);
 		}
 	}
 
@@ -503,7 +499,7 @@ public class ThemesView extends SurfaceView {
 		Canvas canvas = new Canvas(bitmap);
 		renderer.setSize(width, height);
 		renderer.setTheme(theme);
-		renderer.draw(canvas, 16L);
+		renderer.draw(canvas);
 		preview.set(bitmap, theme);
 	}
 
