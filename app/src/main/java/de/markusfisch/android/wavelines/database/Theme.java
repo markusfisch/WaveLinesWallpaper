@@ -11,6 +11,7 @@ public class Theme {
 	public final int lines;
 	public final int waves;
 	public final float amplitude;
+	public final float oscillation;
 	public final int rotation;
 	public final int[] colors;
 	public final WaveLinesRenderer.WaveLine[] waveLines;
@@ -22,6 +23,7 @@ public class Theme {
 		lines = 2 + (int) Math.round(Math.random() * 8);
 		waves = 1 + (int) Math.round(Math.random() * 5);
 		amplitude = .02f + Math.round(Math.random() * .13f);
+		oscillation = .5f + Math.round(Math.random() * 1.5f);
 		rotation = 0;
 		int ncolors = 2 + (int) Math.round(Math.random() * 4);
 		colors = new int[ncolors];
@@ -39,6 +41,7 @@ public class Theme {
 			int lines,
 			int waves,
 			float amplitude,
+			float oscillation,
 			int rotation,
 			int[] colors) {
 		this.coupled = coupled;
@@ -47,6 +50,7 @@ public class Theme {
 		this.lines = lines;
 		this.waves = waves;
 		this.amplitude = amplitude;
+		this.oscillation = oscillation;
 		this.rotation = rotation;
 		this.colors = colors.clone();
 		waveLines = new WaveLinesRenderer.WaveLine[lines];

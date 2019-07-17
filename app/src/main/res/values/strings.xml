@@ -16,6 +16,7 @@
 	<string name="lines">Lines: %d</string>
 	<string name="waves">Waves: %d</string>
 	<string name="amplitude">Amplitude: %.02f</string>
+	<string name="oscillation">Oscillation: %.02f</string>
 	<string name="rotation">Rotation: %d°</string>
 	<string name="colors">Colors</string>
 	<string name="add_color">Add color</string>

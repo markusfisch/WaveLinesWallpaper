@@ -61,6 +61,16 @@
 			android:id="@+id/amplitude"
 			android:max="15"/>
 		<TextView
+			android:id="@+id/oscillation_label"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/oscillation"
+			android:padding="16dp"/>
+		<SeekBar
+			style="@style/EditorSeekBar"
+			android:id="@+id/oscillation"
+			android:max="30"/>
+		<TextView
 			android:id="@+id/rotation_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

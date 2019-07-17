@@ -208,7 +208,7 @@ public class WaveLinesRenderer {
 						thickness,
 						growth,
 						1.57f,
-						1f,
+						theme.oscillation,
 						(float) Math.random() * waveLength * -2,
 						maxSize * .01f,
 						color,
