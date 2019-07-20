@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 			View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
 					View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
 					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+	private static final int SELECT_LAST = -1;
 
 	private ThemesView themesView;
 	private MenuItem setThemeMenuItem;
@@ -156,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
 				}
 				progressView.setVisibility(View.GONE);
 				if (cursor != null) {
-					themesView.setThemes(cursor, index > -1 ? index :
-							cursor.getCount());
+					themesView.setThemes(cursor, index == SELECT_LAST ?
+							cursor.getCount() : index);
 				}
 			}
 		}.execute();
@@ -178,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
 
 	private void addTheme() {
 		WaveLinesApp.db.insertTheme(new Theme());
-		queryThemesAsync(themesView.getCount());
+		queryThemesAsync(SELECT_LAST);
 	}
 
 	private void duplicateTheme(long id) {
 		WaveLinesApp.db.insertTheme(WaveLinesApp.db.getTheme(id));
-		queryThemesAsync(themesView.getCount());
+		queryThemesAsync(SELECT_LAST);
 	}
 
 	private void askDeleteTheme(final long id) {
@@ -291,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
 				0,
 				colors
 		));
-		queryThemesAsync(-1);
+		queryThemesAsync(SELECT_LAST);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
