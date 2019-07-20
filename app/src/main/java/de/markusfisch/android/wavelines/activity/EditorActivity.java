@@ -138,7 +138,7 @@ public class EditorActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.fragment_theme_editor, menu);
+		getMenuInflater().inflate(R.menu.activity_editor, menu);
 		return true;
 	}
 

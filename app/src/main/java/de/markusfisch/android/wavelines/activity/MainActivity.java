@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.fragment_theme_list, menu);
+		getMenuInflater().inflate(R.menu.activity_main, menu);
 		setThemeMenuItem = menu.findItem(R.id.set_theme);
 		updateThemeMenuItem();
 		return true;
