@@ -268,9 +268,12 @@ public class MainActivity extends AppCompatActivity {
 			public void onGenerated(Palette p) {
 				int defaultColor = 0xff000000;
 				addThemeWithColors(new int[]{
-						p.getLightMutedColor(defaultColor),
-						p.getMutedColor(defaultColor),
-						p.getDarkMutedColor(defaultColor)
+						p.getLightVibrantColor(
+								p.getLightMutedColor(defaultColor)),
+						p.getVibrantColor(
+								p.getMutedColor(defaultColor)),
+						p.getDarkVibrantColor(
+								p.getDarkMutedColor(defaultColor))
 				});
 			}
 		});
