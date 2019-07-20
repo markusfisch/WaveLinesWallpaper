@@ -1,22 +1,26 @@
 package de.markusfisch.android.wavelines.activity;
 
-import de.markusfisch.android.wavelines.activity.PreviewActivity;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.graphics.BitmapLoader;
 import de.markusfisch.android.wavelines.widget.ThemesView;
 import de.markusfisch.android.wavelines.R;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
 		progressView = findViewById(R.id.progress_view);
 		initDecorView();
+
+		addThemeFromIntent(getIntent());
 	}
 
 	@Override
@@ -150,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
 				}
 				progressView.setVisibility(View.GONE);
 				if (cursor != null) {
-					themesView.setThemes(cursor, index);
+					themesView.setThemes(cursor, index > -1 ? index :
+							cursor.getCount());
 				}
 			}
 		}.execute();
@@ -215,6 +222,73 @@ public class MainActivity extends AppCompatActivity {
 		item.setIcon(R.drawable.ic_wallpaper_set);
 		Toast.makeText(this, R.string.set_as_wallpaper,
 				Toast.LENGTH_SHORT).show();
+	}
+
+	private void addThemeFromIntent(Intent intent) {
+		String type;
+		if (!Intent.ACTION_SEND.equals(intent.getAction()) ||
+				(type = intent.getType()) == null ||
+				!type.startsWith("image/")) {
+			return;
+		}
+		addThemeFromImageUriAsync(this,
+				(Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM));
+	}
+
+	// this AsyncTask is running for a short and finite time only
+	// and it's perfectly okay to delay garbage collection of the
+	// parent instance until this task has ended
+	@SuppressLint("StaticFieldLeak")
+	private void addThemeFromImageUriAsync(final Context context,
+			final Uri uri) {
+		if (uri == null || progressView.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		progressView.setVisibility(View.VISIBLE);
+		new AsyncTask<Void, Void, Bitmap>() {
+			@Override
+			protected Bitmap doInBackground(Void... nothings) {
+				return BitmapLoader.getBitmapFromUri(context, uri, 512);
+			}
+
+			@Override
+			protected void onPostExecute(Bitmap bitmap) {
+				progressView.setVisibility(View.GONE);
+				if (bitmap == null) {
+					return;
+				}
+				addThemeFromBitmap(bitmap);
+			}
+		}.execute();
+	}
+
+	private void addThemeFromBitmap(Bitmap bitmap) {
+		Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+			@Override
+			public void onGenerated(Palette p) {
+				int defaultColor = 0xff000000;
+				addThemeWithColors(new int[]{
+						p.getLightMutedColor(defaultColor),
+						p.getMutedColor(defaultColor),
+						p.getDarkMutedColor(defaultColor)
+				});
+			}
+		});
+	}
+
+	private void addThemeWithColors(int[] colors) {
+		WaveLinesApp.db.insertTheme(new Theme(
+				Math.random() > .5f,
+				Math.random() > .5f,
+				Math.random() > .5f,
+				colors.length,
+				1 + (int) Math.round(Math.random() * 5),
+				.02f + Math.round(Math.random() * .13f),
+				.5f + Math.round(Math.random() * 1.5f),
+				0,
+				colors
+		));
+		queryThemesAsync(-1);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
