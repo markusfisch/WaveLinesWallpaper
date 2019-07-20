@@ -1,4 +1,4 @@
-package de.markusfisch.android.wavelines.fragment;
+package de.markusfisch.android.wavelines.activity;
 
 import de.markusfisch.android.wavelines.activity.PreviewActivity;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
@@ -6,17 +6,15 @@ import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.widget.ThemeView;
 import de.markusfisch.android.wavelines.R;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -27,12 +25,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThemeEditorFragment extends Fragment {
-	private static final String ID = "id";
+public class EditorActivity extends AppCompatActivity {
+	public static final String THEME_ID = "id";
 
 	private final ArrayList<Integer> colors = new ArrayList<>();
-	private final SeekBar.OnSeekBarChangeListener updateColorFromBarsListener =
-			new SeekBar.OnSeekBarChangeListener() {
+	private final SeekBar.OnSeekBarChangeListener updateColorFromBarsListener = new SeekBar.OnSeekBarChangeListener() {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progressValue,
 				boolean fromUser) {
@@ -42,13 +39,14 @@ public class ThemeEditorFragment extends Fragment {
 		}
 
 		@Override
-		public void onStartTrackingTouch(SeekBar seekBar) {}
+		public void onStartTrackingTouch(SeekBar seekBar) {
+		}
 
 		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {}
+		public void onStopTrackingTouch(SeekBar seekBar) {
+		}
 	};
-	private final SeekBar.OnSeekBarChangeListener updateLabelsListener =
-			new SeekBar.OnSeekBarChangeListener() {
+	private final SeekBar.OnSeekBarChangeListener updateLabelsListener = new SeekBar.OnSeekBarChangeListener() {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progressValue,
 				boolean fromUser) {
@@ -66,13 +64,14 @@ public class ThemeEditorFragment extends Fragment {
 		}
 
 		@Override
-		public void onStartTrackingTouch(SeekBar seekBar) {}
+		public void onStartTrackingTouch(SeekBar seekBar) {
+		}
 
 		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {}
+		public void onStopTrackingTouch(SeekBar seekBar) {
+		}
 	};
-	private final CompoundButton.OnCheckedChangeListener switchListener =
-			new CompoundButton.OnCheckedChangeListener() {
+	private final CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
 		public void onCheckedChanged(CompoundButton buttonView,
 				boolean isChecked) {
 			updatePreview();
@@ -112,56 +111,35 @@ public class ThemeEditorFragment extends Fragment {
 	private SeekBar valBar;
 	private int selectedColor;
 
-	public static ThemeEditorFragment newInstance(long id) {
-		Bundle args = new Bundle();
-		args.putLong(ID, id);
-
-		ThemeEditorFragment fragment = new ThemeEditorFragment();
-		fragment.setArguments(args);
-
-		return fragment;
-	}
-
 	@Override
 	public void onCreate(Bundle state) {
 		super.onCreate(state);
-		setHasOptionsMenu(true);
-	}
+		setContentView(R.layout.activity_editor);
+		initViews();
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle state) {
-		getActivity().setTitle(R.string.edit_theme);
-
-		View view = inflater.inflate(
-				R.layout.fragment_theme_editor,
-				container,
-				false);
-
-		initViews(view);
-
-		Bundle args = getArguments();
+		Intent intent = getIntent();
 		Theme theme;
-		if (args != null &&
-				(themeId = args.getLong(ID)) > 0 &&
+		if (intent != null &&
+				(themeId = intent.getLongExtra(THEME_ID, -1)) > 0 &&
 				(theme = WaveLinesApp.db.getTheme(themeId)) != null) {
-			setTheme(inflater, theme);
+			setTheme(theme);
+		} else {
+			finish();
 		}
-
-		return view;
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		if (themeId > -1) {
-			WaveLinesApp.db.updateTheme(themeId, getTheme());
+			WaveLinesApp.db.updateTheme(themeId, getNewTheme());
 		}
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.fragment_theme_editor, menu);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.fragment_theme_editor, menu);
+		return true;
 	}
 
 	@Override
@@ -169,75 +147,75 @@ public class ThemeEditorFragment extends Fragment {
 		switch (item.getItemId()) {
 			case R.id.cancel:
 				themeId = -1;
-				getFragmentManager().popBackStack();
+				finish();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
 
-	private Theme getTheme() {
+	private Theme getNewTheme() {
 		return new Theme(
-			coupledSwitch.isChecked(),
-			uniformSwitch.isChecked(),
-			shuffleSwitch.isChecked(),
-			linesBar.getProgress(),
-			wavesBar.getProgress(),
-			amplitudeBar.getProgress() / 100f,
-			oscillationBar.getProgress() / 10f,
-			rotationBar.getProgress(),
-			toArray(colors)
+				coupledSwitch.isChecked(),
+				uniformSwitch.isChecked(),
+				shuffleSwitch.isChecked(),
+				linesBar.getProgress(),
+				wavesBar.getProgress(),
+				amplitudeBar.getProgress() / 100f,
+				oscillationBar.getProgress() / 10f,
+				rotationBar.getProgress(),
+				toArray(colors)
 		);
 	}
 
-	private void initViews(View view) {
-		preview = view.findViewById(R.id.preview);
+	private void initViews() {
+		preview = (ThemeView) findViewById(R.id.preview);
 		preview.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				PreviewActivity.show(v.getContext(), getTheme());
+				PreviewActivity.show(v.getContext(), getNewTheme());
 			}
 		});
-		coupledSwitch = view.findViewById(R.id.coupled);
+		coupledSwitch = (SwitchCompat) findViewById(R.id.coupled);
 		coupledSwitch.setOnCheckedChangeListener(switchListener);
-		uniformSwitch = view.findViewById(R.id.uniform);
+		uniformSwitch = (SwitchCompat) findViewById(R.id.uniform);
 		uniformSwitch.setOnCheckedChangeListener(switchListener);
-		shuffleSwitch = view.findViewById(R.id.shuffle);
+		shuffleSwitch = (SwitchCompat) findViewById(R.id.shuffle);
 		shuffleSwitch.setOnCheckedChangeListener(switchListener);
-		linesLabel = view.findViewById(R.id.lines_label);
+		linesLabel = (TextView) findViewById(R.id.lines_label);
 		linesTemplate = getString(R.string.lines);
-		linesBar = view.findViewById(R.id.lines);
+		linesBar = (SeekBar) findViewById(R.id.lines);
 		linesBar.setOnSeekBarChangeListener(updateLabelsListener);
-		wavesLabel = view.findViewById(R.id.waves_label);
+		wavesLabel = (TextView) findViewById(R.id.waves_label);
 		wavesTemplate = getString(R.string.waves);
-		wavesBar = view.findViewById(R.id.waves);
+		wavesBar = (SeekBar) findViewById(R.id.waves);
 		wavesBar.setOnSeekBarChangeListener(updateLabelsListener);
-		amplitudeLabel = view.findViewById(R.id.amplitude_label);
+		amplitudeLabel = (TextView) findViewById(R.id.amplitude_label);
 		amplitudeTemplate = getString(R.string.amplitude);
-		amplitudeBar = view.findViewById(R.id.amplitude);
+		amplitudeBar = (SeekBar) findViewById(R.id.amplitude);
 		amplitudeBar.setOnSeekBarChangeListener(updateLabelsListener);
-		oscillationLabel = view.findViewById(R.id.oscillation_label);
+		oscillationLabel = (TextView) findViewById(R.id.oscillation_label);
 		oscillationTemplate = getString(R.string.oscillation);
-		oscillationBar = view.findViewById(R.id.oscillation);
+		oscillationBar = (SeekBar) findViewById(R.id.oscillation);
 		oscillationBar.setOnSeekBarChangeListener(updateLabelsListener);
-		rotationLabel = view.findViewById(R.id.rotation_label);
+		rotationLabel = (TextView) findViewById(R.id.rotation_label);
 		rotationTemplate = getString(R.string.rotation);
-		rotationBar = view.findViewById(R.id.rotation);
+		rotationBar = (SeekBar) findViewById(R.id.rotation);
 		rotationBar.setOnSeekBarChangeListener(updateLabelsListener);
-		colorsScroll = view.findViewById(R.id.colors_scroll);
-		colorsList = view.findViewById(R.id.colors);
-		hueLabel = view.findViewById(R.id.hue_label);
+		colorsScroll = (HorizontalScrollView) findViewById(R.id.colors_scroll);
+		colorsList = (LinearLayout) findViewById(R.id.colors);
+		hueLabel = (TextView) findViewById(R.id.hue_label);
 		hueTemplate = getString(R.string.hue);
-		hueBar = view.findViewById(R.id.hue);
-		satLabel = view.findViewById(R.id.saturation_label);
+		hueBar = (SeekBar) findViewById(R.id.hue);
+		satLabel = (TextView) findViewById(R.id.saturation_label);
 		satTemplate = getString(R.string.saturation);
-		satBar = view.findViewById(R.id.saturation);
-		valLabel = view.findViewById(R.id.value_label);
+		satBar = (SeekBar) findViewById(R.id.saturation);
+		valLabel = (TextView) findViewById(R.id.value_label);
 		valTemplate = getString(R.string.value);
-		valBar = view.findViewById(R.id.value);
+		valBar = (SeekBar) findViewById(R.id.value);
 
 		setHSVBarListener(updateColorFromBarsListener);
-		initColorButtons(view);
+		initColorButtons();
 	}
 
 	private void setHSVBarListener(SeekBar.OnSeekBarChangeListener listener) {
@@ -246,41 +224,36 @@ public class ThemeEditorFragment extends Fragment {
 		valBar.setOnSeekBarChangeListener(listener);
 	}
 
-	private void initColorButtons(View view) {
-		view.findViewById(R.id.add_color).setOnClickListener(
-				new View.OnClickListener() {
+	private void initColorButtons() {
+		findViewById(R.id.add_color).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				addNewColor();
 				updatePreview();
 			}
 		});
-		view.findViewById(R.id.remove_color).setOnClickListener(
-				new View.OnClickListener() {
+		findViewById(R.id.remove_color).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				removeColor();
 				updatePreview();
 			}
 		});
-		view.findViewById(R.id.duplicate_color).setOnClickListener(
-				new View.OnClickListener() {
+		findViewById(R.id.duplicate_color).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				duplicateColor();
 				updatePreview();
 			}
 		});
-		view.findViewById(R.id.shift_left).setOnClickListener(
-				new View.OnClickListener() {
+		findViewById(R.id.shift_left).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				shiftLeft();
 				updatePreview();
 			}
 		});
-		view.findViewById(R.id.shift_right).setOnClickListener(
-				new View.OnClickListener() {
+		findViewById(R.id.shift_right).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				shiftRight();
@@ -289,7 +262,7 @@ public class ThemeEditorFragment extends Fragment {
 		});
 	}
 
-	private void setTheme(LayoutInflater inflater, Theme theme) {
+	private void setTheme(Theme theme) {
 		coupledSwitch.setChecked(theme.coupled);
 		uniformSwitch.setChecked(theme.uniform);
 		shuffleSwitch.setChecked(theme.shuffle);
@@ -300,6 +273,7 @@ public class ThemeEditorFragment extends Fragment {
 		rotationBar.setProgress(theme.rotation);
 		toList(colors, theme.colors);
 		colorsList.removeAllViews();
+		LayoutInflater inflater = getLayoutInflater();
 		for (int color : colors) {
 			addColorView(inflater, color);
 		}
@@ -327,11 +301,7 @@ public class ThemeEditorFragment extends Fragment {
 	}
 
 	private void addNewColor(int color) {
-		Activity activity = getActivity();
-		if (activity == null) {
-			return;
-		}
-		LayoutInflater inflater = activity.getLayoutInflater();
+		LayoutInflater inflater = getLayoutInflater();
 		int count = colorsList.getChildCount();
 		addColorView(inflater, color);
 		colors.add(color);
@@ -386,9 +356,9 @@ public class ThemeEditorFragment extends Fragment {
 
 	private void setColorFromHSVBars() {
 		int color = Color.HSVToColor(new float[]{
-			hueBar.getProgress(),
-			satBar.getProgress() / 100f,
-			valBar.getProgress() / 100f
+				hueBar.getProgress(),
+				satBar.getProgress() / 100f,
+				valBar.getProgress() / 100f
 		});
 		setSelectedColor(color);
 	}
@@ -403,10 +373,10 @@ public class ThemeEditorFragment extends Fragment {
 		int color = colors.get(selectedColor);
 		float[] hsv = new float[3];
 		Color.RGBToHSV(
-			(color >> 16) & 0xff,
-			(color >> 8) & 0xff,
-			color & 0xff,
-			hsv
+				(color >> 16) & 0xff,
+				(color >> 8) & 0xff,
+				color & 0xff,
+				hsv
 		);
 		setHSVBarListener(null);
 		hueBar.setProgress(Math.round(hsv[0]));
@@ -437,7 +407,7 @@ public class ThemeEditorFragment extends Fragment {
 	}
 
 	private void updatePreview() {
-		preview.setTheme(getTheme());
+		preview.setTheme(getNewTheme());
 	}
 
 	private static int[] toArray(List<Integer> list) {

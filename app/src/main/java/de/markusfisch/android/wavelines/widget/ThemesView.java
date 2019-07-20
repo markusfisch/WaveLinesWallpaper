@@ -217,7 +217,7 @@ public class ThemesView extends SurfaceView {
 		edgeEffectLeft = new EdgeEffectCompat(context);
 		edgeEffectRight = new EdgeEffectCompat(context);
 
-		for (int i = RADIUS * 2 + 1; i-- > 0;) {
+		for (int i = RADIUS * 2 + 1; i-- > 0; ) {
 			themePreviews.add(new ThemePreview());
 		}
 
@@ -506,15 +506,15 @@ public class ThemesView extends SurfaceView {
 	private Theme getThemeAt(int index) {
 		return cursor != null && !cursor.isClosed() &&
 				cursor.moveToPosition(index) ?
-						WaveLinesApp.db.themeFromCursor(cursor) :
-						null;
+				WaveLinesApp.db.themeFromCursor(cursor) :
+				null;
 	}
 
 	private long getThemeId(int index) {
 		return cursor != null && !cursor.isClosed() &&
 				cursor.moveToPosition(index) ?
-						cursor.getLong(idColumn) :
-						0;
+				cursor.getLong(idColumn) :
+				0;
 	}
 
 	private ThemePreview getThemePreview(int index) {
@@ -561,8 +561,7 @@ public class ThemesView extends SurfaceView {
 			out.writeInt(index);
 		}
 
-		public static final Parcelable.Creator<SavedState> CREATOR =
-				new Parcelable.Creator<SavedState>() {
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
 			public SavedState createFromParcel(Parcel in) {
 				return new SavedState(in);
 			}

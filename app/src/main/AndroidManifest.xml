@@ -44,6 +44,10 @@
 			</intent-filter>
 		</activity>
 		<activity
+			android:name=".activity.EditorActivity"
+			android:label="@string/edit_theme"
+			android:parentActivityName=".activity.MainActivity"/>
+		<activity
 			android:name=".activity.PreviewActivity"
 			android:theme="@style/PreviewTheme"/>
 	</application>

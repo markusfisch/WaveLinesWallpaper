@@ -129,7 +129,7 @@ public class WaveLinesRenderer {
 		}
 
 		// calculate sizes relative to screen size
-		maxSize = (float) Math.sqrt(width*width + height*height);
+		maxSize = (float) Math.sqrt(width * width + height * height);
 
 		thicknessMax = (float) Math.ceil((maxSize / theme.lines) * 2f);
 		thicknessMin = Math.max(2, .01f * maxSize);
@@ -192,27 +192,27 @@ public class WaveLinesRenderer {
 						indices[i - firstHalf] : -1;
 				if (theme.coupled && lastWave != null) {
 					lastWave = new WaveLine(
-						lastWave.length,
-						lastWave.thickness,
-						growth,
-						lastWave.amplitude,
-						lastWave.oscillation,
-						lastWave.shift,
-						lastWave.speed,
-						color,
-						yang
+							lastWave.length,
+							lastWave.thickness,
+							growth,
+							lastWave.amplitude,
+							lastWave.oscillation,
+							lastWave.shift,
+							lastWave.speed,
+							color,
+							yang
 					);
 				} else {
 					lastWave = new WaveLine(
-						waveLength,
-						thickness,
-						growth,
-						1.57f,
-						theme.oscillation,
-						(float) Math.random() * waveLength * -2,
-						maxSize * .01f,
-						color,
-						yang
+							waveLength,
+							thickness,
+							growth,
+							1.57f,
+							theme.oscillation,
+							(float) Math.random() * waveLength * -2,
+							maxSize * .01f,
+							color,
+							yang
 					);
 				}
 				theme.waveLines[i] = lastWave;

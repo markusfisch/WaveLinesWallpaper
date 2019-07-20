@@ -73,10 +73,10 @@ public class Theme implements Parcelable {
 	public static int getSimilarColor(int color) {
 		float[] hsv = new float[3];
 		Color.RGBToHSV(
-			(color >> 16) & 0xff,
-			(color >> 8) & 0xff,
-			color & 0xff,
-			hsv
+				(color >> 16) & 0xff,
+				(color >> 8) & 0xff,
+				color & 0xff,
+				hsv
 		);
 		float mod = .1f + ((float) Math.random() * .15f);
 		float value = hsv[2] + mod;
@@ -107,9 +107,9 @@ public class Theme implements Parcelable {
 	}
 
 	private Theme(Parcel in) {
-		coupled = in.readInt() > 0 ? true : false;
-		uniform = in.readInt() > 0 ? true : false;
-		shuffle = in.readInt() > 0 ? true : false;
+		coupled = in.readInt() > 0;
+		uniform = in.readInt() > 0;
+		shuffle = in.readInt() > 0;
 		lines = in.readInt();
 		waves = in.readInt();
 		amplitude = in.readFloat();

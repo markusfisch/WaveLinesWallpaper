@@ -15,8 +15,7 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 
 	private class WaveLinesEngine extends CanvasWallpaperEngine {
 		private final WaveLinesRenderer renderer = new WaveLinesRenderer();
-		private final SharedPreferences.OnSharedPreferenceChangeListener listener =
-				new SharedPreferences.OnSharedPreferenceChangeListener() {
+		private final SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
 			@Override
 			public void onSharedPreferenceChanged(
 					SharedPreferences preferences,

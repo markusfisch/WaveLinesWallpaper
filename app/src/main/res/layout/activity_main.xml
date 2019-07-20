@@ -1,9 +1,28 @@
-<!-- this FrameLayout cannot be replaced by a <merge/> tag because
-	it has an ID that is required -->
-<FrameLayout
+<merge
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	tools:ignore="MergeRootFrame"
-	android:id="@+id/content_frame"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"/>
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+	<de.markusfisch.android.wavelines.widget.ThemesView
+		android:id="@+id/themes"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+	<RelativeLayout
+		android:id="@+id/main_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:fitsSystemWindows="true">
+		<android.support.design.widget.FloatingActionButton
+			tools:ignore="UnusedAttribute"
+			android:id="@+id/edit_theme"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentBottom="true"
+			android:layout_margin="20dp"
+			android:contentDescription="@string/edit_theme"
+			android:src="@drawable/ic_edit"
+			app:elevation="4dp"/>
+		<include layout="@layout/progress_view"/>
+	</RelativeLayout>
+</merge>
