@@ -366,7 +366,8 @@ public class MainActivity extends AppCompatActivity {
 		int flags = FULL_SCREEN_FLAGS;
 		if (!visible) {
 			flags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-					View.SYSTEM_UI_FLAG_FULLSCREEN;
+					View.SYSTEM_UI_FLAG_FULLSCREEN |
+					View.SYSTEM_UI_FLAG_IMMERSIVE;
 		}
 		decorView.setSystemUiVisibility(flags);
 		return true;
