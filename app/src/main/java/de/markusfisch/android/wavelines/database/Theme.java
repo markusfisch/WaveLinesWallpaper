@@ -1,5 +1,6 @@
 package de.markusfisch.android.wavelines.database;
 
+import de.markusfisch.android.wavelines.database.Database;
 import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 import android.graphics.Color;
@@ -74,8 +75,11 @@ public class Theme implements Parcelable {
 		waveLines = new WaveLinesRenderer.WaveLine[lines];
 	}
 
-	public Theme(String json) throws JSONException {
+	public Theme(String json) throws JSONException, IllegalArgumentException {
 		JSONObject theme = new JSONObject(json);
+		if (theme.getInt("version") < Database.VERSION) {
+			throw new IllegalArgumentException("invalid version");
+		}
 		coupled = theme.getBoolean("coupled");
 		uniform = theme.getBoolean("uniform");
 		shuffle = theme.getBoolean("shuffle");
@@ -91,6 +95,7 @@ public class Theme implements Parcelable {
 	public String toJson() {
 		try {
 			JSONObject theme = new JSONObject();
+			theme.put("version", Database.VERSION);
 			theme.put("coupled", coupled);
 			theme.put("uniform", uniform);
 			theme.put("shuffle", shuffle);

@@ -11,6 +11,7 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 
 public class Database {
+	public static final int VERSION = 4;
 	public static final String THEMES = "themes";
 	public static final String THEMES_ID = "_id";
 	public static final String THEMES_COUPLED = "coupled";
@@ -237,7 +238,7 @@ public class Database {
 
 	private static class OpenHelper extends SQLiteOpenHelper {
 		private OpenHelper(Context context) {
-			super(context, "themes.db", null, 4);
+			super(context, "themes.db", null, VERSION);
 		}
 
 		@Override

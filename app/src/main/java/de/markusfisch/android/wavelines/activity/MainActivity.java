@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 			String json = intent.getStringExtra(Intent.EXTRA_TEXT);
 			try {
 				addTheme(Theme.clamp(new Theme(json)));
-			} catch (JSONException e) {
+			} catch (JSONException | IllegalArgumentException e) {
 				Toast.makeText(this, R.string.error_invalid_json,
 						Toast.LENGTH_SHORT).show();
 			}
