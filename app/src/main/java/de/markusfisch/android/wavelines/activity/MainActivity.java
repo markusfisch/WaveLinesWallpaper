@@ -26,6 +26,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 public class MainActivity extends AppCompatActivity {
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 	private static final int FULL_SCREEN_FLAGS =
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 		progressView = findViewById(R.id.progress_view);
 		initDecorView();
 
-		addThemeFromIntent(getIntent());
+		handleSendIntents(getIntent());
 	}
 
 	@Override
@@ -125,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
 				return true;
 			case R.id.duplicate_theme:
 				duplicateTheme(id);
+				return true;
+			case R.id.share_theme:
+				shareTheme(id);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -178,13 +183,26 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void addTheme() {
-		WaveLinesApp.db.insertTheme(new Theme());
-		queryThemesAsync(SELECT_LAST);
+		addTheme(new Theme());
 	}
 
 	private void duplicateTheme(long id) {
-		WaveLinesApp.db.insertTheme(WaveLinesApp.db.getTheme(id));
+		addTheme(WaveLinesApp.db.getTheme(id));
+	}
+
+	private void addTheme(Theme theme) {
+		WaveLinesApp.db.insertTheme(theme);
 		queryThemesAsync(SELECT_LAST);
+	}
+
+	private void shareTheme(long id) {
+		Intent intent = new Intent();
+		intent.setType("application/json");
+		intent.setAction(Intent.ACTION_SEND);
+		intent.putExtra(Intent.EXTRA_TEXT,
+				WaveLinesApp.db.getTheme(id).toJson());
+		startActivity(Intent.createChooser(intent,
+				getString(R.string.share_theme)));
 	}
 
 	private void askDeleteTheme(final long id) {
@@ -225,15 +243,25 @@ public class MainActivity extends AppCompatActivity {
 				Toast.LENGTH_SHORT).show();
 	}
 
-	private void addThemeFromIntent(Intent intent) {
-		String type;
-		if (!Intent.ACTION_SEND.equals(intent.getAction()) ||
-				(type = intent.getType()) == null ||
-				!type.startsWith("image/")) {
+	private void handleSendIntents(Intent intent) {
+		if (!Intent.ACTION_SEND.equals(intent.getAction())) {
 			return;
 		}
-		addThemeFromImageUriAsync(this,
+		String type = intent.getType();
+		if (type == null) {
+			return;
+		} else if (type.startsWith("image/")) {
+			addThemeFromImageUriAsync(this,
 				(Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM));
+		} else if ("application/json".equals(type)) {
+			String json = intent.getStringExtra(Intent.EXTRA_TEXT);
+			try {
+				addTheme(Theme.clamp(new Theme(json)));
+			} catch (JSONException e) {
+				Toast.makeText(this, R.string.error_invalid_json,
+						Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 
 	// this AsyncTask is running for a short and finite time only
@@ -281,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void addThemeWithColors(int[] colors) {
-		WaveLinesApp.db.insertTheme(new Theme(
+		addTheme(new Theme(
 				Math.random() > .5f,
 				Math.random() > .5f,
 				Math.random() > .5f,
@@ -292,7 +320,6 @@ public class MainActivity extends AppCompatActivity {
 				0,
 				colors
 		));
-		queryThemesAsync(SELECT_LAST);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)

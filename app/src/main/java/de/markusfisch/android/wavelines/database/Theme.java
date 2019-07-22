@@ -6,6 +6,10 @@ import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Theme implements Parcelable {
 	public static final Creator<Theme> CREATOR = new Creator<Theme>() {
 		@Override
@@ -70,6 +74,52 @@ public class Theme implements Parcelable {
 		waveLines = new WaveLinesRenderer.WaveLine[lines];
 	}
 
+	public Theme(String json) throws JSONException {
+		JSONObject theme = new JSONObject(json);
+		coupled = theme.getBoolean("coupled");
+		uniform = theme.getBoolean("uniform");
+		shuffle = theme.getBoolean("shuffle");
+		lines = theme.getInt("lines");
+		waves = theme.getInt("waves");
+		amplitude = (float) theme.getDouble("amplitude");
+		oscillation = (float) theme.getDouble("oscillation");
+		rotation = theme.getInt("rotation");
+		colors = parseColorArray(theme.getJSONArray("colors"));
+		waveLines = new WaveLinesRenderer.WaveLine[lines];
+	}
+
+	public String toJson() {
+		try {
+			JSONObject theme = new JSONObject();
+			theme.put("coupled", coupled);
+			theme.put("uniform", uniform);
+			theme.put("shuffle", shuffle);
+			theme.put("lines", lines);
+			theme.put("waves", waves);
+			theme.put("amplitude", amplitude);
+			theme.put("oscillation", oscillation);
+			theme.put("rotation", rotation);
+			theme.put("colors", getJsonColorArray(colors));
+			return theme.toString();
+		} catch (JSONException e) {
+			return null;
+		}
+	}
+
+	public static Theme clamp(Theme theme) {
+		return new Theme(
+			theme.coupled,
+			theme.uniform,
+			theme.shuffle,
+			Math.max(2, Math.min(24, theme.lines)),
+			Math.max(1, Math.min(12, theme.waves)),
+			Math.max(0f, Math.min(0.15f, theme.amplitude)),
+			Math.max(0f, Math.min(3f, theme.oscillation)),
+			Math.abs(360 + theme.rotation) % 360,
+			theme.colors
+		);
+	}
+
 	public static int getSimilarColor(int color) {
 		float[] hsv = new float[3];
 		Color.RGBToHSV(
@@ -118,5 +168,22 @@ public class Theme implements Parcelable {
 		colors = new int[in.readInt()];
 		in.readIntArray(colors);
 		waveLines = new WaveLinesRenderer.WaveLine[lines];
+	}
+
+	private static int[] parseColorArray(JSONArray array) {
+		int len = array.length();
+		int intArray[] = new int[len];
+		for (int i = 0; i < len; ++i) {
+			intArray[i] = Color.parseColor(array.optString(i));
+		}
+		return intArray;
+	}
+
+	private static JSONArray getJsonColorArray(int[] intArray) {
+		JSONArray array = new JSONArray();
+		for (int i = 0, l = intArray.length; i < l; ++i) {
+			array.put(String.format("#%08X", intArray[i]));
+		}
+		return array;
 	}
 }

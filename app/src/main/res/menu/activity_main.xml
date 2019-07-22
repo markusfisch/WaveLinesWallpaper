@@ -21,4 +21,9 @@
 		android:icon="@drawable/ic_duplicate"
 		android:title="@string/duplicate_theme"
 		material:showAsAction="ifRoom"/>
+	<item
+		android:id="@+id/share_theme"
+		android:icon="@drawable/ic_share"
+		android:title="@string/share_theme"
+		material:showAsAction="ifRoom"/>
 </menu>
