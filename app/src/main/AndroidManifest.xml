@@ -52,6 +52,22 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 				<data android:mimeType="application/json"/>
 			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<!-- ignore AppLinkUrlError because this filter
+					doesn't work with `host="*"` -->
+				<data
+					tools:ignore="AppLinkUrlError"
+					android:scheme="content"
+					android:mimeType="text/plain"
+					android:pathPattern=".*\\.json"/>
+				<data
+					tools:ignore="AppLinkUrlError"
+					android:scheme="content"
+					android:mimeType="application/json"
+					android:pathPattern=".*\\.json"/>
+			</intent-filter>
 		</activity>
 		<activity
 			android:name=".activity.EditorActivity"

@@ -9,6 +9,7 @@ import de.markusfisch.android.wavelines.R;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONException;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -244,9 +248,16 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void handleSendIntents(Intent intent) {
-		if (!Intent.ACTION_SEND.equals(intent.getAction())) {
+		String action = intent.getAction();
+		if (!Intent.ACTION_SEND.equals(action) &&
+				!Intent.ACTION_VIEW.equals(action)) {
 			return;
 		}
+		// consume this intent; this is necessary because
+		// a orientation change will start a new activity
+		// with the exact same intent
+		intent.setAction(null);
+
 		String type = intent.getType();
 		if (type == null) {
 			return;
@@ -255,12 +266,32 @@ public class MainActivity extends AppCompatActivity {
 				(Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM));
 		} else if ("application/json".equals(type)) {
 			String json = intent.getStringExtra(Intent.EXTRA_TEXT);
+			if (json == null && (json = getTextFromUri(
+					getContentResolver(), intent.getData())) == null) {
+				Toast.makeText(this, R.string.error_invalid_json,
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			try {
 				addTheme(Theme.clamp(new Theme(json)));
 			} catch (JSONException | IllegalArgumentException e) {
 				Toast.makeText(this, R.string.error_invalid_json,
 						Toast.LENGTH_SHORT).show();
 			}
+		}
+	}
+
+	private static String getTextFromUri(ContentResolver resolver, Uri uri) {
+		try {
+			InputStream in = resolver.openInputStream(uri);
+			StringBuilder sb = new StringBuilder();
+			byte[] buffer = new byte[2048];
+			for (int len; (len = in.read(buffer)) > 0; ) {
+				sb.append(new String(buffer, 0, len, "UTF-8"));
+			}
+			return sb.toString();
+		} catch (IOException e) {
+			return null;
 		}
 	}
 
