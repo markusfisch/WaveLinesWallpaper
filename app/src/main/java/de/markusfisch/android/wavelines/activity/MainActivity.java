@@ -151,9 +151,20 @@ public class MainActivity extends AppCompatActivity {
 				if (cursor != null) {
 					themesView.setThemes(cursor, index == SELECT_LAST ?
 							cursor.getCount() : index);
+					updateWallpaper();
 				}
 			}
 		}.execute();
+	}
+
+	private void updateWallpaper() {
+		long wallpaperId = WaveLinesApp.preferences.getTheme();
+		if (themesView.getSelectedThemeId() == wallpaperId) {
+			// trigger onSharedPreferenceChanged() listener in
+			// WaveLinesWallpaperService to update current theme
+			WaveLinesApp.preferences.setTheme(0);
+			WaveLinesApp.preferences.setTheme(wallpaperId);
+		}
 	}
 
 	private void updateThemeMenuItem() {
