@@ -309,17 +309,29 @@ public class MainActivity extends AppCompatActivity {
 		Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
 			@Override
 			public void onGenerated(Palette p) {
-				int defaultColor = 0xff000000;
-				addThemeWithColors(new int[]{
-						p.getLightVibrantColor(
-								p.getLightMutedColor(defaultColor)),
-						p.getVibrantColor(
-								p.getMutedColor(defaultColor)),
-						p.getDarkVibrantColor(
-								p.getDarkMutedColor(defaultColor))
-				});
+				addThemeWithColors(getValidColors(new int[]{
+						p.getVibrantColor(0),
+						p.getDarkVibrantColor(0),
+						p.getLightVibrantColor(0),
+						p.getMutedColor(0),
+						p.getDarkMutedColor(0),
+						p.getLightMutedColor(0)
+				}));
 			}
 		});
+	}
+
+	private static int[] getValidColors(int[] colors) {
+		int[] valid = new int[colors.length];
+		int i = 0;
+		for (int color : colors) {
+			if (color != 0) {
+				valid[i++] = color;
+			}
+		}
+		int[] ret = new int[i];
+		System.arraycopy(valid, 0, ret, 0, i);
+		return ret;
 	}
 
 	private void addThemeWithColors(int[] colors) {
