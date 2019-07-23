@@ -116,7 +116,7 @@ public class Theme implements Parcelable {
 			theme.coupled,
 			theme.uniform,
 			theme.shuffle,
-			Math.max(2, Math.min(24, theme.lines)),
+			Math.max(2, Math.min(48, theme.lines)),
 			Math.max(1, Math.min(12, theme.waves)),
 			Math.max(0f, Math.min(0.15f, theme.amplitude)),
 			Math.max(0f, Math.min(3f, theme.oscillation)),
