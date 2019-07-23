@@ -14,11 +14,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.OnApplyWindowInsetsListener;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.WindowInsetsCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 	private static final int SELECT_LAST = -1;
 
+	private final Rect windowInsets = new Rect();
+
 	private ThemesView themesView;
 	private MenuItem setThemeMenuItem;
 	private View mainLayout;
@@ -53,32 +59,8 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 		themesView = (ThemesView) findViewById(R.id.themes);
-		themesView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// devices with hardware buttons do not automatically
-				// leave lean back mode so show the system UI manually
-				// if it's hidden
-				if (!setSystemUiVisibility(leanBack)) {
-					PreviewActivity.show(v.getContext(),
-							WaveLinesApp.db.getTheme(
-									themesView.getSelectedThemeId()));
-				}
-			}
-		});
-
-		final String title = getString(R.string.themes);
-		themesView.setOnChangeListener(new ThemesView.OnChangeListener() {
-			@Override
-			public void onChange(int index, long id) {
-				setTitle(String.format(title, index + 1,
-						themesView.getCount()));
-				updateThemeMenuItem(id);
-			}
-		});
-
 		mainLayout = findViewById(R.id.main_layout);
-
+		progressView = findViewById(R.id.progress_view);
 		findViewById(R.id.edit_theme).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -90,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-		progressView = findViewById(R.id.progress_view);
+		initThemesView();
+		initWindowInsets();
 		initDecorView();
 
 		handleSendIntents(getIntent());
@@ -351,6 +334,53 @@ public class MainActivity extends AppCompatActivity {
 				0,
 				colors
 		));
+	}
+
+	private void initThemesView() {
+		themesView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// devices with hardware buttons do not automatically
+				// leave lean back mode so show the system UI manually
+				// if it's hidden
+				if (!setSystemUiVisibility(leanBack)) {
+					PreviewActivity.show(v.getContext(),
+							WaveLinesApp.db.getTheme(
+									themesView.getSelectedThemeId()));
+				}
+			}
+		});
+
+		final String title = getString(R.string.themes);
+		themesView.setOnChangeListener(new ThemesView.OnChangeListener() {
+			@Override
+			public void onChange(int index, long id) {
+				setTitle(String.format(title, index + 1,
+						themesView.getCount()));
+				updateThemeMenuItem(id);
+			}
+		});
+	}
+
+	private void initWindowInsets() {
+		ViewCompat.setOnApplyWindowInsetsListener(mainLayout, new OnApplyWindowInsetsListener() {
+			@Override
+			public WindowInsetsCompat onApplyWindowInsets(View v,
+					WindowInsetsCompat insets) {
+				if (insets.hasSystemWindowInsets()) {
+					// restore padding because SYSTEM_UI_FLAG_HIDE_NAVIGATION
+					// somehow removes the padding from mainLayout although
+					// fitsSytemWindows is set; happens only when
+					// windowLayoutInDisplayCutoutMode is set to shortEdges
+					mainLayout.setPadding(
+							insets.getSystemWindowInsetLeft(),
+							insets.getSystemWindowInsetTop(),
+							insets.getSystemWindowInsetRight(),
+							insets.getSystemWindowInsetBottom());
+				}
+				return insets.consumeSystemWindowInsets();
+			}
+		});
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
