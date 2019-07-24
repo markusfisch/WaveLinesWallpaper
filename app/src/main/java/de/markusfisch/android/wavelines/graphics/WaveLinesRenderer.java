@@ -74,6 +74,7 @@ public class WaveLinesRenderer {
 			{
 				float waveLength = wl.length;
 				float halfWaveLength = waveLength / 2;
+				float amp = (float) Math.sin(wl.amplitude) * amplitude;
 				float lastX = wl.shift;
 				float lastY = y;
 				float x = lastX + waveLength;
@@ -85,16 +86,13 @@ public class WaveLinesRenderer {
 					x = maxSize;
 					path.lineTo(x, y);
 				} else {
-					float a = (float) Math.sin(wl.amplitude) * amplitude;
-
 					for (; ; lastX = x, x += waveLength) {
-						float m = lastX + halfWaveLength;
-
+						float center = lastX + halfWaveLength;
 						path.cubicTo(
-								m,
-								y - a,
-								m,
-								y + a,
+								center,
+								y - amp,
+								center,
+								y + amp,
 								x,
 								y
 						);
