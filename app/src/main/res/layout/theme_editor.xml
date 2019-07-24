@@ -81,6 +81,16 @@
 			android:id="@+id/shift"
 			android:max="100"/>
 		<TextView
+			android:id="@+id/speed_label"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/speed"
+			android:padding="16dp"/>
+		<SeekBar
+			style="@style/EditorSeekBar"
+			android:id="@+id/speed"
+			android:max="30"/>
+		<TextView
 			android:id="@+id/rotation_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

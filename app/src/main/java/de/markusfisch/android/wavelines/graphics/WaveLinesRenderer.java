@@ -184,7 +184,7 @@ public class WaveLinesRenderer {
 			float thickness = maxSize / theme.lines;
 			float shift = waveLength * -2;
 			float shiftPlus = theme.shift * (waveLength * 2f / theme.lines);
-			float speed = maxSize * .01f;
+			float speed = maxSize * theme.speed;
 			WaveLine lastWave = null;
 
 			for (int i = theme.lines; i-- > 0; ++colorIndex) {

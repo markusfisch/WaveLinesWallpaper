@@ -59,6 +59,8 @@ public class EditorActivity extends AppCompatActivity {
 			oscillationLabel.setText(String.format(oscillationTemplate,
 					oscillationBar.getProgress() / 10f));
 			updateShiftLabel();
+			speedLabel.setText(String.format(speedTemplate,
+					speedBar.getProgress() / 100f));
 			rotationLabel.setText(String.format(rotationTemplate,
 					rotationBar.getProgress()));
 			updatePreview();
@@ -101,6 +103,9 @@ public class EditorActivity extends AppCompatActivity {
 	private String shiftLabelRandom;
 	private String shiftTemplate;
 	private SeekBar shiftBar;
+	private TextView speedLabel;
+	private String speedTemplate;
+	private SeekBar speedBar;
 	private TextView rotationLabel;
 	private String rotationTemplate;
 	private SeekBar rotationBar;
@@ -170,6 +175,7 @@ public class EditorActivity extends AppCompatActivity {
 				amplitudeBar.getProgress() / 100f,
 				oscillationBar.getProgress() / 10f,
 				shiftBar.getProgress() / 100f,
+				speedBar.getProgress() / 100f,
 				rotationBar.getProgress(),
 				toArray(colors)
 		));
@@ -210,6 +216,10 @@ public class EditorActivity extends AppCompatActivity {
 		shiftTemplate = getString(R.string.shift);
 		shiftBar = (SeekBar) findViewById(R.id.shift);
 		shiftBar.setOnSeekBarChangeListener(updateLabelsListener);
+		speedLabel = (TextView) findViewById(R.id.speed_label);
+		speedTemplate = getString(R.string.speed);
+		speedBar = (SeekBar) findViewById(R.id.speed);
+		speedBar.setOnSeekBarChangeListener(updateLabelsListener);
 		rotationLabel = (TextView) findViewById(R.id.rotation_label);
 		rotationTemplate = getString(R.string.rotation);
 		rotationBar = (SeekBar) findViewById(R.id.rotation);
@@ -283,6 +293,7 @@ public class EditorActivity extends AppCompatActivity {
 		amplitudeBar.setProgress(Math.round(theme.amplitude * 100f));
 		oscillationBar.setProgress(Math.round(theme.oscillation * 10f));
 		shiftBar.setProgress(Math.round(theme.shift * 100f));
+		speedBar.setProgress(Math.round(theme.speed * 100f));
 		rotationBar.setProgress(theme.rotation);
 		toList(colors, theme.colors);
 		colorsList.removeAllViews();

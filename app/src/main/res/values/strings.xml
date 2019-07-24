@@ -23,6 +23,7 @@
 	<string name="oscillation">Oscillation: %.02f</string>
 	<string name="shift_random">Shift: random per line</string>
 	<string name="shift">Shift: %.02f</string>
+	<string name="speed">Speed: %.02f</string>
 	<string name="rotation">Rotation: %d°</string>
 	<string name="colors">Colors</string>
 	<string name="add_color">Add color</string>

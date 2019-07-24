@@ -356,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
 				random.amplitude,
 				random.oscillation,
 				random.shift,
+				random.speed,
 				random.rotation,
 				colors
 		));
