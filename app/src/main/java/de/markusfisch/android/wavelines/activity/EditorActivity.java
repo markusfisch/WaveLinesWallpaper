@@ -58,6 +58,7 @@ public class EditorActivity extends AppCompatActivity {
 					amplitudeBar.getProgress() / 100f));
 			oscillationLabel.setText(String.format(oscillationTemplate,
 					oscillationBar.getProgress() / 10f));
+			updateShiftLabel();
 			rotationLabel.setText(String.format(rotationTemplate,
 					rotationBar.getProgress()));
 			updatePreview();
@@ -75,6 +76,7 @@ public class EditorActivity extends AppCompatActivity {
 		public void onCheckedChanged(CompoundButton buttonView,
 				boolean isChecked) {
 			updatePreview();
+			updateShiftLabel();
 		}
 	};
 
@@ -95,6 +97,10 @@ public class EditorActivity extends AppCompatActivity {
 	private TextView oscillationLabel;
 	private String oscillationTemplate;
 	private SeekBar oscillationBar;
+	private TextView shiftLabel;
+	private String shiftLabelRandom;
+	private String shiftTemplate;
+	private SeekBar shiftBar;
 	private TextView rotationLabel;
 	private String rotationTemplate;
 	private SeekBar rotationBar;
@@ -155,7 +161,7 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private Theme getNewTheme() {
-		return new Theme(
+		return Theme.clamp(new Theme(
 				coupledSwitch.isChecked(),
 				uniformSwitch.isChecked(),
 				shuffleSwitch.isChecked(),
@@ -163,9 +169,10 @@ public class EditorActivity extends AppCompatActivity {
 				wavesBar.getProgress(),
 				amplitudeBar.getProgress() / 100f,
 				oscillationBar.getProgress() / 10f,
+				shiftBar.getProgress() / 100f,
 				rotationBar.getProgress(),
 				toArray(colors)
-		);
+		));
 	}
 
 	private void initViews() {
@@ -198,6 +205,11 @@ public class EditorActivity extends AppCompatActivity {
 		oscillationTemplate = getString(R.string.oscillation);
 		oscillationBar = (SeekBar) findViewById(R.id.oscillation);
 		oscillationBar.setOnSeekBarChangeListener(updateLabelsListener);
+		shiftLabel = (TextView) findViewById(R.id.shift_label);
+		shiftLabelRandom = getString(R.string.shift_random);
+		shiftTemplate = getString(R.string.shift);
+		shiftBar = (SeekBar) findViewById(R.id.shift);
+		shiftBar.setOnSeekBarChangeListener(updateLabelsListener);
 		rotationLabel = (TextView) findViewById(R.id.rotation_label);
 		rotationTemplate = getString(R.string.rotation);
 		rotationBar = (SeekBar) findViewById(R.id.rotation);
@@ -270,6 +282,7 @@ public class EditorActivity extends AppCompatActivity {
 		wavesBar.setProgress(theme.waves);
 		amplitudeBar.setProgress(Math.round(theme.amplitude * 100f));
 		oscillationBar.setProgress(Math.round(theme.oscillation * 10f));
+		shiftBar.setProgress(Math.round(theme.shift * 100f));
 		rotationBar.setProgress(theme.rotation);
 		toList(colors, theme.colors);
 		colorsList.removeAllViews();
@@ -408,6 +421,17 @@ public class EditorActivity extends AppCompatActivity {
 
 	private void updatePreview() {
 		preview.setTheme(getNewTheme());
+	}
+
+	private void updateShiftLabel() {
+		float value = shiftBar.getProgress() / 100f;
+		String label;
+		if (value == 0 && !coupledSwitch.isChecked()) {
+			label = shiftLabelRandom;
+		} else {
+			label = String.format(shiftTemplate, value);
+		}
+		shiftLabel.setText(label);
 	}
 
 	private static int[] toArray(List<Integer> list) {

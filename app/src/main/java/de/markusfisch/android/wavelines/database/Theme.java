@@ -31,6 +31,7 @@ public class Theme implements Parcelable {
 	public final int waves;
 	public final float amplitude;
 	public final float oscillation;
+	public final float shift;
 	public final int rotation;
 	public final int[] colors;
 	public final WaveLinesRenderer.WaveLine[] waveLines;
@@ -43,6 +44,7 @@ public class Theme implements Parcelable {
 		waves = 1 + (int) Math.round(Math.random() * 5);
 		amplitude = .02f + Math.round(Math.random() * .13f);
 		oscillation = .5f + Math.round(Math.random() * 1.5f);
+		shift = Math.round(Math.random());
 		rotation = 0;
 		int ncolors = 2 + (int) Math.round(Math.random() * 4);
 		colors = new int[ncolors];
@@ -61,6 +63,7 @@ public class Theme implements Parcelable {
 			int waves,
 			float amplitude,
 			float oscillation,
+			float shift,
 			int rotation,
 			int[] colors) {
 		this.coupled = coupled;
@@ -70,16 +73,15 @@ public class Theme implements Parcelable {
 		this.waves = waves;
 		this.amplitude = amplitude;
 		this.oscillation = oscillation;
+		this.shift = shift;
 		this.rotation = rotation;
 		this.colors = colors.clone();
 		waveLines = new WaveLinesRenderer.WaveLine[lines];
 	}
 
-	public Theme(String json) throws JSONException, IllegalArgumentException {
+	public Theme(String json) throws JSONException {
 		JSONObject theme = new JSONObject(json);
-		if (theme.getInt("version") < Database.VERSION) {
-			throw new IllegalArgumentException("invalid version");
-		}
+		int version = theme.getInt("version");
 		coupled = theme.getBoolean("coupled");
 		uniform = theme.getBoolean("uniform");
 		shuffle = theme.getBoolean("shuffle");
@@ -87,6 +89,7 @@ public class Theme implements Parcelable {
 		waves = theme.getInt("waves");
 		amplitude = (float) theme.getDouble("amplitude");
 		oscillation = (float) theme.getDouble("oscillation");
+		shift = version > 4 ? (float) theme.getDouble("shift") : 0f;
 		rotation = theme.getInt("rotation");
 		colors = parseColorArray(theme.getJSONArray("colors"));
 		waveLines = new WaveLinesRenderer.WaveLine[lines];
@@ -103,6 +106,7 @@ public class Theme implements Parcelable {
 			theme.put("waves", waves);
 			theme.put("amplitude", amplitude);
 			theme.put("oscillation", oscillation);
+			theme.put("shift", shift);
 			theme.put("rotation", rotation);
 			theme.put("colors", getJsonColorArray(colors));
 			return theme.toString();
@@ -120,6 +124,7 @@ public class Theme implements Parcelable {
 			Math.max(1, Math.min(12, theme.waves)),
 			Math.max(0f, Math.min(0.15f, theme.amplitude)),
 			Math.max(0f, Math.min(3f, theme.oscillation)),
+			Math.max(0f, Math.min(1f, theme.shift)),
 			Math.abs(360 + theme.rotation) % 360,
 			theme.colors
 		);
@@ -156,6 +161,7 @@ public class Theme implements Parcelable {
 		out.writeInt(waves);
 		out.writeFloat(amplitude);
 		out.writeFloat(oscillation);
+		out.writeFloat(shift);
 		out.writeInt(rotation);
 		out.writeInt(colors.length);
 		out.writeIntArray(colors);
@@ -169,6 +175,7 @@ public class Theme implements Parcelable {
 		waves = in.readInt();
 		amplitude = in.readFloat();
 		oscillation = in.readFloat();
+		shift = in.readFloat();
 		rotation = in.readInt();
 		colors = new int[in.readInt()];
 		in.readIntArray(colors);

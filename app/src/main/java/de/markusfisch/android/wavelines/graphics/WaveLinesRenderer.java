@@ -180,8 +180,11 @@ public class WaveLinesRenderer {
 		{
 			int colorIndex = !theme.shuffle ? 0 : (int) Math.round(
 					Math.random() * (theme.colors.length - 1));
-			final float thickness = maxSize / theme.lines;
-			final int waveLength = (int) Math.ceil(maxSize / theme.waves);
+			int waveLength = (int) Math.ceil(maxSize / theme.waves);
+			float thickness = maxSize / theme.lines;
+			float shift = waveLength * -2;
+			float shiftPlus = theme.shift * (waveLength * 2f / theme.lines);
+			float speed = maxSize * .01f;
 			WaveLine lastWave = null;
 
 			for (int i = theme.lines; i-- > 0; ++colorIndex) {
@@ -197,7 +200,7 @@ public class WaveLinesRenderer {
 							growth,
 							lastWave.amplitude,
 							lastWave.oscillation,
-							lastWave.shift,
+							shift,
 							lastWave.speed,
 							color,
 							yang
@@ -209,12 +212,14 @@ public class WaveLinesRenderer {
 							growth,
 							1.57f,
 							theme.oscillation,
-							(float) Math.random() * waveLength * -2,
-							maxSize * .01f,
+							shift * (!theme.coupled && shiftPlus == 0 ?
+									(float) Math.random() : 1f),
+							speed,
 							color,
 							yang
 					);
 				}
+				shift += shiftPlus;
 				theme.waveLines[i] = lastWave;
 			}
 		}

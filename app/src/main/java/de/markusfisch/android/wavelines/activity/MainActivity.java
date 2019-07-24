@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 			try {
 				addTheme(Theme.clamp(new Theme(json)));
-			} catch (JSONException | IllegalArgumentException e) {
+			} catch (JSONException e) {
 				Toast.makeText(this, R.string.error_invalid_json,
 						Toast.LENGTH_SHORT).show();
 			}
@@ -346,15 +346,17 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void addThemeWithColors(int[] colors) {
+		Theme random = new Theme();
 		addTheme(new Theme(
-				Math.random() > .5f,
-				Math.random() > .5f,
-				Math.random() > .5f,
+				random.coupled,
+				random.uniform,
+				random.shuffle,
 				colors.length,
-				1 + (int) Math.round(Math.random() * 5),
-				.02f + Math.round(Math.random() * .13f),
-				.5f + Math.round(Math.random() * 1.5f),
-				0,
+				random.waves,
+				random.amplitude,
+				random.oscillation,
+				random.shift,
+				random.rotation,
 				colors
 		));
 	}
