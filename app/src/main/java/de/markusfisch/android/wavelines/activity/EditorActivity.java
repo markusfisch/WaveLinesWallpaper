@@ -6,6 +6,9 @@ import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.widget.ThemeView;
 import de.markusfisch.android.wavelines.R;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,11 +19,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -282,6 +287,12 @@ public class EditorActivity extends AppCompatActivity {
 				updatePreview();
 			}
 		});
+		findViewById(R.id.enter_color).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				askForManualColorInput();
+			}
+		});
 	}
 
 	private void setTheme(Theme theme) {
@@ -376,6 +387,46 @@ public class EditorActivity extends AppCompatActivity {
 		colors.set(b, color);
 		colorsList.getChildAt(a).setBackgroundColor(colors.get(a));
 		colorsList.getChildAt(b).setBackgroundColor(colors.get(b));
+	}
+
+	@SuppressLint("InflateParams")
+	private void askForManualColorInput() {
+		View view = getLayoutInflater().inflate(
+				R.layout.dialog_enter_color,
+				// a dialog does not have a parent view group
+				// so InflateParams must be suppressed
+				null);
+		final EditText editText = view.findViewById(R.id.color);
+		String hex = String.format("#%06X",
+				0xffffff & colors.get(selectedColor));
+		if (hex != null) {
+			editText.setText(hex);
+		}
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.enter_color)
+				.setView(view)
+				.setPositiveButton(
+						android.R.string.ok,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(
+									DialogInterface dialog,
+									int whichButton) {
+								setColorFromHexName(
+										editText.getText().toString());
+							}
+						})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
+	}
+
+	private void setColorFromHexName(String hex) {
+		try {
+			setSelectedColor(Color.parseColor(hex) | 0xff000000);
+		} catch (IllegalArgumentException e) {
+			Toast.makeText(this, e.getLocalizedMessage(),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	private void setColorFromHSVBars() {

@@ -31,8 +31,10 @@
 	<string name="duplicate_color">Duplicate color</string>
 	<string name="shift_left">Shift left</string>
 	<string name="shift_right">Shift right</string>
+	<string name="enter_color">Enter color</string>
 	<string name="hue">Hue: %d</string>
 	<string name="saturation">Saturation: %.02f</string>
 	<string name="value">Value: %.02f</string>
 	<string name="color">Color</string>
+	<string name="color_hint">#XXXXXX</string>
 </resources>

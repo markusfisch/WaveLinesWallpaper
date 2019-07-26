@@ -144,6 +144,11 @@
 				android:id="@+id/shift_right"
 				android:contentDescription="@string/shift_right"
 				android:src="@drawable/ic_shift_right"/>
+			<ImageButton
+				style="@style/ColorButton"
+				android:id="@+id/enter_color"
+				android:contentDescription="@string/enter_color"
+				android:src="@drawable/ic_enter_color"/>
 		</LinearLayout>
 		<HorizontalScrollView
 			android:id="@+id/colors_scroll"
