@@ -31,6 +31,7 @@ public class WaveLinesRenderer {
 		this.width = width;
 		this.height = height;
 		sizeUpdate = true;
+		lastTime = SystemClock.elapsedRealtime() - 16L;
 	}
 
 	public void draw(Canvas canvas) {
