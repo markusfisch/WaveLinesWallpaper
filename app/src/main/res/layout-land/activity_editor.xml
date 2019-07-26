@@ -4,9 +4,20 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:orientation="horizontal">
-	<de.markusfisch.android.wavelines.widget.ThemeView
-		android:id="@+id/preview"
-		android:layout_width="160dp"
-		android:layout_height="match_parent"/>
+	<FrameLayout
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:padding="16dp"
+		android:background="@color/preview_background">
+		<FrameLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:background="@drawable/background_preview">
+			<de.markusfisch.android.wavelines.widget.ThemeView
+				android:id="@+id/preview"
+				android:layout_width="96dp"
+				android:layout_height="160dp"/>
+		</FrameLayout>
+	</FrameLayout>
 	<include layout="@layout/theme_editor"/>
 </LinearLayout>
