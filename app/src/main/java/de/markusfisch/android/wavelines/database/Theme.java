@@ -37,26 +37,6 @@ public class Theme implements Parcelable {
 	public final int[] colors;
 	public final WaveLinesRenderer.WaveLine[] waveLines;
 
-	public Theme() {
-		coupled = Math.random() > .5f;
-		uniform = Math.random() > .5f;
-		shuffle = Math.random() > .5f;
-		lines = 2 + (int) Math.round(Math.random() * 8);
-		waves = 1 + (int) Math.round(Math.random() * 5);
-		amplitude = .02f + Math.round(Math.random() * .13f);
-		oscillation = .5f + Math.round(Math.random() * 1.5f);
-		shift = Math.round(Math.random());
-		speed = .005f + Math.round(Math.random() * .02f);
-		rotation = 0;
-		int ncolors = 2 + (int) Math.round(Math.random() * 4);
-		colors = new int[ncolors];
-		colors[0] = 0xff000000 | (int) Math.round(Math.random() * 0xffffff);
-		for (int i = 1; i < ncolors; ++i) {
-			colors[i] = getSimilarColor(colors[i - 1]);
-		}
-		waveLines = new WaveLinesRenderer.WaveLine[lines];
-	}
-
 	public Theme(
 			boolean coupled,
 			boolean uniform,
@@ -72,32 +52,57 @@ public class Theme implements Parcelable {
 		this.coupled = coupled;
 		this.uniform = uniform;
 		this.shuffle = shuffle;
-		this.lines = lines;
-		this.waves = waves;
-		this.amplitude = amplitude;
-		this.oscillation = oscillation;
-		this.shift = shift;
-		this.speed = speed;
-		this.rotation = rotation;
+		this.lines = Math.max(2, Math.min(48, lines));
+		this.waves = Math.max(1, Math.min(12, waves));
+		this.amplitude = Math.max(0f, Math.min(0.15f, amplitude));
+		this.oscillation = Math.max(0f, Math.min(3f, oscillation));
+		this.shift = Math.max(0f, Math.min(1f, shift));
+		this.speed = Math.max(0f, Math.min(.3f, speed));
+		this.rotation = Math.abs(360 + rotation) % 360;
 		this.colors = colors.clone();
 		waveLines = new WaveLinesRenderer.WaveLine[lines];
 	}
 
+	public Theme() {
+		this(getRandomColors());
+	}
+
+	public Theme(int colors[]) {
+		this(
+				Math.random() > .5f,
+				Math.random() > .5f,
+				Math.random() > .5f,
+				2 + (int) Math.round(Math.random() * 8),
+				1 + (int) Math.round(Math.random() * 5),
+				.02f + Math.round(Math.random() * .13f),
+				.5f + Math.round(Math.random() * 1.5f),
+				Math.round(Math.random()),
+				.005f + Math.round(Math.random() * .02f),
+				0,
+				colors
+		);
+	}
+
 	public Theme(String json) throws JSONException {
-		JSONObject theme = new JSONObject(json);
-		int version = theme.getInt("version");
-		coupled = theme.getBoolean("coupled");
-		uniform = theme.getBoolean("uniform");
-		shuffle = theme.getBoolean("shuffle");
-		lines = theme.getInt("lines");
-		waves = theme.getInt("waves");
-		amplitude = (float) theme.getDouble("amplitude");
-		oscillation = (float) theme.getDouble("oscillation");
-		shift = version > 4 ? (float) theme.getDouble("shift") : 0f;
-		speed = version > 5 ? (float) theme.getDouble("speed") : .01f;
-		rotation = theme.getInt("rotation");
-		colors = parseColorArray(theme.getJSONArray("colors"));
-		waveLines = new WaveLinesRenderer.WaveLine[lines];
+		this(new JSONObject(json));
+	}
+
+	public Theme(JSONObject theme) throws JSONException {
+		this(
+				theme.getBoolean("coupled"),
+				theme.getBoolean("uniform"),
+				theme.getBoolean("shuffle"),
+				theme.getInt("lines"),
+				theme.getInt("waves"),
+				(float) theme.getDouble("amplitude"),
+				(float) theme.getDouble("oscillation"),
+				theme.getInt("version") > 4 ?
+						(float) theme.getDouble("shift") : 0f,
+				theme.getInt("version") > 5 ?
+						(float) theme.getDouble("speed") : .01f,
+				theme.getInt("rotation"),
+				parseColorArray(theme.getJSONArray("colors"))
+		);
 	}
 
 	public String toJson() {
@@ -119,22 +124,6 @@ public class Theme implements Parcelable {
 		} catch (JSONException e) {
 			return null;
 		}
-	}
-
-	public static Theme clamp(Theme theme) {
-		return new Theme(
-			theme.coupled,
-			theme.uniform,
-			theme.shuffle,
-			Math.max(2, Math.min(48, theme.lines)),
-			Math.max(1, Math.min(12, theme.waves)),
-			Math.max(0f, Math.min(0.15f, theme.amplitude)),
-			Math.max(0f, Math.min(3f, theme.oscillation)),
-			Math.max(0f, Math.min(1f, theme.shift)),
-			Math.max(0f, Math.min(.3f, theme.speed)),
-			Math.abs(360 + theme.rotation) % 360,
-			theme.colors
-		);
 	}
 
 	public static int getSimilarColor(int color) {
@@ -189,6 +178,16 @@ public class Theme implements Parcelable {
 		colors = new int[in.readInt()];
 		in.readIntArray(colors);
 		waveLines = new WaveLinesRenderer.WaveLine[lines];
+	}
+
+	private static int[] getRandomColors() {
+		int ncolors = 2 + (int) Math.round(Math.random() * 4);
+		int[] colors = new int[ncolors];
+		colors[0] = 0xff000000 | (int) Math.round(Math.random() * 0xffffff);
+		for (int i = 1; i < ncolors; ++i) {
+			colors[i] = getSimilarColor(colors[i - 1]);
+		}
+		return colors;
 	}
 
 	private static int[] parseColorArray(JSONArray array) {

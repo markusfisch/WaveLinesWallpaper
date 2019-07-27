@@ -171,7 +171,7 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private Theme getNewTheme() {
-		return Theme.clamp(new Theme(
+		return new Theme(
 				coupledSwitch.isChecked(),
 				uniformSwitch.isChecked(),
 				shuffleSwitch.isChecked(),
@@ -183,7 +183,7 @@ public class EditorActivity extends AppCompatActivity {
 				speedBar.getProgress() / 100f,
 				rotationBar.getProgress(),
 				toArray(colors)
-		));
+		);
 	}
 
 	private void initViews() {
