@@ -33,19 +33,18 @@ public class WaveLinesRenderer {
 		this.width = width;
 		this.height = height;
 		sizeUpdate = true;
-		lastTime = SystemClock.elapsedRealtime() - 16L;
+		themeUpdate = true;
 	}
 
 	public void draw(Canvas canvas) {
 		long now = SystemClock.elapsedRealtime();
 
 		if (themeUpdate) {
-			if (init()) {
-				themeUpdate = false;
-				lastTime = now - 16L;
-			} else {
+			if (!initWaves()) {
 				return;
 			}
+			themeUpdate = false;
+			lastTime = now - 32L;
 		}
 
 		double factor = (now - lastTime) / 1000.0;
@@ -119,7 +118,7 @@ public class WaveLinesRenderer {
 		canvas.restore();
 	}
 
-	private boolean init() {
+	private boolean initWaves() {
 		if (theme == null ||
 				theme.lines < 1 ||
 				width < 1 ||
