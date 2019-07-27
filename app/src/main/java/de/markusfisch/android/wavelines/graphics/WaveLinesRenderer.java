@@ -23,8 +23,10 @@ public class WaveLinesRenderer {
 	private boolean sizeUpdate = true;
 
 	public void setTheme(Theme theme) {
-		this.theme = theme;
-		themeUpdate = true;
+		if (this.theme != theme) {
+			this.theme = theme;
+			themeUpdate = true;
+		}
 	}
 
 	public void setSize(int width, int height) {
