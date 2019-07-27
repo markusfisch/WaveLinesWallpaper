@@ -23,9 +23,8 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 		}
 
 		@Override
-		public void onVisibilityChanged(boolean v) {
-			visible = v;
-
+		public void onVisibilityChanged(boolean visible) {
+			this.visible = visible;
 			if (visible) {
 				nextFrame();
 			} else {
@@ -39,12 +38,7 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 				int format,
 				int width,
 				int height) {
-			super.onSurfaceChanged(
-					holder,
-					format,
-					width,
-					height);
-
+			super.onSurfaceChanged(holder, format, width, height);
 			nextFrame();
 		}
 
@@ -52,7 +46,6 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 		public void onSurfaceDestroyed(SurfaceHolder holder) {
 			visible = false;
 			stopRunnable();
-
 			super.onSurfaceDestroyed(holder);
 		}
 
