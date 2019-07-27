@@ -47,7 +47,8 @@ public class WaveLinesRenderer {
 			lastTime = now - 32L;
 		}
 
-		double factor = (now - lastTime) / 1000.0;
+		// scale for shorter time deltas only
+		double factor = Math.min(.032, (now - lastTime) / 1000.0);
 		lastTime = now;
 
 		canvas.save();
