@@ -33,6 +33,8 @@ import java.util.List;
 public class EditorActivity extends AppCompatActivity {
 	public static final String THEME_ID = "id";
 
+	private static final String BACKUP = "backup";
+
 	private final ArrayList<Integer> colors = new ArrayList<>();
 	private final SeekBar.OnSeekBarChangeListener updateColorFromBarsListener = new SeekBar.OnSeekBarChangeListener() {
 		@Override
@@ -126,6 +128,7 @@ public class EditorActivity extends AppCompatActivity {
 	private String valTemplate;
 	private SeekBar valBar;
 	private int selectedColor;
+	private Theme backup;
 
 	@Override
 	public void onCreate(Bundle state) {
@@ -139,6 +142,7 @@ public class EditorActivity extends AppCompatActivity {
 				(themeId = intent.getLongExtra(THEME_ID, -1)) > 0 &&
 				(theme = WaveLinesApp.db.getTheme(themeId)) != null) {
 			setTheme(theme);
+			backup = theme;
 		} else {
 			finish();
 		}
@@ -153,6 +157,18 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putParcelable(BACKUP, backup);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		backup = savedInstanceState.getParcelable(BACKUP);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_editor, menu);
 		return true;
@@ -162,6 +178,10 @@ public class EditorActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.cancel:
+				if (themeId > 0 && backup != null) {
+					WaveLinesApp.db.updateTheme(themeId, backup);
+					backup = null;
+				}
 				themeId = -1;
 				finish();
 				return true;
