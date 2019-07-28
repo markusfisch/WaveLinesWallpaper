@@ -60,7 +60,7 @@ public class Theme implements Parcelable {
 		this.speed = Math.max(0f, Math.min(.3f, speed));
 		this.rotation = Math.abs(360 + rotation) % 360;
 		this.colors = colors.clone();
-		waveLines = new WaveLinesRenderer.WaveLine[lines];
+		waveLines = new WaveLinesRenderer.WaveLine[this.lines];
 	}
 
 	public Theme() {

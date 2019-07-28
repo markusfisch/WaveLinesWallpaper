@@ -120,10 +120,8 @@ public class WaveLinesRenderer {
 	}
 
 	private boolean initWaves() {
-		if (theme == null ||
-				theme.lines < 1 ||
-				width < 1 ||
-				height < 1 ||
+		if (width < 1 || height < 1 || theme == null ||
+				theme.lines < 2 ||
 				theme.colors == null ||
 				theme.colors.length < 2) {
 			return false;

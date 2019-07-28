@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 			return;
 		} else if (type.startsWith("image/")) {
 			addThemeFromImageUriAsync(this,
-				(Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM));
+					(Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM));
 		} else if ("application/json".equals(type)) {
 			String json = intent.getStringExtra(Intent.EXTRA_TEXT);
 			if (json == null && (json = getTextFromUri(
