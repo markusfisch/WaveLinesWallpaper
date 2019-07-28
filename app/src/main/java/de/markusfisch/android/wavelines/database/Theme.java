@@ -52,7 +52,7 @@ public class Theme implements Parcelable {
 		this.coupled = coupled;
 		this.uniform = uniform;
 		this.shuffle = shuffle;
-		this.lines = Math.max(2, Math.min(48, lines));
+		this.lines = Math.max(2, Math.min(64, lines));
 		this.waves = Math.max(1, Math.min(12, waves));
 		this.amplitude = Math.max(0f, Math.min(0.15f, amplitude));
 		this.oscillation = Math.max(0f, Math.min(3f, oscillation));
