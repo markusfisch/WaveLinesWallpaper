@@ -71,13 +71,13 @@ public class Theme implements Parcelable {
 		this(
 				Math.random() > .5f,
 				Math.random() > .5f,
-				Math.random() > .5f,
+				false,
 				2 + (int) Math.round(Math.random() * 8),
 				1 + (int) Math.round(Math.random() * 5),
-				.02f + Math.round(Math.random() * .13f),
-				.5f + Math.round(Math.random() * 1.5f),
-				Math.round(Math.random()),
-				.005f + Math.round(Math.random() * .02f),
+				.02f + (float) Math.random() * .03f,
+				.5f + (float) Math.random() * 1.5f,
+				(float) Math.random(),
+				.005f + (float) Math.random() * .02f,
 				0,
 				colors
 		);
@@ -183,7 +183,11 @@ public class Theme implements Parcelable {
 	private static int[] getRandomColors() {
 		int ncolors = 2 + (int) Math.round(Math.random() * 4);
 		int[] colors = new int[ncolors];
-		colors[0] = 0xff000000 | (int) Math.round(Math.random() * 0xffffff);
+		// dice for every channel separately to increase diversity
+		colors[0] = 0xff000000 |
+				((int) Math.round(Math.random() * 0xff) << 16) |
+				((int) Math.round(Math.random() * 0xff) << 8) |
+				(int) Math.round(Math.random() * 0xff);
 		for (int i = 1; i < ncolors; ++i) {
 			colors[i] = getSimilarColor(colors[i - 1]);
 		}
