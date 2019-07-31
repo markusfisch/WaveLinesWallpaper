@@ -182,13 +182,31 @@ public class EditorActivity extends AppCompatActivity {
 				saveTheme();
 				break;
 			case R.id.cancel:
-				themeId = -1;
-				finish();
+				askDiscardChanges();
 				return true;
 			default:
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void askDiscardChanges() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.discard_changes)
+				.setMessage(R.string.sure_to_discard_changes)
+				.setPositiveButton(
+						android.R.string.ok,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(
+									DialogInterface dialog,
+									int whichButton) {
+								themeId = -1;
+								finish();
+							}
+						})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
 	}
 
 	private void saveTheme() {
