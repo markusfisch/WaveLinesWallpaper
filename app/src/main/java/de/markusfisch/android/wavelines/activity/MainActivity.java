@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -43,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
 					View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
 					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 	private static final int SELECT_LAST = -1;
-
-	private final Rect windowInsets = new Rect();
 
 	private ThemesView themesView;
 	private MenuItem setThemeMenuItem;
