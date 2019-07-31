@@ -33,7 +33,7 @@ import java.util.List;
 public class EditorActivity extends AppCompatActivity {
 	public static final String THEME_ID = "id";
 
-	private static final String BACKUP = "backup";
+	private static final String THEME = "theme";
 
 	private final ArrayList<Integer> colors = new ArrayList<>();
 	private final SeekBar.OnSeekBarChangeListener updateColorFromBarsListener = new SeekBar.OnSeekBarChangeListener() {
@@ -128,7 +128,6 @@ public class EditorActivity extends AppCompatActivity {
 	private String valTemplate;
 	private SeekBar valBar;
 	private int selectedColor;
-	private Theme backup;
 
 	@Override
 	public void onCreate(Bundle state) {
@@ -136,36 +135,38 @@ public class EditorActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_editor);
 		initViews();
 
-		Intent intent = getIntent();
-		Theme theme;
-		if (intent != null &&
-				(themeId = intent.getLongExtra(THEME_ID, -1)) > 0 &&
-				(theme = WaveLinesApp.db.getTheme(themeId)) != null) {
+		Theme theme = null;
+		if (state != null) {
+			theme = state.getParcelable(THEME);
+			themeId = state.getLong(THEME_ID);
+		}
+
+		if (theme == null || themeId < 1) {
+			Intent intent = getIntent();
+			if (intent != null &&
+					(themeId = intent.getLongExtra(THEME_ID, -1)) > 0) {
+				theme = WaveLinesApp.db.getTheme(themeId);
+			}
+		}
+
+		if (theme != null) {
 			setTheme(theme);
-			backup = theme;
 		} else {
 			finish();
 		}
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		if (themeId > -1) {
-			WaveLinesApp.db.updateTheme(themeId, getNewTheme());
-		}
+	public void onBackPressed() {
+		saveTheme();
+		super.onBackPressed();
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
-		savedInstanceState.putParcelable(BACKUP, backup);
-	}
-
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		backup = savedInstanceState.getParcelable(BACKUP);
+		savedInstanceState.putParcelable(THEME, getNewTheme());
+		savedInstanceState.putLong(THEME_ID, themeId);
 	}
 
 	@Override
@@ -177,16 +178,22 @@ public class EditorActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:
+				saveTheme();
+				break;
 			case R.id.cancel:
-				if (themeId > 0 && backup != null) {
-					WaveLinesApp.db.updateTheme(themeId, backup);
-					backup = null;
-				}
 				themeId = -1;
 				finish();
 				return true;
 			default:
-				return super.onOptionsItemSelected(item);
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void saveTheme() {
+		if (themeId > 0) {
+			WaveLinesApp.db.updateTheme(themeId, getNewTheme());
 		}
 	}
 
