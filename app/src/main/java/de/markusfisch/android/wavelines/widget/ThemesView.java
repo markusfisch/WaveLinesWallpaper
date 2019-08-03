@@ -128,6 +128,10 @@ public class ThemesView extends SurfaceView {
 		onChangeListener = listener;
 	}
 
+	public void setSelectedIndex(int index) {
+		currentIndex = index;
+	}
+
 	public int getSelectedIndex() {
 		return currentIndex;
 	}

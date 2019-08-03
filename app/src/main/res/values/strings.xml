@@ -2,6 +2,7 @@
 	<string name="app_name">Wave Lines Wallpaper</string>
 	<string name="description">Moving wave lines</string>
 	<string name="make_theme_from_image">Make theme</string>
+	<string name="gallery">Theme Gallery</string>
 	<string name="themes">Theme %d of %d</string>
 	<string name="add_theme">Add theme</string>
 	<string name="delete_theme">Delete theme</string>

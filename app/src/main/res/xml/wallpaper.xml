@@ -2,4 +2,4 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:thumbnail="@drawable/thumbnail"
 	android:description="@string/description"
-	android:settingsActivity="de.markusfisch.android.wavelines.activity.MainActivity"/>
+	android:settingsActivity="de.markusfisch.android.wavelines.activity.ThemeActivity"/>

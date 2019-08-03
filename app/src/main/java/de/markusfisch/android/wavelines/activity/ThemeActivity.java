@@ -35,13 +35,14 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainActivity extends AppCompatActivity {
+public class ThemeActivity extends AppCompatActivity {
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 	private static final int FULL_SCREEN_FLAGS =
 			View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
 					View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
 					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 	private static final int SELECT_LAST = -1;
+	private static final String THEME_INDEX = "theme_index";
 
 	private ThemesView themesView;
 	private MenuItem setThemeMenuItem;
@@ -50,10 +51,16 @@ public class MainActivity extends AppCompatActivity {
 	private View decorView;
 	private boolean leanBack = false;
 
+	public static void startWithIndex(Context context, int index) {
+		Intent intent = new Intent(context, ThemeActivity.class);
+		intent.putExtra(THEME_INDEX, index);
+		context.startActivity(intent);
+	}
+
 	@Override
 	protected void onCreate(Bundle state) {
 		super.onCreate(state);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_theme);
 
 		themesView = (ThemesView) findViewById(R.id.themes);
 		mainLayout = findViewById(R.id.main_layout);
@@ -61,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 		findViewById(R.id.edit_theme).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this,
+				Intent intent = new Intent(ThemeActivity.this,
 						EditorActivity.class);
 				intent.putExtra(EditorActivity.THEME_ID,
 						themesView.getSelectedThemeId());
@@ -73,7 +80,14 @@ public class MainActivity extends AppCompatActivity {
 		initWindowInsets();
 		initDecorView();
 
-		handleSendIntents(getIntent());
+		Intent intent = getIntent();
+		if (intent != null) {
+			int index = intent.getIntExtra(THEME_INDEX, -1);
+			if (index > -1) {
+				themesView.setSelectedIndex(index);
+			}
+			handleSendIntents(intent);
+		}
 	}
 
 	@Override
@@ -90,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
+		getMenuInflater().inflate(R.menu.activity_theme, menu);
 		setThemeMenuItem = menu.findItem(R.id.set_theme);
 		updateThemeMenuItem();
 		return true;
@@ -121,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void queryThemesAsync() {
+		// use previously selected index when this is invoked
+		// after a theme has been deleted or when the system is
+		// coming back to this activity instance
 		queryThemesAsync(themesView.getSelectedIndex());
 	}
 

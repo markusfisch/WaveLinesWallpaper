@@ -22,7 +22,7 @@ install:
 
 start:
 	adb $(TARGET) shell 'am start -n \
-		$(PACKAGE).debug/$(PACKAGE).activity.MainActivity'
+		$(PACKAGE).debug/$(PACKAGE).activity.GalleryActivity'
 
 uninstall:
 	adb $(TARGET) uninstall $(PACKAGE).debug

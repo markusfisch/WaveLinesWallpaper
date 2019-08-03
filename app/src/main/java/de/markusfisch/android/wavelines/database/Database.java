@@ -143,7 +143,7 @@ public class Database {
 		return colors;
 	}
 
-	public Theme themeFromCursor(Cursor cursor) {
+	public static Theme themeFromCursor(Cursor cursor) {
 		return new Theme(
 				cursor.getInt(cursor.getColumnIndex(THEMES_COUPLED)) > 0,
 				cursor.getInt(cursor.getColumnIndex(THEMES_UNIFORM)) > 0,
