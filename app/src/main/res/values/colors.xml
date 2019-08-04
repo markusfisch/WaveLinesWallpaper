@@ -5,6 +5,5 @@
 	<color name="background_colors">#222</color>
 	<color name="background_progress">#8000</color>
 	<color name="ic_launcher_background">#0090d0</color>
-	<color name="preview_background">#282828</color>
 	<color name="preview_border">#111</color>
 </resources>
