@@ -133,6 +133,10 @@ public class EditorActivity extends AppCompatActivity {
 	public void onCreate(Bundle state) {
 		super.onCreate(state);
 		setContentView(R.layout.activity_editor);
+
+		WaveLinesApp.initToolbar(this);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		initViews();
 
 		Theme theme = null;

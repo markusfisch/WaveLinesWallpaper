@@ -1,24 +1,30 @@
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="vertical">
-	<RelativeLayout
+	android:layout_height="match_parent">
+	<include layout="@layout/collapsing_toolbar"/>
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:padding="8dp"
-		android:background="@color/preview_background">
-		<FrameLayout
-			android:layout_width="wrap_content"
+		android:orientation="vertical"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+		<RelativeLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_centerInParent="true"
-			android:background="@drawable/background_preview">
-			<de.markusfisch.android.wavelines.widget.ThemeView
-				android:id="@+id/preview"
-				android:layout_width="72dp"
-				android:layout_height="120dp"/>
-		</FrameLayout>
-	</RelativeLayout>
-	<include layout="@layout/theme_editor"/>
-</LinearLayout>
+			android:padding="8dp"
+			android:background="@color/preview_background">
+			<FrameLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:background="@drawable/background_preview">
+				<de.markusfisch.android.wavelines.widget.ThemeView
+					android:id="@+id/preview"
+					android:layout_width="72dp"
+					android:layout_height="120dp"/>
+			</FrameLayout>
+		</RelativeLayout>
+		<include layout="@layout/theme_editor"/>
+	</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

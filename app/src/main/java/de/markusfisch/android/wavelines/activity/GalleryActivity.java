@@ -21,6 +21,7 @@ public class GalleryActivity extends AppCompatActivity {
 	protected void onCreate(Bundle state) {
 		super.onCreate(state);
 		setContentView(R.layout.activity_gallery);
+		WaveLinesApp.initToolbar(this);
 		setTitle(R.string.gallery);
 
 		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.themes);
