@@ -10,9 +10,11 @@ import java.lang.NumberFormatException;
 
 public class Preferences {
 	private static final String THEME_ID = "theme_id";
+	private static final String GALLERY_COLLUMNS = "gallery_columns";
 
 	private SharedPreferences preferences;
 	private long themeId = 0;
+	private int galleryColumns = 2;
 
 	public void init(Context context) {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -24,8 +26,12 @@ public class Preferences {
 	}
 
 	public void update() {
-		themeId = parseLong(preferences.getString(THEME_ID, null),
+		themeId = parseLong(
+				preferences.getString(THEME_ID, null),
 				WaveLinesApp.db.getFirstThemeId());
+		galleryColumns = parseInt(
+				preferences.getString(GALLERY_COLLUMNS, null),
+				galleryColumns);
 	}
 
 	public long getTheme() {
@@ -37,10 +43,30 @@ public class Preferences {
 		putString(THEME_ID, String.valueOf(themeId));
 	}
 
+	public int getGalleryColumns() {
+		return galleryColumns;
+	}
+
+	public void setGalleryColumns(int columns) {
+		galleryColumns = columns;
+		putString(GALLERY_COLLUMNS, String.valueOf(galleryColumns));
+	}
+
 	private void putString(String key, String value) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(key, value);
 		editor.apply();
+	}
+
+	private static int parseInt(String s, int preset) {
+		try {
+			if (s != null && s.length() > 0) {
+				return Integer.parseInt(s);
+			}
+		} catch (NumberFormatException e) {
+			// use preset
+		}
+		return preset;
 	}
 
 	private static long parseLong(String s, long preset) {

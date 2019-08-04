@@ -14,9 +14,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
 public class GalleryActivity extends AppCompatActivity {
+	private GridLayoutManager manager;
 	private GalleryAdapter adapter;
 	private View progressView;
 
@@ -27,9 +30,12 @@ public class GalleryActivity extends AppCompatActivity {
 		WaveLinesApp.initToolbar(this);
 		setTitle(R.string.gallery);
 
+		manager = new GridLayoutManager(this,
+				WaveLinesApp.preferences.getGalleryColumns());
+
 		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.themes);
 		recyclerView.setHasFixedSize(true);
-		recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+		recyclerView.setLayoutManager(manager);
 
 		adapter = new GalleryAdapter();
 		adapter.setClickListener(new GalleryAdapter.ItemClickListener() {
@@ -39,6 +45,8 @@ public class GalleryActivity extends AppCompatActivity {
 			}
 		});
 		recyclerView.setAdapter(adapter);
+
+		addScaleGestureDetector(recyclerView);
 
 		progressView = findViewById(R.id.progress_view);
 	}
@@ -53,6 +61,7 @@ public class GalleryActivity extends AppCompatActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		adapter.swapCursor(null);
+		WaveLinesApp.preferences.setGalleryColumns(manager.getSpanCount());
 	}
 
 	@Override
@@ -70,6 +79,39 @@ public class GalleryActivity extends AppCompatActivity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	// ignore warning about missing View.performClick() because this is
+	// handling gestures, not clicks
+	@SuppressLint("ClickableViewAccessibility")
+	private void addScaleGestureDetector(final RecyclerView recyclerView) {
+		final ScaleGestureDetector detector = new ScaleGestureDetector(this, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+			@Override
+			public boolean onScale(ScaleGestureDetector detector) {
+				if (detector.getTimeDelta() > 200) {
+					float diff = detector.getCurrentSpan() -
+							detector.getPreviousSpan();
+					if (Math.abs(diff) > 100f) {
+						int current = manager.getSpanCount();
+						int target = Math.min(4, Math.max(2,
+								current + (diff < 0f ? 1 : -1)));
+						if (target != current) {
+							manager.setSpanCount(target);
+							adapter.notifyDataSetChanged();
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+		});
+		recyclerView.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				detector.onTouchEvent(event);
+				return false;
+			}
+		});
 	}
 
 	// this AsyncTask is running for a short and finite time only
