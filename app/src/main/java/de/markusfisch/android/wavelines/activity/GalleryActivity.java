@@ -2,6 +2,7 @@ package de.markusfisch.android.wavelines.activity;
 
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.adapter.GalleryAdapter;
+import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.R;
 
 import android.annotation.SuppressLint;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public class GalleryActivity extends AppCompatActivity {
@@ -52,6 +55,23 @@ public class GalleryActivity extends AppCompatActivity {
 		adapter.swapCursor(null);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_gallery, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.add_theme:
+				addTheme();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
 	// this AsyncTask is running for a short and finite time only
 	// and it's perfectly okay to delay garbage collection of the
 	// parent instance until this task has ended
@@ -78,5 +98,10 @@ public class GalleryActivity extends AppCompatActivity {
 				}
 			}
 		}.execute();
+	}
+
+	private void addTheme() {
+		WaveLinesApp.db.insertTheme(new Theme());
+		queryThemesAsync();
 	}
 }
