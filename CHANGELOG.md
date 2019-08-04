@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.8.0
+* Add a gallery of all themes
+* Make toolbars collapsable
+* Ask for confirmation before discarding changes
+* Improve generation of random themes
+
 ## 1.7.0
 * Share and import themes
 * Hide system bars on a tap when swiping through themes
