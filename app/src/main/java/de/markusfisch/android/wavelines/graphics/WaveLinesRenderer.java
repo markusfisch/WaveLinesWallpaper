@@ -130,8 +130,9 @@ public class WaveLinesRenderer {
 		// calculate sizes relative to screen size
 		maxSize = (float) Math.sqrt(width * width + height * height);
 
-		thicknessMax = (float) Math.ceil((maxSize / theme.lines) * 2f);
-		thicknessMin = Math.max(2, .01f * maxSize);
+		float thicknessPerLine = maxSize / theme.lines;
+		thicknessMax = (float) Math.ceil(thicknessPerLine * 2f);
+		thicknessMin = thicknessPerLine * .5f;
 
 		amplitude = theme.amplitude * maxSize;
 
@@ -235,21 +236,19 @@ public class WaveLinesRenderer {
 		}
 
 		if (wl.yang > -1) {
-			wl.thickness = (thicknessMax + thicknessMin) -
-					theme.waveLines[wl.yang].thickness;
+			wl.thickness = Math.max(thicknessMin, thicknessMax -
+					theme.waveLines[wl.yang].thickness);
 		} else if (wl.growth != 0) {
 			wl.thickness += wl.growth * factor;
-
 			if (wl.thickness > thicknessMax || wl.thickness < thicknessMin) {
-				wl.thickness = clampMirror(wl.thickness, thicknessMin,
-						thicknessMax);
-
+				wl.thickness = bounce(wl.thickness,
+						thicknessMin, thicknessMax);
 				wl.growth = -wl.growth;
 			}
 		}
 	}
 
-	private static float clampMirror(float v, float min, float max) {
+	private static float bounce(float v, float min, float max) {
 		if (v > max) {
 			return max - (v - max);
 		} else if (v < min) {
