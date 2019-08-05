@@ -44,11 +44,11 @@ public class WaveLinesRenderer {
 				return;
 			}
 			themeUpdate = false;
-			lastTime = now - 32L;
+			lastTime = now - 16L;
 		}
 
 		// scale for shorter time deltas only
-		double factor = Math.min(.032, (now - lastTime) / 1000.0);
+		double factor = Math.min(.016, (now - lastTime) / 1000.0);
 		lastTime = now;
 
 		canvas.save();
