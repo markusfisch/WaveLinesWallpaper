@@ -111,3 +111,8 @@ EOF
 update app/src/main/res/mipmap << EOF
 svg/ic_launcher.svg 48
 EOF
+
+# mipmap SVGs to PNGs
+update app/src/main/res/drawable << EOF
+svg/logo.svg 80
+EOF
