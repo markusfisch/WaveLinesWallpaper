@@ -70,7 +70,7 @@ public class Theme implements Parcelable {
 	public Theme(int colors[]) {
 		this(
 				Math.random() > .5f,
-				Math.random() > .5f,
+				Math.random() > .8f,
 				false,
 				2 + (int) Math.round(Math.random() * 8),
 				1 + (int) Math.round(Math.random() * 5),
@@ -78,7 +78,8 @@ public class Theme implements Parcelable {
 				.5f + (float) Math.random() * 1.5f,
 				(float) Math.random(),
 				.005f + (float) Math.random() * .02f,
-				0,
+				Math.random() > .5f ? 0 : (((int) Math.round(
+						Math.random() * 90f - 45f) + 360) % 360),
 				colors
 		);
 	}
