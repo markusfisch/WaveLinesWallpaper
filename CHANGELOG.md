@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.9.0
+* Change the number of columns in the gallery view
+* Add action to add themes in gallery view
+* Add a splash screen
+* Improve generation random themes
+* Improve theme rendering
+* Move theme preview into toolbar in editor
+
 ## 1.8.0
 * Add a gallery of all themes
 * Make toolbars collapsable
