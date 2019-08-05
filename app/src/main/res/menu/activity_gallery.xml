@@ -6,4 +6,9 @@
 		android:icon="@drawable/ic_add_theme"
 		android:title="@string/add_theme"
 		material:showAsAction="ifRoom"/>
+	<item
+		android:id="@+id/change_layout"
+		android:icon="@drawable/ic_change_layout"
+		android:title="@string/change_layout"
+		material:showAsAction="ifRoom"/>
 </menu>

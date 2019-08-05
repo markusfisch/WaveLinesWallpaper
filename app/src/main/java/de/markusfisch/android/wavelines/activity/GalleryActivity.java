@@ -6,6 +6,8 @@ import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.R;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,6 +78,9 @@ public class GalleryActivity extends AppCompatActivity {
 			case R.id.add_theme:
 				addTheme();
 				return true;
+			case R.id.change_layout:
+				chooseLayout();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -98,8 +103,7 @@ public class GalleryActivity extends AppCompatActivity {
 						int target = Math.min(4, Math.max(2,
 								current + (diff < 0f ? 1 : -1)));
 						if (target != current) {
-							manager.setSpanCount(target);
-							adapter.notifyDataSetChanged();
+							setSpanCount(target);
 							return true;
 						}
 					}
@@ -114,6 +118,11 @@ public class GalleryActivity extends AppCompatActivity {
 				return false;
 			}
 		});
+	}
+
+	private void setSpanCount(int count) {
+		manager.setSpanCount(count);
+		adapter.notifyDataSetChanged();
 	}
 
 	// this AsyncTask is running for a short and finite time only
@@ -147,5 +156,19 @@ public class GalleryActivity extends AppCompatActivity {
 	private void addTheme() {
 		WaveLinesApp.db.insertTheme(new Theme());
 		queryThemesAsync();
+	}
+
+	private void chooseLayout() {
+		final int[] values = getResources().getIntArray(
+				R.array.span_count_values);
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.how_many_columns)
+				.setItems(R.array.span_count_names, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						setSpanCount(values[which]);
+					}
+				})
+				.show();
 	}
 }
