@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.9.1
+* Improve animation rendering
+
 ## 1.9.0
 * Change the number of columns in the gallery view
 * Add action to add themes in gallery view
