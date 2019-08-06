@@ -2,9 +2,12 @@
 
 Android Live Wallpaper showing slowly moving wave lines.
 
-<img src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-gallery.png" alt="Screenshot Gallery" width="160"/>
-<img src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-theme-default.png" alt="Screenshot Gallery" width="160"/>
-<img src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-editor-initial.png" alt="Screenshot Gallery" width="160"/>
+<img src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-gallery.png"
+	alt="Screenshot Gallery" width="160"/> <img
+	src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-theme-default.png"
+	alt="Screenshot Theme" width="160"/> <img
+	src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-editor-initial.png"
+	alt="Screenshot Editor" width="160"/>
 
 Either choose a predefined theme, edit a theme to your liking, or simply
 create your own.
