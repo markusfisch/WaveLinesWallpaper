@@ -1,11 +1,11 @@
 package de.markusfisch.android.wavelines.graphics;
 
-import de.markusfisch.android.wavelines.database.Theme;
-
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.SystemClock;
+
+import de.markusfisch.android.wavelines.database.Theme;
 
 public class WaveLinesRenderer {
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -21,6 +21,15 @@ public class WaveLinesRenderer {
 	private float maxSize;
 	private boolean themeUpdate = true;
 	private boolean sizeUpdate = true;
+
+	private static float bounce(float v, float min, float max) {
+		if (v > max) {
+			return max - (v - max);
+		} else if (v < min) {
+			return min + (min - v);
+		}
+		return v;
+	}
 
 	public void setTheme(Theme theme) {
 		if (this.theme != theme) {
@@ -246,15 +255,6 @@ public class WaveLinesRenderer {
 				wl.growth = -wl.growth;
 			}
 		}
-	}
-
-	private static float bounce(float v, float min, float max) {
-		if (v > max) {
-			return max - (v - max);
-		} else if (v < min) {
-			return min + (min - v);
-		}
-		return v;
 	}
 
 	public static class WaveLine {

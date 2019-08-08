@@ -1,20 +1,19 @@
 package de.markusfisch.android.wavelines.service;
 
-import android.os.Handler;
 import android.graphics.Canvas;
+import android.os.Handler;
 import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
 
 public abstract class CanvasWallpaperService extends WallpaperService {
 	protected abstract class CanvasWallpaperEngine extends Engine {
 		private final Handler handler = new Handler();
+		private boolean visible = false;
 		private final Runnable runnable = new Runnable() {
 			public void run() {
 				nextFrame();
 			}
 		};
-
-		private boolean visible = false;
 
 		@Override
 		public void onDestroy() {

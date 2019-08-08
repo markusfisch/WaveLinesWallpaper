@@ -1,3 +1,5 @@
 <full-backup-content>
-	<include domain="root" path="."/>
+	<include
+		domain="root"
+		path="." />
 </full-backup-content>

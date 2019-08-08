@@ -1,10 +1,5 @@
 package de.markusfisch.android.wavelines.activity;
 
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
-import de.markusfisch.android.wavelines.adapter.GalleryAdapter;
-import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.R;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +14,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+
+import de.markusfisch.android.wavelines.R;
+import de.markusfisch.android.wavelines.adapter.GalleryAdapter;
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
+import de.markusfisch.android.wavelines.database.Theme;
 
 public class GalleryActivity extends AppCompatActivity {
 	private GridLayoutManager manager;

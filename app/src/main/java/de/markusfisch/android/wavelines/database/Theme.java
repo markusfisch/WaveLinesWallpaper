@@ -1,8 +1,5 @@
 package de.markusfisch.android.wavelines.database;
 
-import de.markusfisch.android.wavelines.database.Database;
-import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
-
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,6 +7,8 @@ import android.os.Parcelable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class Theme implements Parcelable {
 	public static final Creator<Theme> CREATOR = new Creator<Theme>() {
@@ -106,25 +105,20 @@ public class Theme implements Parcelable {
 		);
 	}
 
-	public String toJson() {
-		try {
-			JSONObject theme = new JSONObject();
-			theme.put("version", Database.VERSION);
-			theme.put("coupled", coupled);
-			theme.put("uniform", uniform);
-			theme.put("shuffle", shuffle);
-			theme.put("lines", lines);
-			theme.put("waves", waves);
-			theme.put("amplitude", amplitude);
-			theme.put("oscillation", oscillation);
-			theme.put("shift", shift);
-			theme.put("speed", speed);
-			theme.put("rotation", rotation);
-			theme.put("colors", getJsonColorArray(colors));
-			return theme.toString();
-		} catch (JSONException e) {
-			return null;
-		}
+	private Theme(Parcel in) {
+		coupled = in.readInt() > 0;
+		uniform = in.readInt() > 0;
+		shuffle = in.readInt() > 0;
+		lines = in.readInt();
+		waves = in.readInt();
+		amplitude = in.readFloat();
+		oscillation = in.readFloat();
+		shift = in.readFloat();
+		speed = in.readFloat();
+		rotation = in.readInt();
+		colors = new int[in.readInt()];
+		in.readIntArray(colors);
+		waveLines = new WaveLinesRenderer.WaveLine[lines];
 	}
 
 	public static int getSimilarColor(int color) {
@@ -142,43 +136,6 @@ public class Theme implements Parcelable {
 		}
 		hsv[2] = value;
 		return Color.HSVToColor(hsv);
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel out, int flags) {
-		out.writeInt(coupled ? 1 : 0);
-		out.writeInt(uniform ? 1 : 0);
-		out.writeInt(shuffle ? 1 : 0);
-		out.writeInt(lines);
-		out.writeInt(waves);
-		out.writeFloat(amplitude);
-		out.writeFloat(oscillation);
-		out.writeFloat(shift);
-		out.writeFloat(speed);
-		out.writeInt(rotation);
-		out.writeInt(colors.length);
-		out.writeIntArray(colors);
-	}
-
-	private Theme(Parcel in) {
-		coupled = in.readInt() > 0;
-		uniform = in.readInt() > 0;
-		shuffle = in.readInt() > 0;
-		lines = in.readInt();
-		waves = in.readInt();
-		amplitude = in.readFloat();
-		oscillation = in.readFloat();
-		shift = in.readFloat();
-		speed = in.readFloat();
-		rotation = in.readInt();
-		colors = new int[in.readInt()];
-		in.readIntArray(colors);
-		waveLines = new WaveLinesRenderer.WaveLine[lines];
 	}
 
 	private static int[] getRandomColors() {
@@ -210,5 +167,47 @@ public class Theme implements Parcelable {
 			array.put(String.format("#%08X", intArray[i]));
 		}
 		return array;
+	}
+
+	public String toJson() {
+		try {
+			JSONObject theme = new JSONObject();
+			theme.put("version", Database.VERSION);
+			theme.put("coupled", coupled);
+			theme.put("uniform", uniform);
+			theme.put("shuffle", shuffle);
+			theme.put("lines", lines);
+			theme.put("waves", waves);
+			theme.put("amplitude", amplitude);
+			theme.put("oscillation", oscillation);
+			theme.put("shift", shift);
+			theme.put("speed", speed);
+			theme.put("rotation", rotation);
+			theme.put("colors", getJsonColorArray(colors));
+			return theme.toString();
+		} catch (JSONException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(coupled ? 1 : 0);
+		out.writeInt(uniform ? 1 : 0);
+		out.writeInt(shuffle ? 1 : 0);
+		out.writeInt(lines);
+		out.writeInt(waves);
+		out.writeFloat(amplitude);
+		out.writeFloat(oscillation);
+		out.writeFloat(shift);
+		out.writeFloat(speed);
+		out.writeInt(rotation);
+		out.writeInt(colors.length);
+		out.writeIntArray(colors);
 	}
 }

@@ -28,102 +28,6 @@ public class Database {
 
 	private SQLiteDatabase db;
 
-	public void open(Context context) {
-		OpenHelper helper = new OpenHelper(context);
-		db = helper.getWritableDatabase();
-	}
-
-	public Cursor queryThemes() {
-		return db.rawQuery(
-				"SELECT " +
-						THEMES_ID + "," +
-						THEMES_COUPLED + "," +
-						THEMES_UNIFORM + "," +
-						THEMES_SHUFFLE + "," +
-						THEMES_LINES + "," +
-						THEMES_WAVES + "," +
-						THEMES_AMPLITUDE + "," +
-						THEMES_OSCILLATION + "," +
-						THEMES_SHIFT + "," +
-						THEMES_SPEED + "," +
-						THEMES_ROTATION + "," +
-						THEMES_COLORS +
-						" FROM " + THEMES +
-						" ORDER BY " + THEMES_ID,
-				null);
-	}
-
-	public long getFirstThemeId() {
-		Cursor cursor = db.rawQuery(
-				"SELECT " +
-						THEMES_ID +
-						" FROM " + THEMES +
-						" ORDER BY " + THEMES_ID +
-						" LIMIT 1",
-				null);
-
-		long themeId = -1;
-		if (cursor == null) {
-			return themeId;
-		}
-
-		if (cursor.moveToFirst()) {
-			themeId = cursor.getLong(0);
-		}
-		cursor.close();
-		return themeId;
-	}
-
-	public Theme getTheme(long id) {
-		Cursor cursor = db.rawQuery(
-				"SELECT " +
-						THEMES_ID + "," +
-						THEMES_COUPLED + "," +
-						THEMES_UNIFORM + "," +
-						THEMES_SHUFFLE + "," +
-						THEMES_LINES + "," +
-						THEMES_WAVES + "," +
-						THEMES_AMPLITUDE + "," +
-						THEMES_OSCILLATION + "," +
-						THEMES_SHIFT + "," +
-						THEMES_SPEED + "," +
-						THEMES_ROTATION + "," +
-						THEMES_COLORS +
-						" FROM " + THEMES +
-						" WHERE " + THEMES_ID + "= ?",
-				new String[]{String.valueOf(id)});
-
-		if (cursor == null) {
-			return null;
-		}
-
-		Theme theme = null;
-		if (cursor.moveToFirst()) {
-			theme = themeFromCursor(cursor);
-		}
-		cursor.close();
-		return theme;
-	}
-
-	public long insertTheme(Theme theme) {
-		return insertTheme(db, theme);
-	}
-
-	public void updateTheme(long id, Theme theme) {
-		db.update(
-				THEMES,
-				getThemeContentValues(theme),
-				THEMES_ID + "= ?",
-				new String[]{String.valueOf(id)});
-	}
-
-	public void deleteTheme(long id) {
-		db.delete(
-				THEMES,
-				THEMES_ID + "= ?",
-				new String[]{String.valueOf(id)});
-	}
-
 	public static int[] colorsFromCursor(Cursor cursor) {
 		byte[] bytes = cursor.getBlob(
 				cursor.getColumnIndex(THEMES_COLORS));
@@ -258,6 +162,102 @@ public class Database {
 				" ADD COLUMN " + THEMES_SPEED + " DOUBLE;");
 		db.execSQL("UPDATE " + THEMES +
 				" SET " + THEMES_SPEED + " = .01");
+	}
+
+	public void open(Context context) {
+		OpenHelper helper = new OpenHelper(context);
+		db = helper.getWritableDatabase();
+	}
+
+	public Cursor queryThemes() {
+		return db.rawQuery(
+				"SELECT " +
+						THEMES_ID + "," +
+						THEMES_COUPLED + "," +
+						THEMES_UNIFORM + "," +
+						THEMES_SHUFFLE + "," +
+						THEMES_LINES + "," +
+						THEMES_WAVES + "," +
+						THEMES_AMPLITUDE + "," +
+						THEMES_OSCILLATION + "," +
+						THEMES_SHIFT + "," +
+						THEMES_SPEED + "," +
+						THEMES_ROTATION + "," +
+						THEMES_COLORS +
+						" FROM " + THEMES +
+						" ORDER BY " + THEMES_ID,
+				null);
+	}
+
+	public long getFirstThemeId() {
+		Cursor cursor = db.rawQuery(
+				"SELECT " +
+						THEMES_ID +
+						" FROM " + THEMES +
+						" ORDER BY " + THEMES_ID +
+						" LIMIT 1",
+				null);
+
+		long themeId = -1;
+		if (cursor == null) {
+			return themeId;
+		}
+
+		if (cursor.moveToFirst()) {
+			themeId = cursor.getLong(0);
+		}
+		cursor.close();
+		return themeId;
+	}
+
+	public Theme getTheme(long id) {
+		Cursor cursor = db.rawQuery(
+				"SELECT " +
+						THEMES_ID + "," +
+						THEMES_COUPLED + "," +
+						THEMES_UNIFORM + "," +
+						THEMES_SHUFFLE + "," +
+						THEMES_LINES + "," +
+						THEMES_WAVES + "," +
+						THEMES_AMPLITUDE + "," +
+						THEMES_OSCILLATION + "," +
+						THEMES_SHIFT + "," +
+						THEMES_SPEED + "," +
+						THEMES_ROTATION + "," +
+						THEMES_COLORS +
+						" FROM " + THEMES +
+						" WHERE " + THEMES_ID + "= ?",
+				new String[]{String.valueOf(id)});
+
+		if (cursor == null) {
+			return null;
+		}
+
+		Theme theme = null;
+		if (cursor.moveToFirst()) {
+			theme = themeFromCursor(cursor);
+		}
+		cursor.close();
+		return theme;
+	}
+
+	public long insertTheme(Theme theme) {
+		return insertTheme(db, theme);
+	}
+
+	public void updateTheme(long id, Theme theme) {
+		db.update(
+				THEMES,
+				getThemeContentValues(theme),
+				THEMES_ID + "= ?",
+				new String[]{String.valueOf(id)});
+	}
+
+	public void deleteTheme(long id) {
+		db.delete(
+				THEMES,
+				THEMES_ID + "= ?",
+				new String[]{String.valueOf(id)});
 	}
 
 	private static class OpenHelper extends SQLiteOpenHelper {

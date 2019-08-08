@@ -1,28 +1,15 @@
 package de.markusfisch.android.wavelines.adapter;
 
-import de.markusfisch.android.wavelines.database.Database;
-import de.markusfisch.android.wavelines.widget.GalleryItemView;
-
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.markusfisch.android.wavelines.database.Database;
+import de.markusfisch.android.wavelines.widget.GalleryItemView;
+
 public class GalleryAdapter
 		extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
-	public interface ItemClickListener {
-		void onItemClick(View view, long id, int position);
-	}
-
-	static class ViewHolder extends RecyclerView.ViewHolder {
-		private final GalleryItemView themeView;
-
-		private ViewHolder(GalleryItemView themeView) {
-			super(themeView);
-			this.themeView = themeView;
-		}
-	}
-
 	private ItemClickListener itemClickListener;
 	private Cursor cursor;
 
@@ -72,5 +59,18 @@ public class GalleryAdapter
 	@Override
 	public int getItemCount() {
 		return cursor != null ? cursor.getCount() : 0;
+	}
+
+	public interface ItemClickListener {
+		void onItemClick(View view, long id, int position);
+	}
+
+	static class ViewHolder extends RecyclerView.ViewHolder {
+		private final GalleryItemView themeView;
+
+		private ViewHolder(GalleryItemView themeView) {
+			super(themeView);
+			this.themeView = themeView;
+		}
 	}
 }

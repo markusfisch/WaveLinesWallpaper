@@ -1,54 +1,57 @@
-<manifest
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	tools:ignore="UnusedAttribute"
 	package="de.markusfisch.android.wavelines"
-	android:installLocation="auto">
+	android:installLocation="auto"
+	tools:ignore="UnusedAttribute">
+
 	<supports-screens
 		android:largeScreens="true"
-		android:xlargeScreens="true"/>
-	<uses-feature android:name="android.software.live_wallpaper"/>
+		android:xlargeScreens="true" />
+	<uses-feature android:name="android.software.live_wallpaper" />
 	<application
 		android:name=".app.WaveLinesApp"
 		android:allowBackup="true"
 		android:fullBackupContent="@xml/backup_rules"
-		android:supportsRtl="true"
-		android:resizeableActivity="true"
-		android:label="@string/app_name"
 		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:resizeableActivity="true"
+		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
 		<service
-			android:label="@string/app_name"
 			android:name=".service.WaveLinesWallpaperService"
+			android:label="@string/app_name"
 			android:permission="android.permission.BIND_WALLPAPER">
 			<intent-filter>
-				<action android:name="android.service.wallpaper.WallpaperService"/>
+				<action android:name="android.service.wallpaper.WallpaperService" />
 			</intent-filter>
 			<meta-data
 				android:name="android.service.wallpaper"
-				android:resource="@xml/wallpaper"/>
+				android:resource="@xml/wallpaper" />
 		</service>
+
 		<activity
 			android:name=".activity.SplashActivity"
 			android:label="@string/app_name"
 			android:theme="@style/SplashTheme">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-				<category android:name="android.intent.category.LAUNCHER"/>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
 			android:name=".activity.GalleryActivity"
 			android:label="@string/app_name"
-			android:theme="@style/AppThemeNoActionBar"
-			android:launchMode="singleTop">
+			android:launchMode="singleTop"
+			android:theme="@style/AppThemeNoActionBar">
 			<intent-filter>
-				<action android:name="android.intent.action.VIEW"/>
-				<category android:name="android.intent.category.DEFAULT"/>
-				<category android:name="android.intent.category.BROWSABLE"/>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+
 				<data
 					android:host="www.markusfisch.de"
-					android:scheme="http"/>
+					android:scheme="http" />
 			</intent-filter>
 		</activity>
 		<activity
@@ -57,39 +60,39 @@
 			android:launchMode="singleTop"
 			android:parentActivityName=".activity.GalleryActivity">
 			<intent-filter android:label="@string/make_theme_from_image">
-				<action android:name="android.intent.action.SEND"/>
-				<category android:name="android.intent.category.DEFAULT"/>
-				<data android:mimeType="image/*"/>
+				<action android:name="android.intent.action.SEND" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="image/*" />
 			</intent-filter>
 			<intent-filter android:label="@string/import_theme">
-				<action android:name="android.intent.action.SEND"/>
-				<category android:name="android.intent.category.DEFAULT"/>
-				<data android:mimeType="application/json"/>
+				<action android:name="android.intent.action.SEND" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="application/json" />
 			</intent-filter>
 			<intent-filter>
-				<action android:name="android.intent.action.VIEW"/>
-				<category android:name="android.intent.category.DEFAULT"/>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
 				<!-- ignore AppLinkUrlError because this filter
 					doesn't work with `host="*"` -->
 				<data
-					tools:ignore="AppLinkUrlError"
-					android:scheme="content"
 					android:mimeType="text/plain"
-					android:pathPattern=".*\\.json"/>
-				<data
-					tools:ignore="AppLinkUrlError"
+					android:pathPattern=".*\\.json"
 					android:scheme="content"
+					tools:ignore="AppLinkUrlError" />
+				<data
 					android:mimeType="application/json"
-					android:pathPattern=".*\\.json"/>
+					android:pathPattern=".*\\.json"
+					android:scheme="content"
+					tools:ignore="AppLinkUrlError" />
 			</intent-filter>
 		</activity>
 		<activity
 			android:name=".activity.EditorActivity"
 			android:label="@string/edit_theme"
-			android:theme="@style/AppThemeNoActionBar"
-			android:parentActivityName=".activity.ThemeActivity"/>
+			android:parentActivityName=".activity.ThemeActivity"
+			android:theme="@style/AppThemeNoActionBar" />
 		<activity
 			android:name=".activity.PreviewActivity"
-			android:theme="@style/PreviewTheme"/>
+			android:theme="@style/PreviewTheme" />
 	</application>
 </manifest>

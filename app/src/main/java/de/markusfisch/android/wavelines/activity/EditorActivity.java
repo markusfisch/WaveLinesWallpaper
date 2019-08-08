@@ -1,19 +1,13 @@
 package de.markusfisch.android.wavelines.activity;
 
-import de.markusfisch.android.wavelines.activity.PreviewActivity;
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
-import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.widget.ThemeView;
-import de.markusfisch.android.wavelines.R;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,65 +24,17 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.markusfisch.android.wavelines.R;
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.widget.ThemeView;
+
 public class EditorActivity extends AppCompatActivity {
 	public static final String THEME_ID = "id";
 
 	private static final String THEME = "theme";
 
 	private final ArrayList<Integer> colors = new ArrayList<>();
-	private final SeekBar.OnSeekBarChangeListener updateColorFromBarsListener = new SeekBar.OnSeekBarChangeListener() {
-		@Override
-		public void onProgressChanged(SeekBar seekBar, int progressValue,
-				boolean fromUser) {
-			setColorFromHSVBars();
-			updateHSVLabels();
-			updatePreview();
-		}
-
-		@Override
-		public void onStartTrackingTouch(SeekBar seekBar) {
-		}
-
-		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {
-		}
-	};
-	private final SeekBar.OnSeekBarChangeListener updateLabelsListener = new SeekBar.OnSeekBarChangeListener() {
-		@Override
-		public void onProgressChanged(SeekBar seekBar, int progressValue,
-				boolean fromUser) {
-			linesLabel.setText(String.format(linesTemplate,
-					linesBar.getProgress()));
-			wavesLabel.setText(String.format(wavesTemplate,
-					wavesBar.getProgress()));
-			amplitudeLabel.setText(String.format(amplitudeTemplate,
-					amplitudeBar.getProgress() / 100f));
-			oscillationLabel.setText(String.format(oscillationTemplate,
-					oscillationBar.getProgress() / 10f));
-			updateShiftLabel();
-			speedLabel.setText(String.format(speedTemplate,
-					speedBar.getProgress() / 100f));
-			rotationLabel.setText(String.format(rotationTemplate,
-					rotationBar.getProgress()));
-			updatePreview();
-		}
-
-		@Override
-		public void onStartTrackingTouch(SeekBar seekBar) {
-		}
-
-		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {
-		}
-	};
-	private final CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
-			updatePreview();
-			updateShiftLabel();
-		}
-	};
-
 	private long themeId;
 	private ThemeView preview;
 	private SwitchCompat coupledSwitch;
@@ -116,6 +62,41 @@ public class EditorActivity extends AppCompatActivity {
 	private TextView rotationLabel;
 	private String rotationTemplate;
 	private SeekBar rotationBar;
+	private final SeekBar.OnSeekBarChangeListener updateLabelsListener = new SeekBar.OnSeekBarChangeListener() {
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progressValue,
+									  boolean fromUser) {
+			linesLabel.setText(String.format(linesTemplate,
+					linesBar.getProgress()));
+			wavesLabel.setText(String.format(wavesTemplate,
+					wavesBar.getProgress()));
+			amplitudeLabel.setText(String.format(amplitudeTemplate,
+					amplitudeBar.getProgress() / 100f));
+			oscillationLabel.setText(String.format(oscillationTemplate,
+					oscillationBar.getProgress() / 10f));
+			updateShiftLabel();
+			speedLabel.setText(String.format(speedTemplate,
+					speedBar.getProgress() / 100f));
+			rotationLabel.setText(String.format(rotationTemplate,
+					rotationBar.getProgress()));
+			updatePreview();
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {
+		}
+
+		@Override
+		public void onStopTrackingTouch(SeekBar seekBar) {
+		}
+	};
+	private final CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
+		public void onCheckedChanged(CompoundButton buttonView,
+									 boolean isChecked) {
+			updatePreview();
+			updateShiftLabel();
+		}
+	};
 	private HorizontalScrollView colorsScroll;
 	private LinearLayout colorsList;
 	private TextView hueLabel;
@@ -128,6 +109,38 @@ public class EditorActivity extends AppCompatActivity {
 	private String valTemplate;
 	private SeekBar valBar;
 	private int selectedColor;
+	private final SeekBar.OnSeekBarChangeListener updateColorFromBarsListener = new SeekBar.OnSeekBarChangeListener() {
+		@Override
+		public void onProgressChanged(SeekBar seekBar, int progressValue,
+									  boolean fromUser) {
+			setColorFromHSVBars();
+			updateHSVLabels();
+			updatePreview();
+		}
+
+		@Override
+		public void onStartTrackingTouch(SeekBar seekBar) {
+		}
+
+		@Override
+		public void onStopTrackingTouch(SeekBar seekBar) {
+		}
+	};
+
+	private static int[] toArray(List<Integer> list) {
+		int size = list.size();
+		int[] a = new int[size];
+		for (int i = 0; i < size; ++i) {
+			a[i] = list.get(i);
+		}
+		return a;
+	}
+
+	private static void toList(ArrayList<Integer> list, int[] a) {
+		for (int i = 0, l = a.length; i < l; ++i) {
+			list.add(a[i]);
+		}
+	}
 
 	@Override
 	public void onCreate(Bundle state) {
@@ -543,20 +556,5 @@ public class EditorActivity extends AppCompatActivity {
 			label = String.format(shiftTemplate, value);
 		}
 		shiftLabel.setText(label);
-	}
-
-	private static int[] toArray(List<Integer> list) {
-		int size = list.size();
-		int[] a = new int[size];
-		for (int i = 0; i < size; ++i) {
-			a[i] = list.get(i);
-		}
-		return a;
-	}
-
-	private static void toList(ArrayList<Integer> list, int[] a) {
-		for (int i = 0, l = a.length; i < l; ++i) {
-			list.add(a[i]);
-		}
 	}
 }

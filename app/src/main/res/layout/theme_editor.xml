@@ -1,200 +1,233 @@
-<android.support.v4.widget.NestedScrollView
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fillViewport="true"
 	app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical">
+
 		<android.support.v7.widget.SwitchCompat
 			android:id="@+id/coupled"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/coupled"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/coupled" />
+
 		<android.support.v7.widget.SwitchCompat
 			android:id="@+id/uniform"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/uniform"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/uniform" />
+
 		<android.support.v7.widget.SwitchCompat
 			android:id="@+id/shuffle"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/shuffle"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/shuffle" />
+
 		<TextView
 			android:id="@+id/lines_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/lines"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/lines" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
-			tools:ignore="UnusedAttribute"
 			android:id="@+id/lines"
+			style="@style/EditorSeekBar"
+			android:max="64"
 			android:min="2"
-			android:max="64"/>
+			tools:ignore="UnusedAttribute" />
+
 		<TextView
 			android:id="@+id/waves_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/waves"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/waves" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
-			tools:ignore="UnusedAttribute"
 			android:id="@+id/waves"
+			style="@style/EditorSeekBar"
+			android:max="12"
 			android:min="1"
-			android:max="12"/>
+			tools:ignore="UnusedAttribute" />
+
 		<TextView
 			android:id="@+id/amplitude_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/amplitude"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/amplitude" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
 			android:id="@+id/amplitude"
-			android:max="15"/>
+			style="@style/EditorSeekBar"
+			android:max="15" />
+
 		<TextView
 			android:id="@+id/oscillation_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/oscillation"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/oscillation" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
 			android:id="@+id/oscillation"
-			android:max="30"/>
+			style="@style/EditorSeekBar"
+			android:max="30" />
+
 		<TextView
 			android:id="@+id/shift_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/shift"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/shift" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
 			android:id="@+id/shift"
-			android:max="100"/>
+			style="@style/EditorSeekBar"
+			android:max="100" />
+
 		<TextView
 			android:id="@+id/speed_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/speed"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/speed" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
 			android:id="@+id/speed"
-			android:max="30"/>
+			style="@style/EditorSeekBar"
+			android:max="30" />
+
 		<TextView
 			android:id="@+id/rotation_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/rotation"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/rotation" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
 			android:id="@+id/rotation"
-			android:max="359"/>
+			style="@style/EditorSeekBar"
+			android:max="359" />
+
 		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/colors"
-			android:paddingTop="16dp"
-			android:paddingLeft="16dp"
 			android:paddingStart="16dp"
+			android:paddingLeft="16dp"
+			android:paddingTop="16dp"
+			android:paddingEnd="16dp"
 			android:paddingRight="16dp"
-			android:paddingEnd="16dp"/>
+			android:text="@string/colors" />
+
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
-			android:paddingTop="4dp"
-			android:paddingBottom="8dp"
-			android:paddingLeft="16dp"
 			android:paddingStart="16dp"
+			android:paddingLeft="16dp"
+			android:paddingTop="4dp"
+			android:paddingEnd="16dp"
 			android:paddingRight="16dp"
-			android:paddingEnd="16dp">
+			android:paddingBottom="8dp">
+
 			<ImageButton
-				style="@style/ColorButton"
 				android:id="@+id/add_color"
+				style="@style/ColorButton"
 				android:contentDescription="@string/add_color"
-				android:src="@drawable/ic_add_color"/>
+				android:src="@drawable/ic_add_color" />
+
 			<ImageButton
-				style="@style/ColorButton"
 				android:id="@+id/remove_color"
+				style="@style/ColorButton"
 				android:contentDescription="@string/remove_color"
-				android:src="@drawable/ic_remove_color"/>
+				android:src="@drawable/ic_remove_color" />
+
 			<ImageButton
-				style="@style/ColorButton"
 				android:id="@+id/duplicate_color"
+				style="@style/ColorButton"
 				android:contentDescription="@string/duplicate_color"
-				android:src="@drawable/ic_duplicate"/>
+				android:src="@drawable/ic_duplicate" />
+
 			<ImageButton
-				style="@style/ColorButton"
 				android:id="@+id/shift_left"
+				style="@style/ColorButton"
 				android:contentDescription="@string/shift_left"
-				android:src="@drawable/ic_shift_left"/>
+				android:src="@drawable/ic_shift_left" />
+
 			<ImageButton
-				style="@style/ColorButton"
 				android:id="@+id/shift_right"
-				android:contentDescription="@string/shift_right"
-				android:src="@drawable/ic_shift_right"/>
-			<ImageButton
 				style="@style/ColorButton"
+				android:contentDescription="@string/shift_right"
+				android:src="@drawable/ic_shift_right" />
+
+			<ImageButton
 				android:id="@+id/enter_color"
+				style="@style/ColorButton"
 				android:contentDescription="@string/enter_color"
-				android:src="@drawable/ic_enter_color"/>
+				android:src="@drawable/ic_enter_color" />
 		</LinearLayout>
+
 		<HorizontalScrollView
 			android:id="@+id/colors_scroll"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:background="@color/background_colors">
+
 			<LinearLayout
-				tools:ignore="UnusedAttribute"
 				android:id="@+id/colors"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:animateLayoutChanges="true"
 				android:orientation="horizontal"
-				android:animateLayoutChanges="true"/>
+				tools:ignore="UnusedAttribute" />
 		</HorizontalScrollView>
+
 		<TextView
 			android:id="@+id/hue_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/hue"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/hue" />
+
 		<SeekBar
-			style="@style/HueSeekBar"
 			android:id="@+id/hue"
-			android:max="360"/>
+			style="@style/HueSeekBar"
+			android:max="360" />
+
 		<TextView
 			android:id="@+id/saturation_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/saturation"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/saturation" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
 			android:id="@+id/saturation"
-			android:max="100"/>
+			style="@style/EditorSeekBar"
+			android:max="100" />
+
 		<TextView
 			android:id="@+id/value_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/value"
-			android:padding="16dp"/>
+			android:padding="16dp"
+			android:text="@string/value" />
+
 		<SeekBar
-			style="@style/EditorSeekBar"
 			android:id="@+id/value"
-			android:max="100"
-			android:layout_marginBottom="24dp"/>
+			style="@style/EditorSeekBar"
+			android:layout_marginBottom="24dp"
+			android:max="100" />
 	</LinearLayout>
 </android.support.v4.widget.NestedScrollView>

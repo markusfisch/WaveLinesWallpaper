@@ -1,11 +1,5 @@
 package de.markusfisch.android.wavelines.activity;
 
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
-import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.graphics.BitmapLoader;
-import de.markusfisch.android.wavelines.widget.ThemesView;
-import de.markusfisch.android.wavelines.R;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -13,8 +7,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -34,6 +28,12 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import de.markusfisch.android.wavelines.R;
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.graphics.BitmapLoader;
+import de.markusfisch.android.wavelines.widget.ThemesView;
 
 public class ThemeActivity extends AppCompatActivity {
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -55,6 +55,33 @@ public class ThemeActivity extends AppCompatActivity {
 		Intent intent = new Intent(context, ThemeActivity.class);
 		intent.putExtra(THEME_INDEX, index);
 		context.startActivity(intent);
+	}
+
+	private static String getTextFromUri(ContentResolver resolver, Uri uri) {
+		try {
+			InputStream in = resolver.openInputStream(uri);
+			StringBuilder sb = new StringBuilder();
+			byte[] buffer = new byte[2048];
+			for (int len; (len = in.read(buffer)) > 0; ) {
+				sb.append(new String(buffer, 0, len, "UTF-8"));
+			}
+			return sb.toString();
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	private static int[] getValidColors(int[] colors) {
+		int[] valid = new int[colors.length];
+		int i = 0;
+		for (int color : colors) {
+			if (color != 0) {
+				valid[i++] = color;
+			}
+		}
+		int[] ret = new int[i];
+		System.arraycopy(valid, 0, ret, 0, i);
+		return ret;
 	}
 
 	@Override
@@ -289,26 +316,12 @@ public class ThemeActivity extends AppCompatActivity {
 		}
 	}
 
-	private static String getTextFromUri(ContentResolver resolver, Uri uri) {
-		try {
-			InputStream in = resolver.openInputStream(uri);
-			StringBuilder sb = new StringBuilder();
-			byte[] buffer = new byte[2048];
-			for (int len; (len = in.read(buffer)) > 0; ) {
-				sb.append(new String(buffer, 0, len, "UTF-8"));
-			}
-			return sb.toString();
-		} catch (IOException e) {
-			return null;
-		}
-	}
-
 	// this AsyncTask is running for a short and finite time only
 	// and it's perfectly okay to delay garbage collection of the
 	// parent instance until this task has ended
 	@SuppressLint("StaticFieldLeak")
 	private void addThemeFromImageUriAsync(final Context context,
-			final Uri uri) {
+										   final Uri uri) {
 		if (uri == null || progressView.getVisibility() == View.VISIBLE) {
 			return;
 		}
@@ -346,19 +359,6 @@ public class ThemeActivity extends AppCompatActivity {
 		});
 	}
 
-	private static int[] getValidColors(int[] colors) {
-		int[] valid = new int[colors.length];
-		int i = 0;
-		for (int color : colors) {
-			if (color != 0) {
-				valid[i++] = color;
-			}
-		}
-		int[] ret = new int[i];
-		System.arraycopy(valid, 0, ret, 0, i);
-		return ret;
-	}
-
 	private void addThemeWithColors(int[] colors) {
 		addTheme(new Theme(colors));
 	}
@@ -393,7 +393,7 @@ public class ThemeActivity extends AppCompatActivity {
 		ViewCompat.setOnApplyWindowInsetsListener(mainLayout, new OnApplyWindowInsetsListener() {
 			@Override
 			public WindowInsetsCompat onApplyWindowInsets(View v,
-					WindowInsetsCompat insets) {
+														  WindowInsetsCompat insets) {
 				if (insets.hasSystemWindowInsets()) {
 					// restore padding because SYSTEM_UI_FLAG_HIDE_NAVIGATION
 					// somehow removes the padding from mainLayout although

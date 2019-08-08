@@ -1,5 +1,4 @@
-<wallpaper
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:thumbnail="@drawable/thumbnail"
+<wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
 	android:description="@string/description"
-	android:settingsActivity="de.markusfisch.android.wavelines.activity.ThemeActivity"/>
+	android:settingsActivity="de.markusfisch.android.wavelines.activity.ThemeActivity"
+	android:thumbnail="@drawable/thumbnail" />

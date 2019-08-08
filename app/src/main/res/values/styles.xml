@@ -10,8 +10,7 @@
 		<item name="colorPrimaryDark">@color/primary_dark</item>
 		<item name="colorAccent">@color/accent</item>
 		<item name="android:textColor">@android:color/primary_text_dark</item>
-		<item name="android:windowLayoutInDisplayCutoutMode"
-			tools:targetApi="28">shortEdges</item>
+		<item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="28">shortEdges</item>
 	</style>
 	<!-- For the GalleryActivity and EditorActivity an explict Toolbar is
 		required to make it collapsable. -->
@@ -22,10 +21,13 @@
 		<item name="colorAccent">@color/accent</item>
 		<item name="android:textColor">@android:color/primary_text_dark</item>
 	</style>
+
 	<style name="SplashTheme" parent="@style/AppThemeNoActionBar">
 		<item name="android:windowBackground">@drawable/background_splash</item>
 	</style>
-	<style name="PreviewTheme" parent="Theme.AppCompat.NoActionBar"/>
+
+	<style name="PreviewTheme" parent="Theme.AppCompat.NoActionBar" />
+
 	<style name="EditorSeekBar" parent="Widget.AppCompat.SeekBar">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -36,10 +38,12 @@
 		<item name="android:paddingRight">32dp</item>
 		<item name="android:paddingEnd">32dp</item>
 	</style>
+
 	<style name="HueSeekBar" parent="EditorSeekBar">
 		<item name="android:progressDrawable">@drawable/hue_seek_bar</item>
 		<item name="android:splitTrack" tools:targetApi="21">false</item>
 	</style>
+
 	<style name="ColorButton" parent="Widget.AppCompat.ImageButton">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>

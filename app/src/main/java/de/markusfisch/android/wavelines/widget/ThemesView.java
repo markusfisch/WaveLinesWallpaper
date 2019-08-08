@@ -1,38 +1,62 @@
 package de.markusfisch.android.wavelines.widget;
 
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
-import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
-import de.markusfisch.android.wavelines.database.Database;
-import de.markusfisch.android.wavelines.database.Theme;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.support.v4.widget.EdgeEffectCompat;
 import android.os.Build;
-import android.os.Parcelable;
 import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.v4.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 
 import java.util.ArrayList;
 
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
+import de.markusfisch.android.wavelines.database.Database;
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
+
 public class ThemesView extends SurfaceView {
-	public interface OnChangeListener {
-		void onChange(int index, long id);
-	}
-
 	private static final int RADIUS = 1;
-
 	private final WaveLinesRenderer renderer = new WaveLinesRenderer();
 	private final ArrayList<ThemePreview> themePreviews = new ArrayList<>();
 	private final RectF bounds = new RectF();
+	private SurfaceHolder surfaceHolder;
+	private EdgeEffectCompat edgeEffectLeft;
+	private EdgeEffectCompat edgeEffectRight;
+	private Cursor cursor;
+	private int themeCount;
+	private int currentIndex;
+	private int idColumn;
+	private int pointerId;
+	private boolean swiping = false;
+	private boolean drawing = false;
+	private float swipeThreshold;
+	private float initialX;
+	private float deltaX;
+	private final Runnable drawRunnable = new Runnable() {
+		@Override
+		public void run() {
+			removeCallbacks(drawRunnable);
+			if (!drawing) {
+				return;
+			}
+			drawView();
+			postDelayed(drawRunnable, 16L);
+		}
+	};
+	private float stepX;
+	private float finalX;
+	private long initialTime;
+	private long completeSwipeLast;
+	private OnChangeListener onChangeListener;
 	private final Runnable completeSwipeRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -49,37 +73,6 @@ public class ThemesView extends SurfaceView {
 			}
 		}
 	};
-	private final Runnable drawRunnable = new Runnable() {
-		@Override
-		public void run() {
-			removeCallbacks(drawRunnable);
-			if (!drawing) {
-				return;
-			}
-			drawView();
-			postDelayed(drawRunnable, 16L);
-		}
-	};
-
-	private SurfaceHolder surfaceHolder;
-	private EdgeEffectCompat edgeEffectLeft;
-	private EdgeEffectCompat edgeEffectRight;
-	private Cursor cursor;
-	private int themeCount;
-	private int currentIndex;
-	private int idColumn;
-	private int pointerId;
-	private boolean swiping = false;
-	private boolean drawing = false;
-	private float swipeThreshold;
-	private float initialX;
-	private float deltaX;
-	private float stepX;
-	private float finalX;
-	private long initialTime;
-	private long completeSwipeLast;
-	private OnChangeListener onChangeListener;
-
 	public ThemesView(Context context) {
 		super(context);
 		initView(context);
@@ -128,12 +121,12 @@ public class ThemesView extends SurfaceView {
 		onChangeListener = listener;
 	}
 
-	public void setSelectedIndex(int index) {
-		currentIndex = index;
-	}
-
 	public int getSelectedIndex() {
 		return currentIndex;
+	}
+
+	public void setSelectedIndex(int index) {
+		currentIndex = index;
 	}
 
 	public long getSelectedThemeId() {
@@ -267,8 +260,8 @@ public class ThemesView extends SurfaceView {
 		if (swiping) {
 			float boundsWidth = bounds.width();
 			for (int i = Math.max(0, currentIndex - 1),
-					l = Math.min(themeCount - 1, currentIndex + 1);
-					i <= l; ++i) {
+				 l = Math.min(themeCount - 1, currentIndex + 1);
+				 i <= l; ++i) {
 				ThemePreview preview = getThemePreview(i);
 				if (preview != null && preview.bitmap != null) {
 					canvas.drawBitmap(preview.bitmap,
@@ -477,12 +470,12 @@ public class ThemesView extends SurfaceView {
 
 	private void generatePreviews() {
 		for (int i = Math.max(0, currentIndex - RADIUS);
-				i < currentIndex; ++i) {
+			 i < currentIndex; ++i) {
 			generatePreviewAt(i);
 		}
 		generatePreviewAt(currentIndex);
 		for (int i = currentIndex + 1, l = Math.min(themeCount, i + RADIUS);
-				i < l; ++i) {
+			 i < l; ++i) {
 			generatePreviewAt(i);
 		}
 	}
@@ -529,6 +522,10 @@ public class ThemesView extends SurfaceView {
 		return themePreviews.get(previewIndex);
 	}
 
+	public interface OnChangeListener {
+		void onChange(int index, long id);
+	}
+
 	private static class ThemePreview {
 		private Bitmap bitmap;
 		private Theme theme;
@@ -548,6 +545,15 @@ public class ThemesView extends SurfaceView {
 	}
 
 	private static final class SavedState extends View.BaseSavedState {
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+			public SavedState createFromParcel(Parcel in) {
+				return new SavedState(in);
+			}
+
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
 		private int index;
 
 		SavedState(Parcelable superState) {
@@ -564,15 +570,5 @@ public class ThemesView extends SurfaceView {
 			super.writeToParcel(out, flags);
 			out.writeInt(index);
 		}
-
-		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-			public SavedState createFromParcel(Parcel in) {
-				return new SavedState(in);
-			}
-
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
-			}
-		};
 	}
 }

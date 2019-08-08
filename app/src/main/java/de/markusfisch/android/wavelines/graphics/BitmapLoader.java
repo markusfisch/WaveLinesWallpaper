@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class BitmapLoader {
 	public static Bitmap getBitmapFromUri(

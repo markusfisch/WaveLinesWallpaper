@@ -1,18 +1,20 @@
 package de.markusfisch.android.wavelines.widget;
 
-import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
-import de.markusfisch.android.wavelines.database.Theme;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class ThemeView extends SurfaceView {
 	private final WaveLinesRenderer renderer = new WaveLinesRenderer();
 	private final RectF bounds = new RectF();
+	private SurfaceHolder surfaceHolder;
+	private boolean drawing = false;
 	private final Runnable drawRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -24,9 +26,6 @@ public class ThemeView extends SurfaceView {
 			postDelayed(drawRunnable, 16L);
 		}
 	};
-
-	private SurfaceHolder surfaceHolder;
-	private boolean drawing = false;
 
 	public ThemeView(Context context) {
 		super(context);

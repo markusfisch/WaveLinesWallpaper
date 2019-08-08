@@ -1,11 +1,11 @@
 package de.markusfisch.android.wavelines.service;
 
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
-import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
-
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
+
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
+import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class WaveLinesWallpaperService extends CanvasWallpaperService {
 	@Override
