@@ -8,7 +8,7 @@ import de.markusfisch.android.wavelines.app.WaveLinesApp;
 
 public class Preferences {
 	private static final String THEME_ID = "theme_id";
-	private static final String GALLERY_COLLUMNS = "gallery_columns";
+	private static final String GALLERY_COLUMNS = "gallery_columns";
 
 	private SharedPreferences preferences;
 	private long themeId = 0;
@@ -50,7 +50,7 @@ public class Preferences {
 				preferences.getString(THEME_ID, null),
 				WaveLinesApp.db.getFirstThemeId());
 		galleryColumns = parseInt(
-				preferences.getString(GALLERY_COLLUMNS, null),
+				preferences.getString(GALLERY_COLUMNS, null),
 				galleryColumns);
 	}
 
@@ -69,7 +69,7 @@ public class Preferences {
 
 	public void setGalleryColumns(int columns) {
 		galleryColumns = columns;
-		putString(GALLERY_COLLUMNS, String.valueOf(galleryColumns));
+		putString(GALLERY_COLUMNS, String.valueOf(galleryColumns));
 	}
 
 	private void putString(String key, String value) {

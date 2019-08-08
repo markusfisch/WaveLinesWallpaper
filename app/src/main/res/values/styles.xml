@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 	<!-- The Tool/ActionBar of Theme.AppCompat slides out nicely for the full
 		screen view (lean back) while an explicit Toolbar (as it is required
-		to use AppBarLayout to make it collapsable) just fades away. Probably
+		to use AppBarLayout to make it collapsible) just fades away. Probably
 		because the Toolbar isn't the first child but that cannot be changed.
 		-->
 	<style name="AppTheme" parent="Theme.AppCompat">
@@ -12,8 +12,8 @@
 		<item name="android:textColor">@android:color/primary_text_dark</item>
 		<item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="28">shortEdges</item>
 	</style>
-	<!-- For the GalleryActivity and EditorActivity an explict Toolbar is
-		required to make it collapsable. -->
+	<!-- For the GalleryActivity and EditorActivity an explicit Toolbar is
+		required to make it collapsible. -->
 	<style name="AppThemeNoActionBar" parent="Theme.AppCompat.NoActionBar">
 		<item name="background">@android:color/transparent</item>
 		<item name="colorPrimary">@color/primary</item>

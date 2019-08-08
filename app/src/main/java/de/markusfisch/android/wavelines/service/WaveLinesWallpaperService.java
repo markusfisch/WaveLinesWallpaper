@@ -24,7 +24,7 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 			}
 		};
 
-		public WaveLinesEngine() {
+		WaveLinesEngine() {
 			super();
 			WaveLinesApp.preferences.getPreferences()
 					.registerOnSharedPreferenceChangeListener(listener);

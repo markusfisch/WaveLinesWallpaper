@@ -137,8 +137,8 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private static void toList(ArrayList<Integer> list, int[] a) {
-		for (int i = 0, l = a.length; i < l; ++i) {
-			list.add(a[i]);
+		for (int i1 : a) {
+			list.add(i1);
 		}
 	}
 
@@ -461,9 +461,7 @@ public class EditorActivity extends AppCompatActivity {
 		final EditText editText = view.findViewById(R.id.color);
 		String hex = String.format("#%06X",
 				0xffffff & colors.get(selectedColor));
-		if (hex != null) {
-			editText.setText(hex);
-		}
+		editText.setText(hex);
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.enter_color)
 				.setView(view)

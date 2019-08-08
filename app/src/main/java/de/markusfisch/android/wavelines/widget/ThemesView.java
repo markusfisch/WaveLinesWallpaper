@@ -18,7 +18,6 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Database;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
@@ -73,6 +72,7 @@ public class ThemesView extends SurfaceView {
 			}
 		}
 	};
+
 	public ThemesView(Context context) {
 		super(context);
 		initView(context);
@@ -503,7 +503,7 @@ public class ThemesView extends SurfaceView {
 	private Theme getThemeAt(int index) {
 		return cursor != null && !cursor.isClosed() &&
 				cursor.moveToPosition(index) ?
-				WaveLinesApp.db.themeFromCursor(cursor) :
+				Database.themeFromCursor(cursor) :
 				null;
 	}
 

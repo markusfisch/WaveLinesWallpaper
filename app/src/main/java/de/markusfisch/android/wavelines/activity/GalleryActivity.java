@@ -91,7 +91,7 @@ public class GalleryActivity extends AppCompatActivity {
 	@SuppressLint("ClickableViewAccessibility")
 	private void addScaleGestureDetector(final RecyclerView recyclerView) {
 		final float dp = getResources().getDisplayMetrics().density;
-		final int scaleThreshold = (int) Math.round(dp * 32f);
+		final int scaleThreshold = Math.round(dp * 32f);
 		final ScaleGestureDetector detector = new ScaleGestureDetector(this, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
 			@Override
 			public boolean onScale(ScaleGestureDetector detector) {
