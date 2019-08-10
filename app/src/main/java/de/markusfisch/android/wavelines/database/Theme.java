@@ -32,6 +32,7 @@ public class Theme implements Parcelable {
 	public final float oscillation;
 	public final float shift;
 	public final float speed;
+	public final float growth;
 	public final int rotation;
 	public final int[] colors;
 	public final WaveLinesRenderer.WaveLine[] waveLines;
@@ -46,6 +47,7 @@ public class Theme implements Parcelable {
 			float oscillation,
 			float shift,
 			float speed,
+			float growth,
 			int rotation,
 			int[] colors) {
 		this.coupled = coupled;
@@ -57,6 +59,7 @@ public class Theme implements Parcelable {
 		this.oscillation = Math.max(0f, Math.min(3f, oscillation));
 		this.shift = Math.max(0f, Math.min(1f, shift));
 		this.speed = Math.max(0f, Math.min(.3f, speed));
+		this.growth = Math.max(0f, Math.min(.004f, growth));
 		this.rotation = Math.abs(360 + rotation) % 360;
 		this.colors = colors.clone();
 		waveLines = new WaveLinesRenderer.WaveLine[this.lines];
@@ -77,6 +80,7 @@ public class Theme implements Parcelable {
 				.5f + (float) Math.random() * 1.5f,
 				(float) Math.random(),
 				.005f + (float) Math.random() * .02f,
+				0f,
 				Math.random() > .5f ? 0 : (((int) Math.round(
 						Math.random() * 90f - 45f) + 360) % 360),
 				colors
@@ -100,6 +104,8 @@ public class Theme implements Parcelable {
 						(float) theme.getDouble("shift") : 0f,
 				theme.getInt("version") > 5 ?
 						(float) theme.getDouble("speed") : .01f,
+				theme.getInt("version") > 6 ?
+						(float) theme.getDouble("growth") : 0f,
 				theme.getInt("rotation"),
 				parseColorArray(theme.getJSONArray("colors"))
 		);
@@ -118,6 +124,7 @@ public class Theme implements Parcelable {
 			theme.put("oscillation", oscillation);
 			theme.put("shift", shift);
 			theme.put("speed", speed);
+			theme.put("growth", growth);
 			theme.put("rotation", rotation);
 			theme.put("colors", getJsonColorArray(colors));
 			return theme.toString();
@@ -159,6 +166,7 @@ public class Theme implements Parcelable {
 		out.writeFloat(oscillation);
 		out.writeFloat(shift);
 		out.writeFloat(speed);
+		out.writeFloat(growth);
 		out.writeInt(rotation);
 		out.writeInt(colors.length);
 		out.writeIntArray(colors);
@@ -174,6 +182,7 @@ public class Theme implements Parcelable {
 		oscillation = in.readFloat();
 		shift = in.readFloat();
 		speed = in.readFloat();
+		growth = in.readFloat();
 		rotation = in.readInt();
 		colors = new int[in.readInt()];
 		in.readIntArray(colors);

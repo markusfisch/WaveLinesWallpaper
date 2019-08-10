@@ -11,7 +11,7 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 
 public class Database {
-	public static final int VERSION = 6;
+	public static final int VERSION = 7;
 	public static final String THEMES = "themes";
 	public static final String THEMES_ID = "_id";
 	public static final String THEMES_COUPLED = "coupled";
@@ -23,6 +23,7 @@ public class Database {
 	public static final String THEMES_OSCILLATION = "oscillation";
 	public static final String THEMES_SHIFT = "shift";
 	public static final String THEMES_SPEED = "speed";
+	public static final String THEMES_GROWTH = "growth";
 	public static final String THEMES_ROTATION = "rotation";
 	public static final String THEMES_COLORS = "colors";
 
@@ -46,6 +47,7 @@ public class Database {
 						THEMES_OSCILLATION + "," +
 						THEMES_SHIFT + "," +
 						THEMES_SPEED + "," +
+						THEMES_GROWTH + "," +
 						THEMES_ROTATION + "," +
 						THEMES_COLORS +
 						" FROM " + THEMES +
@@ -87,6 +89,7 @@ public class Database {
 						THEMES_OSCILLATION + "," +
 						THEMES_SHIFT + "," +
 						THEMES_SPEED + "," +
+						THEMES_GROWTH + "," +
 						THEMES_ROTATION + "," +
 						THEMES_COLORS +
 						" FROM " + THEMES +
@@ -154,6 +157,7 @@ public class Database {
 				cursor.getFloat(cursor.getColumnIndex(THEMES_OSCILLATION)),
 				cursor.getFloat(cursor.getColumnIndex(THEMES_SHIFT)),
 				cursor.getFloat(cursor.getColumnIndex(THEMES_SPEED)),
+				cursor.getFloat(cursor.getColumnIndex(THEMES_GROWTH)),
 				cursor.getInt(cursor.getColumnIndex(THEMES_ROTATION)),
 				colorsFromCursor(cursor));
 	}
@@ -181,6 +185,7 @@ public class Database {
 		cv.put(THEMES_OSCILLATION, theme.oscillation);
 		cv.put(THEMES_SHIFT, theme.shift);
 		cv.put(THEMES_SPEED, theme.speed);
+		cv.put(THEMES_GROWTH, theme.growth);
 		cv.put(THEMES_ROTATION, theme.rotation);
 		cv.put(THEMES_COLORS, bb.array());
 
@@ -188,7 +193,7 @@ public class Database {
 	}
 
 	private static void insertDefaultThemes(SQLiteDatabase db) {
-		insertTheme(db, new Theme(true, false, false, 24, 3, .02f, 1f, 0f, .01f, 0, new int[]{
+		insertTheme(db, new Theme(true, false, false, 24, 3, .02f, 1f, 0f, .01f, 0f, 0, new int[]{
 				0xff0060a0,
 				0xff00b0f0,
 				0xff0080c0,
@@ -196,17 +201,17 @@ public class Database {
 				0xff0070b0,
 				0xff0090d0
 		}));
-		insertTheme(db, new Theme(false, false, false, 4, 2, .04f, 1f, 0f, .01f, 0, new int[]{
+		insertTheme(db, new Theme(false, false, false, 4, 2, .04f, 1f, 0f, .01f, 0f, 0, new int[]{
 				0xff00b06c,
 				0xff007ac6,
 				0xffe86f13,
 				0xffcf6310
 		}));
-		insertTheme(db, new Theme(false, false, false, 2, 3, .05f, 1f, 0f, .01f, 0, new int[]{
+		insertTheme(db, new Theme(false, false, false, 2, 3, .05f, 1f, 0f, .01f, 0f, 0, new int[]{
 				0xffbd8119,
 				0xfff7aa21
 		}));
-		insertTheme(db, new Theme(true, false, false, 4, 3, .02f, 1f, 0f, .01f, 32, new int[]{
+		insertTheme(db, new Theme(true, false, false, 4, 3, .02f, 1f, 0f, .01f, 0f, 32, new int[]{
 				0xff8c2fb5,
 				0xffb33ce8,
 				0xff58299f,
@@ -227,6 +232,7 @@ public class Database {
 				THEMES_OSCILLATION + " DOUBLE," +
 				THEMES_SHIFT + " DOUBLE," +
 				THEMES_SPEED + " DOUBLE," +
+				THEMES_GROWTH + " DOUBLE," +
 				THEMES_ROTATION + " INTEGER," +
 				THEMES_COLORS + " BLOB);");
 	}
@@ -258,6 +264,11 @@ public class Database {
 				" ADD COLUMN " + THEMES_SPEED + " DOUBLE;");
 		db.execSQL("UPDATE " + THEMES +
 				" SET " + THEMES_SPEED + " = .01");
+	}
+
+	private static void addGrowth(SQLiteDatabase db) {
+		db.execSQL("ALTER TABLE " + THEMES +
+				" ADD COLUMN " + THEMES_GROWTH + " DOUBLE;");
 	}
 
 	private static class OpenHelper extends SQLiteOpenHelper {
@@ -297,6 +308,9 @@ public class Database {
 			}
 			if (oldVersion < 6) {
 				addSpeed(db);
+			}
+			if (oldVersion < 7) {
+				addGrowth(db);
 			}
 		}
 	}

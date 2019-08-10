@@ -177,11 +177,11 @@ public class WaveLinesRenderer {
 
 			// calculate growth of master rows
 			{
-				float min = maxSize * .0001f;
-				float max = maxSize * .0020f;
+				float min = maxSize * (.0002f + theme.growth);
+				float range = maxSize * .002f;
 				for (int i = 0; i < firstHalf; ++i) {
-					growths[i] = (Math.random() > .5 ? -1 : 1) *
-							(min + (float) Math.random() * max);
+					growths[i] = (r.nextBoolean() ? -1 : 1) *
+							(min + r.nextFloat() * range);
 					indices[i] = i;
 				}
 			}

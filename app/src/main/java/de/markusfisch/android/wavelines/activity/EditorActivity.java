@@ -67,6 +67,8 @@ public class EditorActivity extends AppCompatActivity {
 			updateShiftLabel();
 			speedLabel.setText(String.format(speedTemplate,
 					speedBar.getProgress() / 100f));
+			growthLabel.setText(String.format(growthTemplate,
+					growthBar.getProgress() / 1000f));
 			rotationLabel.setText(String.format(rotationTemplate,
 					rotationBar.getProgress()));
 			updatePreview();
@@ -112,6 +114,9 @@ public class EditorActivity extends AppCompatActivity {
 	private TextView speedLabel;
 	private String speedTemplate;
 	private SeekBar speedBar;
+	private TextView growthLabel;
+	private String growthTemplate;
+	private SeekBar growthBar;
 	private TextView rotationLabel;
 	private String rotationTemplate;
 	private SeekBar rotationBar;
@@ -229,6 +234,7 @@ public class EditorActivity extends AppCompatActivity {
 				oscillationBar.getProgress() / 10f,
 				shiftBar.getProgress() / 100f,
 				speedBar.getProgress() / 100f,
+				growthBar.getProgress() / 1000f,
 				rotationBar.getProgress(),
 				toArray(colors)
 		);
@@ -273,6 +279,10 @@ public class EditorActivity extends AppCompatActivity {
 		speedTemplate = getString(R.string.speed);
 		speedBar = (SeekBar) findViewById(R.id.speed);
 		speedBar.setOnSeekBarChangeListener(updateLabelsListener);
+		growthLabel = (TextView) findViewById(R.id.growth_label);
+		growthTemplate = getString(R.string.growth);
+		growthBar = (SeekBar) findViewById(R.id.growth);
+		growthBar.setOnSeekBarChangeListener(updateLabelsListener);
 		rotationLabel = (TextView) findViewById(R.id.rotation_label);
 		rotationTemplate = getString(R.string.rotation);
 		rotationBar = (SeekBar) findViewById(R.id.rotation);
@@ -353,6 +363,7 @@ public class EditorActivity extends AppCompatActivity {
 		oscillationBar.setProgress(Math.round(theme.oscillation * 10f));
 		shiftBar.setProgress(Math.round(theme.shift * 100f));
 		speedBar.setProgress(Math.round(theme.speed * 100f));
+		growthBar.setProgress(Math.round(theme.growth * 1000f));
 		rotationBar.setProgress(theme.rotation);
 		toList(colors, theme.colors);
 		colorsList.removeAllViews();
