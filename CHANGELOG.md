@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.10.0
+* Add control to set extra wave growth
+* Start with lines of random thicknesses
+* Remove option for four columns in gallery
+* Decrease minimum thickness to a third of maximum
+* Add a tap to close note on the preview activity
+* Scroll to newly added theme in gallery
+
 ## 1.9.1
 * Improve animation rendering
 
