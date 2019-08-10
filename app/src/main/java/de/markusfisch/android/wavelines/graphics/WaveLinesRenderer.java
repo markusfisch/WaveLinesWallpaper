@@ -5,9 +5,13 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.SystemClock;
 
+import java.util.Random;
+
 import de.markusfisch.android.wavelines.database.Theme;
 
 public class WaveLinesRenderer {
+	private static final float MIN_THICKNESS = .33f;
+
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	private final Path path = new Path();
 
@@ -15,10 +19,12 @@ public class WaveLinesRenderer {
 	private long lastTime;
 	private float thicknessMax;
 	private float thicknessMin;
+	private float thicknessCombined;
 	private float amplitude;
 	private float width;
 	private float height;
 	private float maxSize;
+	private long seed = 75L;
 	private boolean themeUpdate = true;
 	private boolean sizeUpdate = true;
 
@@ -27,6 +33,10 @@ public class WaveLinesRenderer {
 			this.theme = theme;
 			themeUpdate = true;
 		}
+	}
+
+	public void setRandomSeed() {
+		this.seed = Math.round(Math.random() * Long.MAX_VALUE);
 	}
 
 	public void setSize(int width, int height) {
@@ -132,7 +142,10 @@ public class WaveLinesRenderer {
 
 		float thicknessPerLine = maxSize / theme.lines;
 		thicknessMax = (float) Math.ceil(thicknessPerLine * 2f);
-		thicknessMin = thicknessPerLine * .33f;
+		thicknessMin = thicknessPerLine * MIN_THICKNESS;
+
+		// maximum thickness of master plus partner line
+		thicknessCombined = thicknessMax + thicknessMin * .5f;
 
 		amplitude = theme.amplitude * maxSize;
 
@@ -142,34 +155,41 @@ public class WaveLinesRenderer {
 		sizeUpdate = false;
 
 		int firstHalf = 0;
+		float[] thicknesses = null;
 		float[] growths = null;
 		int[] indices = null;
 
 		if (!theme.uniform) {
 			firstHalf = (int) Math.ceil(theme.lines * .5f);
+			thicknesses = new float[firstHalf];
 			growths = new float[firstHalf];
 			indices = new int[firstHalf];
+
+			Random r = new Random(seed);
+
+			// calculate thickness of master rows
+			{
+				float range = thicknessMax - thicknessMin;
+				for (int i = 0; i < firstHalf; ++i) {
+					thicknesses[i] = thicknessMin + r.nextFloat() * range;
+				}
+			}
 
 			// calculate growth of master rows
 			{
 				float min = maxSize * .0001f;
 				float max = maxSize * .0020f;
-
-				for (int i = firstHalf; i-- > 0; ) {
+				for (int i = 0; i < firstHalf; ++i) {
 					growths[i] = (Math.random() > .5 ? -1 : 1) *
 							(min + (float) Math.random() * max);
 					indices[i] = i;
 				}
 			}
 
-			// mix indices to have random partners
-			for (int i = firstHalf; i-- > 0; ) {
-				int j = (int) Math.round(Math.random() * (firstHalf - 1));
-
-				if (j == i) {
-					continue;
-				}
-
+			// mix indices to have random partners using a
+			// Fisher–Yates shuffle
+			for (int i = firstHalf; i > 1; ) {
+				int j = r.nextInt(i--);
 				int tmp = indices[j];
 				indices[j] = indices[i];
 				indices[i] = tmp;
@@ -178,25 +198,33 @@ public class WaveLinesRenderer {
 
 		// calculate wave lines
 		{
+			int colors = theme.colors.length;
 			int colorIndex = !theme.shuffle ? 0 : (int) Math.round(
-					Math.random() * (theme.colors.length - 1));
+					Math.random() * colors);
 			int waveLength = (int) Math.ceil(maxSize / theme.waves);
-			float thickness = maxSize / theme.lines;
+			float averageThickness = maxSize / theme.lines;
 			float shift = waveLength * -2;
 			float shiftPlus = theme.shift * (waveLength * 2f / theme.lines);
 			float speed = maxSize * theme.speed;
 			WaveLine lastWave = null;
 
 			for (int i = theme.lines; i-- > 0; ++colorIndex) {
-				float growth = !theme.uniform && i < firstHalf ?
-						growths[i] : 0;
-				int color = theme.colors[colorIndex % theme.colors.length];
-				int yang = !theme.uniform && i >= firstHalf ?
-						indices[i - firstHalf] : -1;
+				float thickness = averageThickness;
+				float growth = 0;
+				int color = theme.colors[colorIndex % colors];
+				int yang = -1;
+				if (!theme.uniform) {
+					if (i < firstHalf) {
+						thickness = thicknesses[i];
+						growth = growths[i];
+					} else {
+						yang = indices[i - firstHalf];
+					}
+				}
 				if (theme.coupled && lastWave != null) {
 					lastWave = new WaveLine(
 							lastWave.length,
-							lastWave.thickness,
+							thickness,
 							growth,
 							lastWave.amplitude,
 							lastWave.oscillation,
@@ -236,7 +264,7 @@ public class WaveLinesRenderer {
 		}
 
 		if (wl.yang > -1) {
-			wl.thickness = Math.max(thicknessMin, thicknessMax -
+			wl.thickness = Math.max(thicknessMin, thicknessCombined -
 					theme.waveLines[wl.yang].thickness);
 		} else if (wl.growth != 0) {
 			wl.thickness += wl.growth * factor;
