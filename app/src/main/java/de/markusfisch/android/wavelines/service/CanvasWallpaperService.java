@@ -1,7 +1,7 @@
 package de.markusfisch.android.wavelines.service;
 
-import android.os.Handler;
 import android.graphics.Canvas;
+import android.os.Handler;
 import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
 

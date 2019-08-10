@@ -1,19 +1,13 @@
 package de.markusfisch.android.wavelines.activity;
 
-import de.markusfisch.android.wavelines.activity.PreviewActivity;
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
-import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.widget.ThemeView;
-import de.markusfisch.android.wavelines.R;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +23,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.markusfisch.android.wavelines.R;
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.widget.ThemeView;
 
 public class EditorActivity extends AppCompatActivity {
 	public static final String THEME_ID = "id";
@@ -448,9 +447,7 @@ public class EditorActivity extends AppCompatActivity {
 		final EditText editText = view.findViewById(R.id.color);
 		String hex = String.format("#%06X",
 				0xffffff & colors.get(selectedColor));
-		if (hex != null) {
-			editText.setText(hex);
-		}
+		editText.setText(hex);
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.enter_color)
 				.setView(view)

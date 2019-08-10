@@ -1,14 +1,14 @@
 package de.markusfisch.android.wavelines.widget;
 
-import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
-import de.markusfisch.android.wavelines.database.Theme;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class ThemeView extends SurfaceView {
 	private final WaveLinesRenderer renderer = new WaveLinesRenderer();

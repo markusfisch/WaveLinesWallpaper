@@ -1,27 +1,26 @@
 package de.markusfisch.android.wavelines.widget;
 
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
-import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
-import de.markusfisch.android.wavelines.database.Database;
-import de.markusfisch.android.wavelines.database.Theme;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.support.v4.widget.EdgeEffectCompat;
 import android.os.Build;
-import android.os.Parcelable;
 import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.v4.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 
 import java.util.ArrayList;
+
+import de.markusfisch.android.wavelines.database.Database;
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class ThemesView extends SurfaceView {
 	public interface OnChangeListener {
@@ -510,7 +509,7 @@ public class ThemesView extends SurfaceView {
 	private Theme getThemeAt(int index) {
 		return cursor != null && !cursor.isClosed() &&
 				cursor.moveToPosition(index) ?
-				WaveLinesApp.db.themeFromCursor(cursor) :
+				Database.themeFromCursor(cursor) :
 				null;
 	}
 

@@ -1,8 +1,5 @@
 package de.markusfisch.android.wavelines.database;
 
-import de.markusfisch.android.wavelines.database.Database;
-import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
-
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,6 +7,8 @@ import android.os.Parcelable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class Theme implements Parcelable {
 	public static final Creator<Theme> CREATOR = new Creator<Theme>() {
@@ -67,7 +66,7 @@ public class Theme implements Parcelable {
 		this(getRandomColors());
 	}
 
-	public Theme(int colors[]) {
+	public Theme(int[] colors) {
 		this(
 				Math.random() > .5f,
 				Math.random() > .8f,
@@ -197,7 +196,7 @@ public class Theme implements Parcelable {
 
 	private static int[] parseColorArray(JSONArray array) {
 		int len = array.length();
-		int intArray[] = new int[len];
+		int[] intArray = new int[len];
 		for (int i = 0; i < len; ++i) {
 			intArray[i] = Color.parseColor(array.optString(i));
 		}

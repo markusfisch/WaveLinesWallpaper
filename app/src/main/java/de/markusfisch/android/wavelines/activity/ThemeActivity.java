@@ -1,11 +1,5 @@
 package de.markusfisch.android.wavelines.activity;
 
-import de.markusfisch.android.wavelines.app.WaveLinesApp;
-import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.graphics.BitmapLoader;
-import de.markusfisch.android.wavelines.widget.ThemesView;
-import de.markusfisch.android.wavelines.R;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -13,8 +7,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -34,6 +28,12 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import de.markusfisch.android.wavelines.R;
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.graphics.BitmapLoader;
+import de.markusfisch.android.wavelines.widget.ThemesView;
 
 public class ThemeActivity extends AppCompatActivity {
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)

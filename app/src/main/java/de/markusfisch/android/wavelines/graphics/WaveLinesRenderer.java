@@ -1,11 +1,11 @@
 package de.markusfisch.android.wavelines.graphics;
 
-import de.markusfisch.android.wavelines.database.Theme;
-
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.SystemClock;
+
+import de.markusfisch.android.wavelines.database.Theme;
 
 public class WaveLinesRenderer {
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);

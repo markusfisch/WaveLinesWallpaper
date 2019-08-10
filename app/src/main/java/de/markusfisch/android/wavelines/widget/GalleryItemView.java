@@ -1,13 +1,13 @@
 package de.markusfisch.android.wavelines.widget;
 
-import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
+
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class GalleryItemView extends View {
 	private final WaveLinesRenderer renderer = new WaveLinesRenderer();

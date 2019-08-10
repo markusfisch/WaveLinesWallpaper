@@ -1,17 +1,17 @@
 package de.markusfisch.android.wavelines.activity;
 
-import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.widget.ThemeView;
-import de.markusfisch.android.wavelines.R;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
+
+import de.markusfisch.android.wavelines.R;
+import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.widget.ThemeView;
 
 public class PreviewActivity extends AppCompatActivity {
 	public static final String THEME = "theme";
