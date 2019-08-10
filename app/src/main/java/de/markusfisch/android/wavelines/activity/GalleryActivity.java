@@ -32,8 +32,9 @@ public class GalleryActivity extends AppCompatActivity {
 		WaveLinesApp.initToolbar(this);
 		setTitle(R.string.gallery);
 
-		manager = new GridLayoutManager(this,
-				WaveLinesApp.preferences.getGalleryColumns());
+		// clamp because previous versions allowed more columns
+		manager = new GridLayoutManager(this, clampSpanCount(
+				WaveLinesApp.preferences.getGalleryColumns()));
 
 		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.themes);
 		recyclerView.setHasFixedSize(true);
@@ -100,8 +101,8 @@ public class GalleryActivity extends AppCompatActivity {
 							detector.getPreviousSpan();
 					if (Math.abs(diff) > scaleThreshold) {
 						int current = manager.getSpanCount();
-						int target = Math.min(4, Math.max(2,
-								current + (diff < 0f ? 1 : -1)));
+						int target = clampSpanCount(
+								current + (diff < 0f ? 1 : -1));
 						if (target != current) {
 							setSpanCount(target);
 							return true;
@@ -118,6 +119,10 @@ public class GalleryActivity extends AppCompatActivity {
 				return false;
 			}
 		});
+	}
+
+	private static int clampSpanCount(int count) {
+		return Math.min(3, Math.max(2, count));
 	}
 
 	private void setSpanCount(int count) {
