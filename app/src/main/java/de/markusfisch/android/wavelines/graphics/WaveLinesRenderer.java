@@ -132,7 +132,7 @@ public class WaveLinesRenderer {
 
 		float thicknessPerLine = maxSize / theme.lines;
 		thicknessMax = (float) Math.ceil(thicknessPerLine * 2f);
-		thicknessMin = thicknessPerLine * .5f;
+		thicknessMin = thicknessPerLine * .33f;
 
 		amplitude = theme.amplitude * maxSize;
 
