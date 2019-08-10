@@ -2,6 +2,7 @@ package de.markusfisch.android.wavelines.activity;
 
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.widget.ThemeView;
+import de.markusfisch.android.wavelines.R;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -25,7 +26,8 @@ public class PreviewActivity extends AppCompatActivity {
 	protected void onCreate(Bundle state) {
 		super.onCreate(state);
 		hideSystemUi(getWindow());
-		ThemeView view = new ThemeView(this);
+		setContentView(R.layout.activity_preview);
+		ThemeView view = (ThemeView) findViewById(R.id.theme_view);
 		view.setTheme((Theme) getIntent().getExtras().getParcelable(THEME));
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -33,7 +35,6 @@ public class PreviewActivity extends AppCompatActivity {
 				finish();
 			}
 		});
-		setContentView(view);
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)

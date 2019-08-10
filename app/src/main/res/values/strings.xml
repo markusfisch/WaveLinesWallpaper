@@ -45,4 +45,5 @@
 	<string name="columns_two">2 columns</string>
 	<string name="columns_three">3 columns</string>
 	<string name="columns_four">4 columns</string>
+	<string name="tap_anywhere_to_close">Tap anywhere to close preview</string>
 </resources>
