@@ -56,7 +56,7 @@ public class GalleryActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		queryThemesAsync();
+		queryThemesAsync(false);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class GalleryActivity extends AppCompatActivity {
 	// and it's perfectly okay to delay garbage collection of the
 	// parent instance until this task has ended
 	@SuppressLint("StaticFieldLeak")
-	private void queryThemesAsync() {
+	private void queryThemesAsync(final boolean scrollToLast) {
 		if (progressView.getVisibility() == View.VISIBLE) {
 			return;
 		}
@@ -148,6 +148,9 @@ public class GalleryActivity extends AppCompatActivity {
 				progressView.setVisibility(View.GONE);
 				if (cursor != null) {
 					adapter.swapCursor(cursor);
+					if (scrollToLast) {
+						manager.scrollToPosition(cursor.getCount() - 1);
+					}
 				}
 			}
 		}.execute();
@@ -155,7 +158,7 @@ public class GalleryActivity extends AppCompatActivity {
 
 	private void addTheme() {
 		WaveLinesApp.db.insertTheme(new Theme());
-		queryThemesAsync();
+		queryThemesAsync(true);
 	}
 
 	private void chooseLayout() {
