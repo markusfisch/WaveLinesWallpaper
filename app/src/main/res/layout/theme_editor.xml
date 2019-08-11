@@ -39,7 +39,7 @@
 			tools:ignore="UnusedAttribute"
 			android:id="@+id/lines"
 			android:min="2"
-			android:max="64"/>
+			android:max="24"/>
 		<TextView
 			android:id="@+id/waves_label"
 			android:layout_width="match_parent"
