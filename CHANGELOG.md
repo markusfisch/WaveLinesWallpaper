@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.10.1
+* Decrease maximum number of lines to 24
+
 ## 1.10.0
 * Add control to set extra wave growth
 * Start with lines of random thicknesses
