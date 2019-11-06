@@ -51,6 +51,13 @@ public class GalleryActivity extends AppCompatActivity {
 
 		addScaleGestureDetector(recyclerView);
 
+		findViewById(R.id.add_theme).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				addTheme();
+			}
+		});
+
 		progressView = findViewById(R.id.progress_view);
 	}
 
@@ -76,9 +83,6 @@ public class GalleryActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.add_theme:
-				addTheme();
-				return true;
 			case R.id.change_layout:
 				chooseLayout();
 				return true;

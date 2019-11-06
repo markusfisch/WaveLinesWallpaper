@@ -21,7 +21,7 @@
 			android:layout_alignParentBottom="true"
 			android:layout_margin="20dp"
 			android:contentDescription="@string/edit_theme"
-			android:src="@drawable/ic_edit"
+			android:src="@drawable/ic_fab_edit_theme"
 			app:elevation="4dp"/>
 		<include layout="@layout/progress_view"/>
 	</RelativeLayout>
