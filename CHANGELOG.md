@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.11.0
+* Add a floating action button to add themes in gallery
+
 ## 1.10.1
 * Decrease maximum number of lines to 24
 
