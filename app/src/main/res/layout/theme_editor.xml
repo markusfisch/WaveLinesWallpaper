@@ -29,11 +29,9 @@
 			android:text="@string/shuffle"
 			android:padding="16dp"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/lines_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/lines"
-			android:padding="16dp"/>
+			android:text="@string/lines"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			tools:ignore="UnusedAttribute"
@@ -41,11 +39,9 @@
 			android:min="2"
 			android:max="24"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/waves_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/waves"
-			android:padding="16dp"/>
+			android:text="@string/waves"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			tools:ignore="UnusedAttribute"
@@ -53,69 +49,57 @@
 			android:min="1"
 			android:max="12"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/amplitude_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/amplitude"
-			android:padding="16dp"/>
+			android:text="@string/amplitude"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/amplitude"
 			android:max="15"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/oscillation_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/oscillation"
-			android:padding="16dp"/>
+			android:text="@string/oscillation"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/oscillation"
 			android:max="30"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/shift_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/shift"
-			android:padding="16dp"/>
+			android:text="@string/shift"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/shift"
 			android:max="100"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/speed_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/speed"
-			android:padding="16dp"/>
+			android:text="@string/speed"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/speed"
 			android:max="30"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/growth_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/growth"
-			android:padding="16dp"/>
+			android:text="@string/growth"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/growth"
 			android:max="4"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/rotation_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/rotation"
-			android:padding="16dp"/>
+			android:text="@string/rotation"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/rotation"
 			android:max="359"/>
 		<TextView
+			android:text="@string/colors"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/colors"
 			android:paddingTop="16dp"
 			android:paddingLeft="16dp"
 			android:paddingStart="16dp"
@@ -176,31 +160,25 @@
 				android:animateLayoutChanges="true"/>
 		</HorizontalScrollView>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/hue_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/hue"
-			android:padding="16dp"/>
+			android:text="@string/hue"/>
 		<SeekBar
 			style="@style/HueSeekBar"
 			android:id="@+id/hue"
 			android:max="360"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/saturation_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/saturation"
-			android:padding="16dp"/>
+			android:text="@string/saturation"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/saturation"
 			android:max="100"/>
 		<TextView
+			style="@style/EditorLabel"
 			android:id="@+id/value_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/value"
-			android:padding="16dp"/>
+			android:text="@string/value"/>
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/value"

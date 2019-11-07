@@ -26,6 +26,11 @@
 		<item name="android:windowBackground">@drawable/background_splash</item>
 	</style>
 	<style name="PreviewTheme" parent="Theme.AppCompat.NoActionBar"/>
+	<style name="EditorLabel" parent="@android:style/Widget.TextView">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:padding">16dp</item>
+	</style>
 	<style name="EditorSeekBar" parent="Widget.AppCompat.SeekBar">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">wrap_content</item>
