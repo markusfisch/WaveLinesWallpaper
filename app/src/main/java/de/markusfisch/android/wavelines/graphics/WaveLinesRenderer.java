@@ -89,11 +89,10 @@ public class WaveLinesRenderer {
 				float halfWaveLength = waveLength / 2;
 				float amp = (float) Math.sin(wl.amplitude) * amplitude;
 				float lastX = wl.shift;
-				float lastY = y;
 				float x = lastX + waveLength;
 
 				path.reset();
-				path.moveTo(lastX, lastY);
+				path.moveTo(lastX, y);
 
 				if (y == 0) {
 					x = maxSize;
@@ -117,9 +116,10 @@ public class WaveLinesRenderer {
 				}
 
 				y += wl.thickness;
-				lastY = y + amplitude * 2;
-				path.lineTo(x, lastY);
-				path.lineTo(0, lastY);
+
+				float bottom = y + amplitude * 2f;
+				path.lineTo(x, bottom);
+				path.lineTo(0, bottom);
 			}
 
 			paint.setColor(wl.color);
