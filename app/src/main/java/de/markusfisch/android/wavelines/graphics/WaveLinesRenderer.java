@@ -62,14 +62,31 @@ public class WaveLinesRenderer {
 		lastTime = now;
 
 		canvas.save();
+
+		// always translate view rectangle to be the middle of the
+		// maxSize*maxSize square to avoid jumping if a rotation
+		// is applied (and centering becomes necessary)
+		//
+		//     +-----------+ square to draw
+		//     |  +-----+  |
+		//     |  |view |  |
+		//     |  |  *  |  |
+		//     |  |     |  |
+		//     |  +-----+  |
+		//     +-----------+
+		//
+		// * = pivot
 		{
 			float cx = width * .5f;
 			float cy = height * .5f;
+			// move the pivot of the rotation to the middle of the view
 			canvas.translate(cx, cy);
 			canvas.rotate(theme.rotation);
+			// move back and a little bit more to position the view
+			// rectangle in the middle of the maxSize*maxSize square
 			canvas.translate(
-					(maxSize - width) * -.5f - cx,
-					(maxSize - height) * -.5f - cy
+					Math.round((maxSize - width) * -.5f - cx),
+					Math.round((maxSize - height) * -.5f - cy)
 			);
 		}
 
@@ -138,7 +155,8 @@ public class WaveLinesRenderer {
 		}
 
 		// calculate sizes relative to screen size
-		maxSize = (float) Math.sqrt(width * width + height * height);
+		maxSize = (float) Math.ceil(Math.sqrt(
+				width * width + height * height));
 
 		float thicknessPerLine = maxSize / theme.lines;
 		thicknessMax = (float) Math.ceil(thicknessPerLine * 2f);
