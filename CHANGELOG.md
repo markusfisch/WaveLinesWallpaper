@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.11.1
+* Fix wave calculation for extreme screen dimensions
+
 ## 1.11.0
 * Add a floating action button to add themes in gallery
 
