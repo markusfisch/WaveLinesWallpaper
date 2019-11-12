@@ -117,7 +117,7 @@ public class WaveLinesRenderer {
 
 				y += wl.thickness;
 
-				float bottom = y + amplitude * 2f;
+				float bottom = i > 0 ? y + amplitude * 2f : maxSize;
 				path.lineTo(x, bottom);
 				path.lineTo(0, bottom);
 			}
