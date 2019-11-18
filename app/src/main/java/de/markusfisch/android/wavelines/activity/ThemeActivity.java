@@ -265,28 +265,35 @@ public class ThemeActivity extends AppCompatActivity {
 		// a orientation change will start a new activity
 		// with the exact same intent
 		intent.setAction(null);
+		if (!importTheme(intent)) {
+			Toast.makeText(this, R.string.error_importing_theme,
+					Toast.LENGTH_SHORT).show();
+		}
+	}
 
+	private boolean importTheme(Intent intent) {
 		String type = intent.getType();
 		if (type == null) {
-			return;
+			return false;
 		} else if (type.startsWith("image/")) {
 			addThemeFromImageUriAsync(this,
 					(Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM));
-		} else if ("application/json".equals(type)) {
+			return true;
+		} else if ("application/json".equals(type) ||
+				"text/plain".equals(type)) {
 			String json = intent.getStringExtra(Intent.EXTRA_TEXT);
 			if (json == null && (json = getTextFromUri(
 					getContentResolver(), intent.getData())) == null) {
-				Toast.makeText(this, R.string.error_invalid_json,
-						Toast.LENGTH_SHORT).show();
-				return;
+				return false;
 			}
 			try {
 				addTheme(new Theme(json));
+				return true;
 			} catch (JSONException e) {
-				Toast.makeText(this, R.string.error_invalid_json,
-						Toast.LENGTH_SHORT).show();
+				return false;
 			}
 		}
+		return false;
 	}
 
 	private static String getTextFromUri(ContentResolver resolver, Uri uri) {

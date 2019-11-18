@@ -10,7 +10,7 @@
 	<string name="share_theme">Share theme</string>
 	<string name="import_theme">Import theme</string>
 	<string name="change_layout">Change layout</string>
-	<string name="error_invalid_json">Invalid JSON</string>
+	<string name="error_importing_theme">Cannot import theme</string>
 	<string name="sure_to_delete_theme">Are you sure you want to delete this theme?</string>
 	<string name="set_theme">Use as wallpaper</string>
 	<string name="edit_theme">Edit theme</string>
