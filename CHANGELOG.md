@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.11.2
+* Fix importing JSON theme files from Google Drive
+
 ## 1.11.1
 * Fix wave calculation for extreme screen dimensions
 
