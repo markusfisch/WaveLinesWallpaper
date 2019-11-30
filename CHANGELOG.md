@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.11.3
+* Automatically manage animation frequency when running as live wallpaper
+
 ## 1.11.2
 * Fix importing JSON theme files from Google Drive
 
