@@ -47,6 +47,7 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 		}
 
 		private void update() {
+			resetDelay();
 			renderer.setRandomSeed();
 			renderer.setTheme(WaveLinesApp.db.getTheme(
 					WaveLinesApp.preferences.getTheme()));
