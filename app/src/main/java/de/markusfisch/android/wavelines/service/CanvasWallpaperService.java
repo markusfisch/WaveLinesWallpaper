@@ -63,7 +63,7 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 				int yPixelOffset) {
 		}
 
-		protected abstract void drawFrame(Canvas canvas);
+		protected abstract void drawFrame(Canvas canvas, long now);
 
 		protected void nextFrame() {
 			stopRunnable();
@@ -80,7 +80,7 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 
 			try {
 				if ((canvas = holder.lockCanvas()) != null) {
-					drawFrame(canvas);
+					drawFrame(canvas, now);
 				}
 			} finally {
 				if (canvas != null) {

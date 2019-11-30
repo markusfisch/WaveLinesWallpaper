@@ -47,8 +47,10 @@ public class WaveLinesRenderer {
 	}
 
 	public void draw(Canvas canvas) {
-		long now = SystemClock.elapsedRealtime();
+		draw(canvas, SystemClock.elapsedRealtime());
+	}
 
+	public void draw(Canvas canvas, long now) {
 		if (themeUpdate) {
 			if (!initWaves()) {
 				return;

@@ -42,8 +42,8 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 		}
 
 		@Override
-		protected void drawFrame(Canvas canvas) {
-			renderer.draw(canvas);
+		protected void drawFrame(Canvas canvas, long now) {
+			renderer.draw(canvas, now);
 		}
 
 		private void update() {
