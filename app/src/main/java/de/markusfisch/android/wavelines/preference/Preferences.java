@@ -7,8 +7,8 @@ import android.support.v7.preference.PreferenceManager;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 
 public class Preferences {
-	private static final String THEME_ID = "theme_id";
-	private static final String GALLERY_COLUMNS = "gallery_columns";
+	private static final String THEME_ID = "_theme_id";
+	private static final String GALLERY_COLUMNS = "_gallery_columns";
 
 	private SharedPreferences preferences;
 	private long themeId = 0;
@@ -24,12 +24,9 @@ public class Preferences {
 	}
 
 	public void update() {
-		themeId = parseLong(
-				preferences.getString(THEME_ID, null),
-				WaveLinesApp.db.getFirstThemeId());
-		galleryColumns = parseInt(
-				preferences.getString(GALLERY_COLUMNS, null),
-				galleryColumns);
+		themeId = preferences.getLong(THEME_ID, getLegacyThemeId(
+				WaveLinesApp.db.getFirstThemeId()));
+		galleryColumns = preferences.getInt(GALLERY_COLUMNS, galleryColumns);
 	}
 
 	public long getTheme() {
@@ -38,7 +35,7 @@ public class Preferences {
 
 	public void setTheme(long id) {
 		themeId = id;
-		putString(THEME_ID, String.valueOf(themeId));
+		putLong(THEME_ID, themeId);
 	}
 
 	public int getGalleryColumns() {
@@ -47,30 +44,29 @@ public class Preferences {
 
 	public void setGalleryColumns(int columns) {
 		galleryColumns = columns;
-		putString(GALLERY_COLUMNS, String.valueOf(galleryColumns));
+		putInt(GALLERY_COLUMNS, galleryColumns);
 	}
 
-	private void putString(String key, String value) {
+	private void putInt(String key, int value) {
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(key, value);
+		editor.putInt(key, value);
 		editor.apply();
 	}
 
-	private static int parseInt(String s, int preset) {
-		try {
-			if (s != null && s.length() > 0) {
-				return Integer.parseInt(s);
-			}
-		} catch (NumberFormatException e) {
-			// use preset
-		}
-		return preset;
+	private void putLong(String key, long value) {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putLong(key, value);
+		editor.apply();
 	}
 
-	private static long parseLong(String s, long preset) {
+	// this method will be removed with the next version
+	private long getLegacyThemeId(long preset) {
 		try {
+			String s = preferences.getString("theme_id", null);
 			if (s != null && s.length() > 0) {
-				return Long.parseLong(s);
+				long id = Long.parseLong(s);
+				setTheme(id);
+				return id;
 			}
 		} catch (NumberFormatException e) {
 			// use preset
