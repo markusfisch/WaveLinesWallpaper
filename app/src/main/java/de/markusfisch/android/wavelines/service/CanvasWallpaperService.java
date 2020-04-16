@@ -84,7 +84,12 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 				}
 			} finally {
 				if (canvas != null) {
-					holder.unlockCanvasAndPost(canvas);
+					try {
+						holder.unlockCanvasAndPost(canvas);
+					} catch (IllegalArgumentException e) {
+						// ignore, can't do anything about it;
+						// spotted in crash logging, reason unknown
+					}
 				}
 			}
 
