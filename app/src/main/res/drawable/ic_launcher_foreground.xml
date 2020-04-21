@@ -1,46 +1,6 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-  <path
-      android:pathData="m107.855,24.63c-4.549,0.6 -9.422,1.4 -14.797,2.155 -10.465,1.469 -35.281,4.196 -47.798,4.196 -20.61,0 -32.869,-2.581 -45.26,-4.015l0,7.484C12.392,35.885 24.65,38.465 45.26,38.465c12.517,0 37.333,-2.727 47.798,-4.196C98.49,33.506 103.41,32.697 108,32.095l0,-6.73c0,-0.251 -0.052,-0.497 -0.145,-0.735z"
-      android:strokeAlpha="1"
-      android:strokeLineJoin="miter"
-      android:strokeWidth="200"
-      android:fillColor="#0060a0"
-      android:strokeColor="#00000000"
-      android:fillType="evenOdd"
-      android:fillAlpha="1"
-      android:strokeLineCap="butt"/>
-  <path
-      android:pathData="m108,32.095c-4.59,0.602 -9.51,1.411 -14.942,2.174 -10.465,1.469 -35.281,4.196 -47.798,4.196C24.65,38.465 12.392,35.885 0,34.45l0,9.542c12.392,1.434 24.65,4.015 45.26,4.015 12.517,0 37.333,-2.727 47.798,-4.196 5.432,-0.763 10.352,-1.572 14.942,-2.174z"
-      android:strokeAlpha="1"
-      android:strokeLineJoin="miter"
-      android:strokeWidth="200"
-      android:fillColor="#00b0f0"
-      android:strokeColor="#00000000"
-      android:fillType="evenOdd"
-      android:fillAlpha="1"
-      android:strokeLineCap="butt"/>
-  <path
-      android:pathData="m108,41.637c-4.59,0.602 -9.51,1.411 -14.942,2.174 -10.465,1.469 -35.281,4.196 -47.798,4.196 -20.61,0 -32.869,-2.581 -45.26,-4.015l0,16.652C12.392,62.079 24.65,64.66 45.26,64.66c12.517,0 37.333,-2.727 47.798,-4.196 5.432,-0.762 10.352,-1.572 14.942,-2.174z"
-      android:strokeAlpha="1"
-      android:strokeLineJoin="miter"
-      android:strokeWidth="200"
-      android:fillColor="#0080c0"
-      android:strokeColor="#00000000"
-      android:fillType="evenOdd"
-      android:fillAlpha="1"
-      android:strokeLineCap="butt"/>
-  <path
-      android:pathData="m108,58.289c-4.59,0.602 -9.51,1.411 -14.942,2.174 -10.465,1.469 -35.281,4.196 -47.798,4.196 -20.61,0 -32.869,-2.581 -45.26,-4.015l0,19.319c9.32,1.729 24.425,3.407 45.26,3.407 14.349,0 40.357,-2.911 51.216,-4.435 4.188,-0.588 8.09,-1.149 11.523,-1.617z"
-      android:strokeAlpha="1"
-      android:strokeLineJoin="miter"
-      android:strokeWidth="200"
-      android:fillColor="#00a0e0"
-      android:strokeColor="#00000000"
-      android:fillType="evenOdd"
-      android:fillAlpha="1"
-      android:strokeLineCap="butt"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:pathData="M107.855 24.63c-4.549 0.6-9.422 1.4-14.797 2.155-10.465 1.469-35.281 4.196-47.798 4.196-20.61 0-32.869-2.581-45.26-4.015v7.484c12.392 1.435 24.65 4.015 45.26 4.015 12.517 0 37.333-2.727 47.798-4.196 5.432-0.763 10.352-1.572 14.942-2.174v-6.73c0-0.251-0.052-0.497-0.145-0.735z" android:strokeWidth="200" android:fillColor="#0060a0" android:fillType="evenOdd"/>
+    <path android:pathData="M108 32.095c-4.59 0.602-9.51 1.411-14.942 2.174-10.465 1.469-35.281 4.196-47.798 4.196-20.61 0-32.868-2.58-45.26-4.015v9.542c12.392 1.434 24.65 4.015 45.26 4.015 12.517 0 37.333-2.727 47.798-4.196 5.432-0.763 10.352-1.572 14.942-2.174z" android:strokeWidth="200" android:fillColor="#00b0f0" android:fillType="evenOdd"/>
+    <path android:pathData="M108 41.637c-4.59 0.602-9.51 1.411-14.942 2.174-10.465 1.469-35.281 4.196-47.798 4.196-20.61 0-32.869-2.581-45.26-4.015v16.652c12.392 1.435 24.65 4.016 45.26 4.016 12.517 0 37.333-2.727 47.798-4.196C98.49 59.702 103.41 58.892 108 58.29z" android:strokeWidth="200" android:fillColor="#0080c0" android:fillType="evenOdd"/>
+    <path android:pathData="M108 58.289c-4.59 0.602-9.51 1.411-14.942 2.174-10.465 1.469-35.281 4.196-47.798 4.196-20.61 0-32.869-2.581-45.26-4.015v19.319c9.32 1.729 24.425 3.407 45.26 3.407 14.349 0 40.357-2.911 51.216-4.435 4.188-0.588 8.09-1.149 11.523-1.617z" android:strokeWidth="200" android:fillColor="#00a0e0" android:fillType="evenOdd"/>
 </vector>
