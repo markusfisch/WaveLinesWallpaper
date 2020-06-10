@@ -1,5 +1,4 @@
 <resources>
-	<string name="app_name" translatable="false">Wave Lines Wallpaper</string>
 	<string name="description">Moving wave lines</string>
 	<string name="make_theme_from_image">Make theme</string>
 	<string name="gallery">Theme Gallery</string>
@@ -41,7 +40,6 @@
 	<string name="saturation">Saturation: %.02f</string>
 	<string name="value">Value: %.02f</string>
 	<string name="color">Color</string>
-	<string name="color_hint" translatable="false">#XXXXXX</string>
 	<string name="how_many_columns">How many columns?</string>
 	<string name="columns_two">2 columns</string>
 	<string name="columns_three">3 columns</string>

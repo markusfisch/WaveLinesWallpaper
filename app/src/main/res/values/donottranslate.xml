@@ -1,0 +1,4 @@
+<resources>
+	<string name="app_name" translatable="false">Wave Lines Wallpaper</string>
+	<string name="color_hint" translatable="false">#XXXXXX</string>
+</resources>

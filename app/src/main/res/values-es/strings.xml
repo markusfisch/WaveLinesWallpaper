@@ -6,9 +6,9 @@
 	<string name="add_theme">Añadir theme</string>
 	<string name="delete_theme">Borrar tema</string>
 	<string name="duplicate_theme">Duplicar tema</string>
-  <string name="share_theme">Compartir tema</string>
+	<string name="share_theme">Compartir tema</string>
 	<string name="import_theme">Importar tema</string>
-	<string name="change_layout">Cambiar diseño</cadena>
+	<string name="change_layout">Cambiar diseño</string>
 	<string name="error_importing_theme">No se puede importar el tema</string>
 	<string name="sure_to_delete_theme">¿Estás seguro de que quieres borrar este tema?</string>
 	<string name="set_theme">Utilizar como fondo de pantalla</string>
@@ -22,7 +22,7 @@
 	<string name="shuffle">Color de inicio aleatorio</string>
 	<string name="lines">Líneas: %d</string>
 	<string name="waves">Ondas: %d</string>
-	<string name="amplitud">Amplitud: %.02f</string>
+	<string name="amplitude">Amplitud: %.02f</string>
 	<string name="oscillation">Oscilación: %.02f</string>
 	<string name="shift_random">Cambio: aleatorio por línea</string>
 	<string name="shift">Cambio: %.02f</string>
