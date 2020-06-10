@@ -5,7 +5,7 @@ all: debug install start
 debug:
 	./gradlew assembleDebug
 
-release: lint findbugs
+release: lint
 	./gradlew assembleRelease
 
 bundle: lint
@@ -13,9 +13,6 @@ bundle: lint
 
 lint:
 	./gradlew lintDebug
-
-findbugs:
-	./gradlew findBugs
 
 install:
 	adb $(TARGET) install -r app/build/outputs/apk/debug/app-debug.apk
