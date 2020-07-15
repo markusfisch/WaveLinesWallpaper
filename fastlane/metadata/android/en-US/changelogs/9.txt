@@ -1,0 +1,5 @@
+* Add a gallery of all themes
+* Make toolbars collapsable
+* Ask for confirmation before discarding changes
+* Improve generation of random themes
+

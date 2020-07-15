@@ -1,0 +1,2 @@
+* Decrease maximum number of lines to 24
+

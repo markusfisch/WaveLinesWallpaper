@@ -1,0 +1,5 @@
+* Show live preview in editor
+* Increase SeekBar sensitivity in editor
+* Add rotation for wave lines
+* Add two new default themes
+

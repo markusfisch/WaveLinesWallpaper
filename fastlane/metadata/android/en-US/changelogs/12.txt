@@ -1,0 +1,7 @@
+* Add control to set extra wave growth
+* Start with lines of random thicknesses
+* Remove option for four columns in gallery
+* Decrease minimum thickness to a third of maximum
+* Add a tap to close note on the preview activity
+* Scroll to newly added theme in gallery
+

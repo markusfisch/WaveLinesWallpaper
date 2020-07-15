@@ -1,0 +1,5 @@
+* Set wallpaper in gallery with a long press
+* Open live wallpaper picker if not set as live wallpaper
+* Add a hint to tap for full screen when browsing themes
+* Add Spanish translation
+

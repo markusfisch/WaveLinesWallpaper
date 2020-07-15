@@ -1,0 +1,11 @@
+* Share and import themes
+* Hide system bars on a tap when swiping through themes
+* Extract dominant colors from a shared image and create a theme for it
+* Frame theme preview in a phone mock-up
+* Show fullscreen preview when phone mock-up is tapped
+* Add a button to edit a color in hex format
+* Add controls to manually set the shift and speed of the wave lines
+* Add control to set oscillation
+* Increase maximum number of wave lines
+* Automatically update currently selected wallpaper
+

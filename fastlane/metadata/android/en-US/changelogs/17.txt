@@ -1,0 +1,2 @@
+* Automatically manage animation frequency when running as live wallpaper
+
