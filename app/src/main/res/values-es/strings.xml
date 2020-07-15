@@ -44,4 +44,5 @@
 	<string name="columns_two">2 columnas</string>
 	<string name="columns_three">3 columnas</string>
 	<string name="tap_anywhere_to_close">Toque en cualquier lugar para cerrar la vista previa</string>
+	<string name="tap_for_full_screen">Tap anywhere for full screen\nSwipe left/right to browse</string>
 </resources>

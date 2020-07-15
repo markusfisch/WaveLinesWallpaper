@@ -11,6 +11,14 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:fitsSystemWindows="true">
+		<TextView
+			android:id="@+id/hint"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:gravity="center"
+			android:padding="16dp"
+			android:text="@string/tap_for_full_screen"/>
 		<android.support.design.widget.FloatingActionButton
 			tools:ignore="UnusedAttribute"
 			android:id="@+id/edit_theme"
