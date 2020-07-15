@@ -2,7 +2,6 @@ package de.markusfisch.android.wavelines.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -12,7 +11,6 @@ import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class ThemeView extends SurfaceView {
 	private final WaveLinesRenderer renderer = new WaveLinesRenderer();
-	private final RectF bounds = new RectF();
 	private final Runnable drawRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -48,19 +46,6 @@ public class ThemeView extends SurfaceView {
 
 	public void setTheme(Theme theme) {
 		renderer.setTheme(theme);
-	}
-
-	@Override
-	protected void onLayout(
-			boolean changed,
-			int left,
-			int top,
-			int right,
-			int bottom) {
-		super.onLayout(changed, left, top, right, bottom);
-		if (changed) {
-			bounds.set(left, top, right, bottom);
-		}
 	}
 
 	private void initView() {
