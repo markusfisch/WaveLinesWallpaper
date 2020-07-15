@@ -1,18 +1,18 @@
 package de.markusfisch.android.wavelines.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
 
+import de.markusfisch.android.wavelines.R;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
 public class GalleryItemView extends View {
-	private final Path selectedMarkerPath = new Path();
 	private final Paint selectedMarkerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	private final WaveLinesRenderer renderer = new WaveLinesRenderer();
 
@@ -67,18 +67,16 @@ public class GalleryItemView extends View {
 		}
 		canvas.drawBitmap(bitmap, 0, 0, null);
 		if (isSelected()) {
-			canvas.drawPath(selectedMarkerPath, selectedMarkerPaint);
+			canvas.drawRect(0, 0, width, height, selectedMarkerPaint);
 		}
 	}
 
 	private void initMarker(Context context) {
-		float dp = context.getResources().getDisplayMetrics().density;
-		float side = 32f * dp;
-		selectedMarkerPaint.setColor(0xffffffff);
-		selectedMarkerPath.moveTo(0, 0);
-		selectedMarkerPath.lineTo(side, 0);
-		selectedMarkerPath.lineTo(0, side);
-		selectedMarkerPath.lineTo(0, 0);
+		Resources res = context.getResources();
+		float dp = res.getDisplayMetrics().density;
+		selectedMarkerPaint.setColor(res.getColor(R.color.accent));
+		selectedMarkerPaint.setStyle(Paint.Style.STROKE);
+		selectedMarkerPaint.setStrokeWidth(8f * dp);
 	}
 
 	private void recycle() {
