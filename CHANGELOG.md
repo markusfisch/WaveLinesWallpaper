@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.12.0
+* Set wallpaper in gallery with a long press
+* Open live wallpaper picker if not set as live wallpaper
+* Add a hint to tap for full screen when browsing themes
+* Add Spanish translation
+
 ## 1.11.3
 * Automatically manage animation frequency when running as live wallpaper
 
