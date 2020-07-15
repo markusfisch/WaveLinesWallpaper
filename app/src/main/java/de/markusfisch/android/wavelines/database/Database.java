@@ -217,6 +217,11 @@ public class Database {
 				0xff58299f,
 				0xff602daf
 		}));
+		insertTheme(db, new Theme(true, false, false, 3, 1, .07999f, 0.3f, 0, .18f, .001f, 48, new int[]{
+				0xff134dca,
+				0xff1658e7,
+				0xff1143b1
+		}));
 	}
 
 	private static void createThemes(SQLiteDatabase db) {
