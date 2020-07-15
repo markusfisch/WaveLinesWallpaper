@@ -13,7 +13,7 @@
 	<string name="sure_to_delete_theme">Are you sure you want to delete this theme?</string>
 	<string name="set_theme">Use as wallpaper</string>
 	<string name="edit_theme">Edit theme</string>
-	<string name="set_as_wallpaper">Set as wallpaper</string>
+	<string name="wallpaper_set">Wallpaper set</string>
 	<string name="pick_live_wallpaper">Please pick this app as Live Wallpaper to set this wallpaper</string>
 	<string name="pick_live_wallpaper_manually">You need to pick this app as Live Wallpaper first</string>
 	<string name="cancel">Cancel</string>

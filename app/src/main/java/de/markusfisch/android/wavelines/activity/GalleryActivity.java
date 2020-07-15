@@ -19,6 +19,7 @@ import de.markusfisch.android.wavelines.R;
 import de.markusfisch.android.wavelines.adapter.GalleryAdapter;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
+import de.markusfisch.android.wavelines.service.WallpaperSetter;
 
 public class GalleryActivity extends AppCompatActivity {
 	private GridLayoutManager manager;
@@ -45,6 +46,13 @@ public class GalleryActivity extends AppCompatActivity {
 			@Override
 			public void onItemClick(View view, long id, int position) {
 				ThemeActivity.startWithIndex(view.getContext(), position);
+			}
+
+			@Override
+			public boolean onItemLongClick(View view, long id, int position) {
+				WallpaperSetter.setAsWallpaper(GalleryActivity.this, id);
+				adapter.notifyDataSetChanged();
+				return true;
 			}
 		});
 		recyclerView.setAdapter(adapter);

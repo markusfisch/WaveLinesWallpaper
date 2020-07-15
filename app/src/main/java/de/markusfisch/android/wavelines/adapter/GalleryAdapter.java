@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Database;
 import de.markusfisch.android.wavelines.widget.GalleryItemView;
 
@@ -12,6 +13,8 @@ public class GalleryAdapter
 		extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 	public interface ItemClickListener {
 		void onItemClick(View view, long id, int position);
+
+		boolean onItemLongClick(View view, long id, int position);
 	}
 
 	static class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,6 +61,7 @@ public class GalleryAdapter
 		holder.themeView.setTheme(Database.themeFromCursor(cursor));
 		final long id = cursor.getLong(cursor.getColumnIndex(
 				Database.THEMES_ID));
+		holder.themeView.setSelected(WaveLinesApp.preferences.getTheme() == id);
 		holder.themeView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -65,6 +69,16 @@ public class GalleryAdapter
 					itemClickListener.onItemClick(v, id,
 							holder.getAdapterPosition());
 				}
+			}
+		});
+		holder.themeView.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				if (itemClickListener != null) {
+					return itemClickListener.onItemLongClick(v, id,
+							holder.getAdapterPosition());
+				}
+				return false;
 			}
 		});
 	}

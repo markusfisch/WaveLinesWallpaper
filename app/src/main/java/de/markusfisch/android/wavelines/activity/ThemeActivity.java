@@ -33,7 +33,7 @@ import de.markusfisch.android.wavelines.R;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.BitmapLoader;
-import de.markusfisch.android.wavelines.service.WaveLinesWallpaperService;
+import de.markusfisch.android.wavelines.service.WallpaperSetter;
 import de.markusfisch.android.wavelines.widget.ThemesView;
 
 public class ThemeActivity extends AppCompatActivity {
@@ -250,31 +250,8 @@ public class ThemeActivity extends AppCompatActivity {
 	}
 
 	private void setAsWallpaper(long id, MenuItem item) {
-		WaveLinesApp.preferences.setTheme(id);
+		WallpaperSetter.setAsWallpaper(this, id);
 		item.setIcon(R.drawable.ic_wallpaper_set);
-		int message = 0;
-		if (WaveLinesWallpaperService.isRunning()) {
-			message = R.string.set_as_wallpaper;
-		} else if (startLiveWallpaperPicker()) {
-			message = R.string.pick_live_wallpaper;
-		} else {
-			message = R.string.pick_live_wallpaper_manually;
-		}
-		if (message > 0) {
-			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	private boolean startLiveWallpaperPicker() {
-		Intent intent = new Intent(Intent.ACTION_SET_WALLPAPER);
-		intent.setClassName(
-				"com.android.wallpaper.livepicker",
-				"com.android.wallpaper.livepicker.LiveWallpaperActivity");
-		if (intent.resolveActivity(getPackageManager()) != null) {
-			startActivity(intent);
-			return true;
-		}
-		return false;
 	}
 
 	private void handleSendIntents(Intent intent) {
@@ -321,6 +298,9 @@ public class ThemeActivity extends AppCompatActivity {
 	private static String getTextFromUri(ContentResolver resolver, Uri uri) {
 		try {
 			InputStream in = resolver.openInputStream(uri);
+			if (in == null) {
+				return null;
+			}
 			StringBuilder sb = new StringBuilder();
 			byte[] buffer = new byte[2048];
 			for (int len; (len = in.read(buffer)) > 0; ) {
