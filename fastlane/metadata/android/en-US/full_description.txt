@@ -1,0 +1,7 @@
+You can choose a color theme, build your own, change if the lines should
+grow and shrink or if they should have a uniform width. The lines may swing
+in harmony or each line independently. You may set the number of lines, the
+number of waves in a line and the maximum amplitude.
+
+This is open source. If you want to tweak it, just fork it on GitHub:
+https://github.com/markusfisch/WaveLinesWallpaper

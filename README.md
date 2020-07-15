@@ -7,12 +7,9 @@ create your own.
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-gallery.png"
-	alt="Screenshot Gallery" width="160"/>
-<img src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-theme-default.png"
-	alt="Screenshot Theme" width="160"/>
-<img src="https://raw.githubusercontent.com/markusfisch/WaveLinesWallpaper/gh-pages/screencap-editor-initial.png"
-	alt="Screenshot Editor" width="160"/>
+![Screenshot Gallery](fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-gallery.png)
+![Screenshot Theme](fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-theme.png)
+![Screenshot Editor](fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-editor.png)
 
 ## Download
 
