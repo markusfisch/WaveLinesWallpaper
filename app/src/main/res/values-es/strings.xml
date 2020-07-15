@@ -14,6 +14,8 @@
 	<string name="set_theme">Utilizar como fondo de pantalla</string>
 	<string name="edit_theme">Editar tema</string>
 	<string name="set_as_wallpaper">Establecer como fondo de pantalla</string>
+	<string name="pick_live_wallpaper">Please pick this app as Live Wallpaper to set this wallpaper</string>
+	<string name="pick_live_wallpaper_manually">You need to pick this app as Live Wallpaper first</string>
 	<string name="cancel">Cancelar</string>
 	<string name="discard_changes">¿Descartar cambios?</string>
 	<string name="sure_to_discard_changes">¿Estás seguro de que quieres descartar todos los cambios?</string>
