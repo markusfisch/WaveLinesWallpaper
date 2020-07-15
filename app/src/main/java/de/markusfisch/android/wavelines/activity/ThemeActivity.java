@@ -406,7 +406,7 @@ public class ThemeActivity extends AppCompatActivity {
 					// somehow removes the padding from mainLayout although
 					// fitsSytemWindows is set; happens only when
 					// windowLayoutInDisplayCutoutMode is set to shortEdges
-					mainLayout.setPadding(
+					v.setPadding(
 							insets.getSystemWindowInsetLeft(),
 							insets.getSystemWindowInsetTop(),
 							insets.getSystemWindowInsetRight(),
