@@ -95,12 +95,14 @@ public class ThemeActivity extends AppCompatActivity {
 	public void onResume() {
 		super.onResume();
 		queryThemesAsync();
+		themesView.startDrawing();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		themesView.closeCursor();
+		themesView.stopDrawing();
 	}
 
 	@Override

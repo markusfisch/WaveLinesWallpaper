@@ -68,6 +68,7 @@ public class ThemesView extends SurfaceView {
 	private int currentIndex;
 	private int idColumn;
 	private int pointerId;
+	private boolean initialized = false;
 	private boolean swiping = false;
 	private boolean drawing = false;
 	private float swipeThreshold;
@@ -95,6 +96,20 @@ public class ThemesView extends SurfaceView {
 			int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		initView(context);
+	}
+
+	public void startDrawing() {
+		if (initialized && !drawing) {
+			drawing = true;
+			postDelayed(drawRunnable, 16L);
+		}
+	}
+
+	public void stopDrawing() {
+		if (drawing) {
+			drawing = false;
+			removeCallbacks(drawRunnable);
+		}
 	}
 
 	public void closeCursor() {
@@ -237,8 +252,8 @@ public class ThemesView extends SurfaceView {
 					int width,
 					int height) {
 				renderer.setSize(width, height);
-				drawing = true;
-				postDelayed(drawRunnable, 16L);
+				initialized = true;
+				startDrawing();
 			}
 
 			@Override
@@ -247,8 +262,7 @@ public class ThemesView extends SurfaceView {
 
 			@Override
 			public void surfaceDestroyed(SurfaceHolder holder) {
-				drawing = false;
-				removeCallbacks(drawRunnable);
+				stopDrawing();
 			}
 		});
 	}
