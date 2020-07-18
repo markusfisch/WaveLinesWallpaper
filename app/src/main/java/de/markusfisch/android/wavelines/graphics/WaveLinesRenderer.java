@@ -11,6 +11,7 @@ import de.markusfisch.android.wavelines.database.Theme;
 
 public class WaveLinesRenderer {
 	private static final float MIN_THICKNESS = .33f;
+	private static final long SEED = System.currentTimeMillis();
 
 	private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	private final Path path = new Path();
@@ -24,7 +25,6 @@ public class WaveLinesRenderer {
 	private float width;
 	private float height;
 	private float maxSize;
-	private long seed = 75L;
 	private boolean themeUpdate = true;
 	private boolean sizeUpdate = true;
 
@@ -33,10 +33,6 @@ public class WaveLinesRenderer {
 			this.theme = theme;
 			themeUpdate = true;
 		}
-	}
-
-	public void setRandomSeed() {
-		this.seed = Math.round(Math.random() * Long.MAX_VALUE);
 	}
 
 	public void setSize(int width, int height) {
@@ -185,7 +181,7 @@ public class WaveLinesRenderer {
 			growths = new float[firstHalf];
 			indices = new int[firstHalf];
 
-			Random r = new Random(seed);
+			Random r = new Random(SEED);
 
 			// calculate thickness of master rows
 			{
