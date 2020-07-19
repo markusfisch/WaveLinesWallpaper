@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.12.1
+* Optimize rendering theme preview
+* Improve description of Speed and Shift in editor
+* Add another default theme
+
 ## 1.12.0
 * Set wallpaper in gallery with a long press
 * Open live wallpaper picker if not set as live wallpaper
