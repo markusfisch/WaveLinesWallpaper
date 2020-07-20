@@ -11,7 +11,7 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 
 public class Database {
-	public static final int VERSION = 7;
+	public static final int VERSION = 8;
 	public static final String THEMES = "themes";
 	public static final String THEMES_ID = "_id";
 	public static final String THEMES_COUPLED = "coupled";
@@ -26,6 +26,7 @@ public class Database {
 	public static final String THEMES_GROWTH = "growth";
 	public static final String THEMES_ROTATION = "rotation";
 	public static final String THEMES_COLORS = "colors";
+	public static final String THEMES_STROKE_WIDTHS = "stroke_width";
 
 	private SQLiteDatabase db;
 
@@ -49,7 +50,8 @@ public class Database {
 						THEMES_SPEED + "," +
 						THEMES_GROWTH + "," +
 						THEMES_ROTATION + "," +
-						THEMES_COLORS +
+						THEMES_COLORS + "," +
+						THEMES_STROKE_WIDTHS +
 						" FROM " + THEMES +
 						" ORDER BY " + THEMES_ID,
 				null);
@@ -91,7 +93,8 @@ public class Database {
 						THEMES_SPEED + "," +
 						THEMES_GROWTH + "," +
 						THEMES_ROTATION + "," +
-						THEMES_COLORS +
+						THEMES_COLORS + "," +
+						THEMES_STROKE_WIDTHS +
 						" FROM " + THEMES +
 						" WHERE " + THEMES_ID + "= ?",
 				new String[]{String.valueOf(id)});
@@ -127,25 +130,6 @@ public class Database {
 				new String[]{String.valueOf(id)});
 	}
 
-	public static int[] colorsFromCursor(Cursor cursor) {
-		byte[] bytes = cursor.getBlob(
-				cursor.getColumnIndex(THEMES_COLORS));
-
-		if (bytes == null) {
-			return null;
-		}
-
-		IntBuffer ib = ByteBuffer
-				.wrap(bytes)
-				.order(ByteOrder.nativeOrder())
-				.asIntBuffer();
-
-		int[] colors = new int[ib.remaining()];
-		ib.get(colors);
-
-		return colors;
-	}
-
 	public static Theme themeFromCursor(Cursor cursor) {
 		return new Theme(
 				cursor.getInt(cursor.getColumnIndex(THEMES_COUPLED)) > 0,
@@ -159,7 +143,22 @@ public class Database {
 				cursor.getFloat(cursor.getColumnIndex(THEMES_SPEED)),
 				cursor.getFloat(cursor.getColumnIndex(THEMES_GROWTH)),
 				cursor.getInt(cursor.getColumnIndex(THEMES_ROTATION)),
-				colorsFromCursor(cursor));
+				intArrayFromCursor(cursor, THEMES_COLORS),
+				intArrayFromCursor(cursor, THEMES_STROKE_WIDTHS));
+	}
+
+	private static int[] intArrayFromCursor(Cursor cursor, String column) {
+		byte[] bytes = cursor.getBlob(cursor.getColumnIndex(column));
+		if (bytes == null) {
+			return null;
+		}
+		IntBuffer ib = ByteBuffer
+				.wrap(bytes)
+				.order(ByteOrder.nativeOrder())
+				.asIntBuffer();
+		int[] colors = new int[ib.remaining()];
+		ib.get(colors);
+		return colors;
 	}
 
 	private static long insertTheme(SQLiteDatabase db, Theme theme) {
@@ -170,11 +169,6 @@ public class Database {
 	}
 
 	private static ContentValues getThemeContentValues(Theme theme) {
-		ByteBuffer bb = ByteBuffer.allocate(theme.colors.length << 2);
-		bb.order(ByteOrder.nativeOrder());
-		IntBuffer ib = bb.asIntBuffer();
-		ib.put(theme.colors);
-
 		ContentValues cv = new ContentValues();
 		cv.put(THEMES_COUPLED, theme.coupled);
 		cv.put(THEMES_UNIFORM, theme.uniform);
@@ -187,9 +181,17 @@ public class Database {
 		cv.put(THEMES_SPEED, theme.speed);
 		cv.put(THEMES_GROWTH, theme.growth);
 		cv.put(THEMES_ROTATION, theme.rotation);
-		cv.put(THEMES_COLORS, bb.array());
-
+		cv.put(THEMES_COLORS, getByteBuffer(theme.colors));
+		cv.put(THEMES_STROKE_WIDTHS, getByteBuffer(theme.strokeWidths));
 		return cv;
+	}
+
+	private static byte[] getByteBuffer(int[] array) {
+		ByteBuffer bb = ByteBuffer.allocate(array.length << 2);
+		bb.order(ByteOrder.nativeOrder());
+		IntBuffer ib = bb.asIntBuffer();
+		ib.put(array);
+		return bb.array();
 	}
 
 	private static void insertDefaultThemes(SQLiteDatabase db) {
@@ -200,28 +202,28 @@ public class Database {
 				0xff00a0e0,
 				0xff0070b0,
 				0xff0090d0
-		}));
+		}, null));
 		insertTheme(db, new Theme(false, false, false, 4, 2, .04f, 1f, 0f, .01f, 0f, 0, new int[]{
 				0xff00b06c,
 				0xff007ac6,
 				0xffe86f13,
 				0xffcf6310
-		}));
+		}, null));
 		insertTheme(db, new Theme(false, false, false, 2, 3, .05f, 1f, 0f, .01f, 0f, 0, new int[]{
 				0xffbd8119,
 				0xfff7aa21
-		}));
+		}, null));
 		insertTheme(db, new Theme(true, false, false, 4, 3, .02f, 1f, 0f, .01f, 0f, 32, new int[]{
 				0xff8c2fb5,
 				0xffb33ce8,
 				0xff58299f,
 				0xff602daf
-		}));
+		}, null));
 		insertTheme(db, new Theme(true, false, false, 3, 1, .07999f, 0.3f, 0, .18f, .001f, 48, new int[]{
 				0xff134dca,
 				0xff1658e7,
 				0xff1143b1
-		}));
+		}, null));
 	}
 
 	private static void createThemes(SQLiteDatabase db) {
@@ -239,7 +241,8 @@ public class Database {
 				THEMES_SPEED + " DOUBLE," +
 				THEMES_GROWTH + " DOUBLE," +
 				THEMES_ROTATION + " INTEGER," +
-				THEMES_COLORS + " BLOB);");
+				THEMES_COLORS + " BLOB," +
+				THEMES_STROKE_WIDTHS + " BLOB);");
 	}
 
 	private static void addShuffle(SQLiteDatabase db) {
@@ -274,6 +277,11 @@ public class Database {
 	private static void addGrowth(SQLiteDatabase db) {
 		db.execSQL("ALTER TABLE " + THEMES +
 				" ADD COLUMN " + THEMES_GROWTH + " DOUBLE;");
+	}
+
+	private static void addStrokeWidths(SQLiteDatabase db) {
+		db.execSQL("ALTER TABLE " + THEMES +
+				" ADD COLUMN " + THEMES_STROKE_WIDTHS + " BLOB;");
 	}
 
 	private static class OpenHelper extends SQLiteOpenHelper {
@@ -316,6 +324,9 @@ public class Database {
 			}
 			if (oldVersion < 7) {
 				addGrowth(db);
+			}
+			if (oldVersion < 8) {
+				addStrokeWidths(db);
 			}
 		}
 	}

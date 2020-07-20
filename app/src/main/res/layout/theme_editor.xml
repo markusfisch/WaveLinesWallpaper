@@ -182,7 +182,15 @@
 		<SeekBar
 			style="@style/EditorSeekBar"
 			android:id="@+id/value"
-			android:max="100"
+			android:max="100"/>
+		<TextView
+			style="@style/EditorLabel"
+			android:id="@+id/stroke_width_label"
+			android:text="@string/stroke_width"/>
+		<SeekBar
+			style="@style/EditorSeekBar"
+			android:id="@+id/stroke_width"
+			android:max="10"
 			android:layout_marginBottom="24dp"/>
 	</LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -12,11 +12,14 @@ public class WaveLinesApp extends Application {
 	public static final Database db = new Database();
 	public static final Preferences preferences = new Preferences();
 
+	public static float dp = 1f;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		db.open(this);
 		preferences.init(this);
+		dp = getResources().getDisplayMetrics().density;
 	}
 
 	public static void initToolbar(AppCompatActivity activity) {

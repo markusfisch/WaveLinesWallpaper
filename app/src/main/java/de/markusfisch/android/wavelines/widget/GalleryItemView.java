@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.markusfisch.android.wavelines.R;
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
@@ -73,10 +74,9 @@ public class GalleryItemView extends View {
 
 	private void initMarker(Context context) {
 		Resources res = context.getResources();
-		float dp = res.getDisplayMetrics().density;
 		selectedMarkerPaint.setColor(res.getColor(R.color.accent));
 		selectedMarkerPaint.setStyle(Paint.Style.STROKE);
-		selectedMarkerPaint.setStrokeWidth(8f * dp);
+		selectedMarkerPaint.setStrokeWidth(8f * WaveLinesApp.dp);
 	}
 
 	private void recycle() {

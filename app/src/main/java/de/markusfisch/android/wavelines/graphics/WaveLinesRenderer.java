@@ -7,6 +7,7 @@ import android.os.SystemClock;
 
 import java.util.Random;
 
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
 
 public class WaveLinesRenderer {
@@ -89,7 +90,6 @@ public class WaveLinesRenderer {
 		}
 
 		float y = 0f;
-
 		for (int i = theme.lines; i-- > 0; ) {
 			WaveLine wl = theme.waveLines[i];
 			flow(wl, factor);
@@ -98,43 +98,49 @@ public class WaveLinesRenderer {
 				continue;
 			}
 
-			// build path
-			{
+			float x = 0f;
+			if (y == 0) {
+				canvas.drawColor(wl.color);
+				y += wl.thickness;
+				continue;
+			} else {
 				float waveLength = wl.length;
 				float halfWaveLength = waveLength / 2;
 				float amp = (float) Math.sin(wl.amplitude) * amplitude;
 				float lastX = wl.shift;
-				float x = lastX + waveLength;
+				x = lastX + waveLength;
 
 				path.reset();
 				path.moveTo(lastX, y);
+				for (; ; lastX = x, x += waveLength) {
+					float center = lastX + halfWaveLength;
+					path.cubicTo(
+							center,
+							y - amp,
+							center,
+							y + amp,
+							x,
+							y
+					);
 
-				if (y == 0) {
-					x = maxSize;
-					path.lineTo(x, y);
-				} else {
-					for (; ; lastX = x, x += waveLength) {
-						float center = lastX + halfWaveLength;
-						path.cubicTo(
-								center,
-								y - amp,
-								center,
-								y + amp,
-								x,
-								y
-						);
-
-						if (x > maxSize) {
-							break;
-						}
+					if (x > maxSize) {
+						break;
 					}
 				}
+			}
 
-				y += wl.thickness;
+			y += wl.thickness;
 
-				float bottom = i > 0 ? y + amplitude * 2f : maxSize;
+			if (wl.strokeWidth > 0) {
+				paint.setStrokeWidth(wl.strokeWidth);
+				paint.setStyle(Paint.Style.STROKE);
+			} else {
+				float bottom = i > 0 && theme.waveLines[i - 1].strokeWidth == 0
+						? y + amplitude * 2f // faster than maxSize
+						: maxSize;
 				path.lineTo(x, bottom);
 				path.lineTo(0, bottom);
+				paint.setStyle(Paint.Style.FILL);
 			}
 
 			paint.setColor(wl.color);
@@ -215,8 +221,10 @@ public class WaveLinesRenderer {
 		// calculate wave lines
 		{
 			int colors = theme.colors.length;
-			int colorIndex = !theme.shuffle ? 0 : (int) Math.round(
-					Math.random() * colors);
+			int strokeWidths = theme.strokeWidths.length;
+			int colorIndex = !theme.shuffle
+					? 0
+					: (int) Math.round(Math.random() * colors);
 			int waveLength = (int) Math.ceil(maxSize / theme.waves);
 			float averageThickness = maxSize / theme.lines;
 			float shift = waveLength * -2;
@@ -228,6 +236,8 @@ public class WaveLinesRenderer {
 				float thickness = averageThickness;
 				float growth = 0;
 				int color = theme.colors[colorIndex % colors];
+				float strokeWidth = theme.strokeWidths[
+						colorIndex % strokeWidths] * WaveLinesApp.dp;
 				int yang = -1;
 				if (!theme.uniform) {
 					if (i < firstHalf) {
@@ -246,6 +256,7 @@ public class WaveLinesRenderer {
 							lastWave.oscillation,
 							shift,
 							lastWave.speed,
+							strokeWidth,
 							color,
 							yang
 					);
@@ -256,9 +267,11 @@ public class WaveLinesRenderer {
 							growth,
 							1.57f,
 							theme.oscillation,
-							shift * (!theme.coupled && shiftPlus == 0 ?
-									(float) Math.random() : 1f),
+							shift * (!theme.coupled && shiftPlus == 0
+									? (float) Math.random()
+									: 1f),
 							speed,
+							strokeWidth,
 							color,
 							yang
 					);
@@ -309,6 +322,7 @@ public class WaveLinesRenderer {
 		private float oscillation;
 		private float shift;
 		private float speed;
+		private float strokeWidth;
 		private int color;
 		private int yang;
 
@@ -320,6 +334,7 @@ public class WaveLinesRenderer {
 				float oscillation,
 				float shift,
 				float speed,
+				float strokeWidth,
 				int color,
 				int yang) {
 			this.length = length;
@@ -329,6 +344,7 @@ public class WaveLinesRenderer {
 			this.oscillation = oscillation;
 			this.shift = shift;
 			this.speed = speed;
+			this.strokeWidth = strokeWidth;
 			this.color = color;
 			this.yang = yang;
 		}

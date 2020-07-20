@@ -18,6 +18,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Database;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
@@ -229,8 +230,7 @@ public class ThemePagerView extends SurfaceView {
 	}
 
 	private void initView(Context context) {
-		float dp = context.getResources().getDisplayMetrics().density;
-		swipeThreshold = 16f * dp;
+		swipeThreshold = 16f * WaveLinesApp.dp;
 
 		edgeEffectLeft = new EdgeEffectCompat(context);
 		edgeEffectRight = new EdgeEffectCompat(context);
@@ -441,9 +441,9 @@ public class ThemePagerView extends SurfaceView {
 	}
 
 	private float trim(float d) {
-		if (d > 0 ?
-				currentIndex == 0 :
-				currentIndex == themeCount - 1) {
+		if (d > 0
+				? currentIndex == 0
+				: currentIndex == themeCount - 1) {
 			if (!edgeEffectLeft.isFinished()) {
 				edgeEffectLeft.onRelease();
 			}
@@ -522,16 +522,16 @@ public class ThemePagerView extends SurfaceView {
 
 	private Theme getThemeAt(int index) {
 		return cursor != null && !cursor.isClosed() &&
-				cursor.moveToPosition(index) ?
-				Database.themeFromCursor(cursor) :
-				null;
+				cursor.moveToPosition(index)
+						? Database.themeFromCursor(cursor)
+						: null;
 	}
 
 	private long getThemeId(int index) {
 		return cursor != null && !cursor.isClosed() &&
-				cursor.moveToPosition(index) ?
-				cursor.getLong(idColumn) :
-				0;
+				cursor.moveToPosition(index)
+						? cursor.getLong(idColumn)
+						: 0;
 	}
 
 	private ThemePreview getThemePreview(int index) {

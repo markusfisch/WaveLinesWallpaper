@@ -33,14 +33,16 @@ public class EditorActivity extends AppCompatActivity {
 	public static final String THEME_ID = "id";
 
 	private static final String THEME = "theme";
+	private static final String SELECTED_COLOR = "selected_color";
 
 	private final ArrayList<Integer> colors = new ArrayList<>();
+	private final ArrayList<Integer> strokeWidths = new ArrayList<>();
 	private final SeekBar.OnSeekBarChangeListener updateColorFromBarsListener = new SeekBar.OnSeekBarChangeListener() {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progressValue,
 				boolean fromUser) {
-			setColorFromHSVBars();
-			updateHSVLabels();
+			setColorProperties();
+			updateColorLabels();
 			updatePreview();
 		}
 
@@ -131,6 +133,9 @@ public class EditorActivity extends AppCompatActivity {
 	private TextView valLabel;
 	private String valTemplate;
 	private SeekBar valBar;
+	private TextView strokeWidthLabel;
+	private String strokeWidthTemplate;
+	private SeekBar strokeWidthBar;
 	private int selectedColor;
 
 	@Override
@@ -147,6 +152,9 @@ public class EditorActivity extends AppCompatActivity {
 		if (state != null) {
 			theme = state.getParcelable(THEME);
 			themeId = state.getLong(THEME_ID);
+			selectedColor = state.getInt(SELECTED_COLOR);
+		} else {
+			selectedColor = 0;
 		}
 
 		if (theme == null || themeId < 1) {
@@ -157,11 +165,11 @@ public class EditorActivity extends AppCompatActivity {
 			}
 		}
 
-		if (theme != null) {
-			setTheme(theme);
-		} else {
+		if (theme == null) {
 			finish();
 		}
+
+		setTheme(theme);
 	}
 
 	@Override
@@ -175,6 +183,7 @@ public class EditorActivity extends AppCompatActivity {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putParcelable(THEME, getNewTheme());
 		savedInstanceState.putLong(THEME_ID, themeId);
+		savedInstanceState.putInt(SELECTED_COLOR, selectedColor);
 	}
 
 	@Override
@@ -236,7 +245,8 @@ public class EditorActivity extends AppCompatActivity {
 				speedBar.getProgress() / 100f,
 				growthBar.getProgress() / 1000f,
 				rotationBar.getProgress(),
-				toArray(colors)
+				toArray(colors),
+				toArray(strokeWidths)
 		);
 	}
 
@@ -298,15 +308,19 @@ public class EditorActivity extends AppCompatActivity {
 		valLabel = (TextView) findViewById(R.id.value_label);
 		valTemplate = getString(R.string.value);
 		valBar = (SeekBar) findViewById(R.id.value);
+		strokeWidthLabel = (TextView) findViewById(R.id.stroke_width_label);
+		strokeWidthTemplate = getString(R.string.stroke_width);
+		strokeWidthBar = (SeekBar) findViewById(R.id.stroke_width);
 
-		setHSVBarListener(updateColorFromBarsListener);
+		setColorBarsListener(updateColorFromBarsListener);
 		initColorButtons();
 	}
 
-	private void setHSVBarListener(SeekBar.OnSeekBarChangeListener listener) {
+	private void setColorBarsListener(SeekBar.OnSeekBarChangeListener listener) {
 		hueBar.setOnSeekBarChangeListener(listener);
 		satBar.setOnSeekBarChangeListener(listener);
 		valBar.setOnSeekBarChangeListener(listener);
+		strokeWidthBar.setOnSeekBarChangeListener(listener);
 	}
 
 	private void initColorButtons() {
@@ -366,12 +380,12 @@ public class EditorActivity extends AppCompatActivity {
 		growthBar.setProgress(Math.round(theme.growth * 1000f));
 		rotationBar.setProgress(theme.rotation);
 		toList(colors, theme.colors);
+		toList(strokeWidths, theme.strokeWidths);
 		colorsList.removeAllViews();
 		LayoutInflater inflater = getLayoutInflater();
 		for (int color : colors) {
 			addColorView(inflater, color);
 		}
-		selectedColor = 0;
 		updateColorControls();
 		updatePreview();
 	}
@@ -399,6 +413,7 @@ public class EditorActivity extends AppCompatActivity {
 		int count = colorsList.getChildCount();
 		addColorView(inflater, color);
 		colors.add(color);
+		strokeWidths.add(0);
 		selectedColor = count;
 		updateColorControls();
 		colorsScroll.postDelayed(new Runnable() {
@@ -413,6 +428,7 @@ public class EditorActivity extends AppCompatActivity {
 		if (colorsList.getChildCount() > 1) {
 			colorsList.removeViewAt(selectedColor);
 			colors.remove(selectedColor);
+			strokeWidths.remove(selectedColor);
 			if (selectedColor > 0) {
 				--selectedColor;
 			}
@@ -444,6 +460,9 @@ public class EditorActivity extends AppCompatActivity {
 		int color = colors.get(a);
 		colors.set(a, colors.get(b));
 		colors.set(b, color);
+		int sw = strokeWidths.get(a);
+		strokeWidths.set(a, strokeWidths.get(b));
+		strokeWidths.set(b, sw);
 		colorsList.getChildAt(a).setBackgroundColor(colors.get(a));
 		colorsList.getChildAt(b).setBackgroundColor(colors.get(b));
 	}
@@ -486,12 +505,13 @@ public class EditorActivity extends AppCompatActivity {
 		}
 	}
 
-	private void setColorFromHSVBars() {
+	private void setColorProperties() {
 		int color = Color.HSVToColor(new float[]{
 				hueBar.getProgress(),
 				satBar.getProgress() / 100f,
 				valBar.getProgress() / 100f
 		});
+		strokeWidths.set(selectedColor, strokeWidthBar.getProgress());
 		setSelectedColor(color);
 	}
 
@@ -510,12 +530,13 @@ public class EditorActivity extends AppCompatActivity {
 				color & 0xff,
 				hsv
 		);
-		setHSVBarListener(null);
+		setColorBarsListener(null);
 		hueBar.setProgress(Math.round(hsv[0]));
 		satBar.setProgress(Math.round(hsv[1] * 100f));
 		valBar.setProgress(Math.round(hsv[2] * 100f));
-		updateHSVLabels();
-		setHSVBarListener(updateColorFromBarsListener);
+		strokeWidthBar.setProgress(strokeWidths.get(selectedColor));
+		updateColorLabels();
+		setColorBarsListener(updateColorFromBarsListener);
 		updateSelectionMarker();
 	}
 
@@ -530,12 +551,14 @@ public class EditorActivity extends AppCompatActivity {
 		}
 	}
 
-	private void updateHSVLabels() {
+	private void updateColorLabels() {
 		hueLabel.setText(String.format(hueTemplate, hueBar.getProgress()));
 		satLabel.setText(String.format(satTemplate,
 				satBar.getProgress() / 100f));
 		valLabel.setText(String.format(valTemplate,
 				valBar.getProgress() / 100f));
+		strokeWidthLabel.setText(String.format(strokeWidthTemplate,
+				strokeWidthBar.getProgress()));
 	}
 
 	private void updatePreview() {

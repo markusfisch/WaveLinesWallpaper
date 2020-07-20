@@ -35,6 +35,7 @@ public class Theme implements Parcelable {
 	public final float growth;
 	public final int rotation;
 	public final int[] colors;
+	public final int[] strokeWidths;
 	public final WaveLinesRenderer.WaveLine[] waveLines;
 
 	public Theme(
@@ -49,7 +50,8 @@ public class Theme implements Parcelable {
 			float speed,
 			float growth,
 			int rotation,
-			int[] colors) {
+			int[] colors,
+			int[] strokeWidths) {
 		this.coupled = coupled;
 		this.uniform = uniform;
 		this.shuffle = shuffle;
@@ -62,6 +64,7 @@ public class Theme implements Parcelable {
 		this.growth = Math.max(0f, Math.min(.004f, growth));
 		this.rotation = Math.abs(360 + rotation) % 360;
 		this.colors = colors.clone();
+		this.strokeWidths = initStrokeWidths(strokeWidths, colors.length);
 		waveLines = new WaveLinesRenderer.WaveLine[this.lines];
 	}
 
@@ -81,9 +84,12 @@ public class Theme implements Parcelable {
 				(float) Math.random(),
 				.005f + (float) Math.random() * .02f,
 				0f,
-				Math.random() > .5f ? 0 : (((int) Math.round(
-						Math.random() * 90f - 45f) + 360) % 360),
-				colors
+				Math.random() > .5f
+						? 0
+						: (((int) Math.round(
+								Math.random() * 90f - 45f) + 360) % 360),
+				colors,
+				getDefaultStrokeWidths(colors.length)
 		);
 	}
 
@@ -100,14 +106,21 @@ public class Theme implements Parcelable {
 				theme.getInt("waves"),
 				(float) theme.getDouble("amplitude"),
 				(float) theme.getDouble("oscillation"),
-				theme.getInt("version") > 4 ?
-						(float) theme.getDouble("shift") : 0f,
-				theme.getInt("version") > 5 ?
-						(float) theme.getDouble("speed") : .01f,
-				theme.getInt("version") > 6 ?
-						(float) theme.getDouble("growth") : 0f,
+				theme.getInt("version") > 4
+						? (float) theme.getDouble("shift")
+						: 0f,
+				theme.getInt("version") > 5
+						? (float) theme.getDouble("speed")
+						: .01f,
+				theme.getInt("version") > 6
+						? (float) theme.getDouble("growth")
+						: 0f,
 				theme.getInt("rotation"),
-				parseColorArray(theme.getJSONArray("colors"))
+				parseColorArray(theme.getJSONArray("colors")),
+				theme.getInt("version") > 7
+						? parseIntArray(theme.getJSONArray("strokeWidths"))
+						: getDefaultStrokeWidths(
+								theme.getJSONArray("colors").length())
 		);
 	}
 
@@ -127,6 +140,7 @@ public class Theme implements Parcelable {
 			theme.put("growth", growth);
 			theme.put("rotation", rotation);
 			theme.put("colors", getJsonColorArray(colors));
+			theme.put("strokeWidths", getJsonIntArray(strokeWidths));
 			return theme.toString();
 		} catch (JSONException e) {
 			return null;
@@ -170,6 +184,8 @@ public class Theme implements Parcelable {
 		out.writeInt(rotation);
 		out.writeInt(colors.length);
 		out.writeIntArray(colors);
+		out.writeInt(strokeWidths.length);
+		out.writeIntArray(strokeWidths);
 	}
 
 	private Theme(Parcel in) {
@@ -186,6 +202,8 @@ public class Theme implements Parcelable {
 		rotation = in.readInt();
 		colors = new int[in.readInt()];
 		in.readIntArray(colors);
+		strokeWidths = new int[in.readInt()];
+		in.readIntArray(strokeWidths);
 		waveLines = new WaveLinesRenderer.WaveLine[lines];
 	}
 
@@ -203,6 +221,28 @@ public class Theme implements Parcelable {
 		return colors;
 	}
 
+	private static int[] initStrokeWidths(int[] src, int length) {
+		if (src == null) {
+			return getDefaultStrokeWidths(length);
+		} else if (src.length == length) {
+			return src.clone();
+		}
+		int[] copy = new int[length];
+		System.arraycopy(src, 0, copy, 0, Math.min(src.length, length));
+		for (int i = src.length; i < length; ++i) {
+			copy[i] = 0;
+		}
+		return copy;
+	}
+
+	private static int[] getDefaultStrokeWidths(int length) {
+		int[] array = new int[length];
+		for (int i = 0; i < length; ++i) {
+			array[i] = 0;
+		}
+		return array;
+	}
+
 	private static int[] parseColorArray(JSONArray array) {
 		int len = array.length();
 		int[] intArray = new int[len];
@@ -216,6 +256,23 @@ public class Theme implements Parcelable {
 		JSONArray array = new JSONArray();
 		for (int i = 0, l = intArray.length; i < l; ++i) {
 			array.put(String.format("#%08X", intArray[i]));
+		}
+		return array;
+	}
+
+	private static int[] parseIntArray(JSONArray array) {
+		int len = array.length();
+		int[] intArray = new int[len];
+		for (int i = 0; i < len; ++i) {
+			intArray[i] = array.optInt(i);
+		}
+		return intArray;
+	}
+
+	private static JSONArray getJsonIntArray(int[] intArray) {
+		JSONArray array = new JSONArray();
+		for (int i = 0, l = intArray.length; i < l; ++i) {
+			array.put(intArray[i]);
 		}
 		return array;
 	}

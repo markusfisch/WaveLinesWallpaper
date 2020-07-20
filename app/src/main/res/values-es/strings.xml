@@ -41,6 +41,7 @@
 	<string name="hue">Tono: %d</string>
 	<string name="saturation">Saturación: %.02f</string>
 	<string name="value">Valor: %.02f</string>
+	<string name="stroke_width">Stroke width: %d</string>
 	<string name="color">Color</string>
 	<string name="how_many_columns">¿Cuántas columnas?</string>
 	<string name="columns_two">2 columnas</string>
