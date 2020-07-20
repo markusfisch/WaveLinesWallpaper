@@ -9,7 +9,7 @@ import android.view.SurfaceView;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
-public class ThemeView extends SurfaceView {
+public class ThemePreview extends SurfaceView {
 	private final WaveLinesRenderer renderer = new WaveLinesRenderer();
 	private final Runnable drawRunnable = new Runnable() {
 		@Override
@@ -26,17 +26,17 @@ public class ThemeView extends SurfaceView {
 	private SurfaceHolder surfaceHolder;
 	private boolean drawing = false;
 
-	public ThemeView(Context context) {
+	public ThemePreview(Context context) {
 		super(context);
 		initView();
 	}
 
-	public ThemeView(Context context, AttributeSet attrs) {
+	public ThemePreview(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initView();
 	}
 
-	public ThemeView(
+	public ThemePreview(
 			Context context,
 			AttributeSet attrs,
 			int defStyleAttr) {

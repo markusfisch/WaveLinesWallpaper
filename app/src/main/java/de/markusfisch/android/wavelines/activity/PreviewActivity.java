@@ -11,7 +11,7 @@ import android.view.Window;
 
 import de.markusfisch.android.wavelines.R;
 import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.widget.ThemeView;
+import de.markusfisch.android.wavelines.widget.ThemePreview;
 
 public class PreviewActivity extends AppCompatActivity {
 	public static final String THEME = "theme";
@@ -27,7 +27,7 @@ public class PreviewActivity extends AppCompatActivity {
 		super.onCreate(state);
 		hideSystemUi(getWindow());
 		setContentView(R.layout.activity_preview);
-		ThemeView view = (ThemeView) findViewById(R.id.theme_view);
+		ThemePreview view = (ThemePreview) findViewById(R.id.theme_view);
 		view.setTheme((Theme) getIntent().getExtras().getParcelable(THEME));
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override

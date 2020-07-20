@@ -14,7 +14,7 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="16dp"
 			android:background="@drawable/background_preview">
-			<de.markusfisch.android.wavelines.widget.ThemeView
+			<de.markusfisch.android.wavelines.widget.ThemePreview
 				android:id="@+id/preview"
 				android:layout_width="96dp"
 				android:layout_height="160dp"/>

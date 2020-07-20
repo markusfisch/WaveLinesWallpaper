@@ -34,7 +34,7 @@ import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.BitmapLoader;
 import de.markusfisch.android.wavelines.service.WallpaperSetter;
-import de.markusfisch.android.wavelines.widget.ThemesView;
+import de.markusfisch.android.wavelines.widget.ThemePagerView;
 
 public class ThemeActivity extends AppCompatActivity {
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -45,7 +45,7 @@ public class ThemeActivity extends AppCompatActivity {
 	private static final int SELECT_LAST = -1;
 	private static final String THEME_INDEX = "theme_index";
 
-	private ThemesView themesView;
+	private ThemePagerView themesView;
 	private MenuItem setThemeMenuItem;
 	private View mainLayout;
 	private View progressView;
@@ -63,7 +63,7 @@ public class ThemeActivity extends AppCompatActivity {
 		super.onCreate(state);
 		setContentView(R.layout.activity_theme);
 
-		themesView = (ThemesView) findViewById(R.id.themes);
+		themesView = (ThemePagerView) findViewById(R.id.themes);
 		mainLayout = findViewById(R.id.main_layout);
 		progressView = findViewById(R.id.progress_view);
 		findViewById(R.id.edit_theme).setOnClickListener(new View.OnClickListener() {
@@ -77,7 +77,7 @@ public class ThemeActivity extends AppCompatActivity {
 			}
 		});
 
-		initThemesView();
+		initThemePagerView();
 		initWindowInsets();
 		initDecorView();
 
@@ -374,7 +374,7 @@ public class ThemeActivity extends AppCompatActivity {
 		addTheme(new Theme(colors));
 	}
 
-	private void initThemesView() {
+	private void initThemePagerView() {
 		themesView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -390,7 +390,7 @@ public class ThemeActivity extends AppCompatActivity {
 		});
 
 		final String title = getString(R.string.themes);
-		themesView.setOnChangeListener(new ThemesView.OnChangeListener() {
+		themesView.setOnChangeListener(new ThemePagerView.OnChangeListener() {
 			@Override
 			public void onChange(int index, long id) {
 				setTitle(String.format(title, index + 1,

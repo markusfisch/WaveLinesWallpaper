@@ -22,7 +22,7 @@ import de.markusfisch.android.wavelines.database.Database;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;
 
-public class ThemesView extends SurfaceView {
+public class ThemePagerView extends SurfaceView {
 	public interface OnChangeListener {
 		void onChange(int index, long id);
 	}
@@ -80,17 +80,17 @@ public class ThemesView extends SurfaceView {
 	private long completeSwipeLast;
 	private OnChangeListener onChangeListener;
 
-	public ThemesView(Context context) {
+	public ThemePagerView(Context context) {
 		super(context);
 		initView(context);
 	}
 
-	public ThemesView(Context context, AttributeSet attrs) {
+	public ThemePagerView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initView(context);
 	}
 
-	public ThemesView(
+	public ThemePagerView(
 			Context context,
 			AttributeSet attrs,
 			int defStyleAttr) {

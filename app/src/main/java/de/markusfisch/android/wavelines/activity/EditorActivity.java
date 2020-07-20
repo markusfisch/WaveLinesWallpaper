@@ -27,7 +27,7 @@ import java.util.List;
 import de.markusfisch.android.wavelines.R;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
-import de.markusfisch.android.wavelines.widget.ThemeView;
+import de.markusfisch.android.wavelines.widget.ThemePreview;
 
 public class EditorActivity extends AppCompatActivity {
 	public static final String THEME_ID = "id";
@@ -91,7 +91,7 @@ public class EditorActivity extends AppCompatActivity {
 	};
 
 	private long themeId;
-	private ThemeView preview;
+	private ThemePreview preview;
 	private SwitchCompat coupledSwitch;
 	private SwitchCompat uniformSwitch;
 	private SwitchCompat shuffleSwitch;
@@ -241,7 +241,7 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private void initViews() {
-		preview = (ThemeView) findViewById(R.id.preview);
+		preview = (ThemePreview) findViewById(R.id.preview);
 		preview.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
