@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
@@ -558,7 +559,10 @@ public class EditorActivity extends AppCompatActivity {
 								updatePreview();
 							}
 						})
-				.show();
+				.show()
+				// remove shadow to not obscure the preview and the colors
+				.getWindow()
+				.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 	}
 
 	private static void rotateHue(
