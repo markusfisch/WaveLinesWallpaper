@@ -87,7 +87,7 @@ public class Theme implements Parcelable {
 				Math.random() > .5f
 						? 0
 						: (((int) Math.round(
-								Math.random() * 90f - 45f) + 360) % 360),
+						Math.random() * 90f - 45f) + 360) % 360),
 				colors,
 				getDefaultStrokeWidths(colors.length)
 		);
@@ -120,7 +120,7 @@ public class Theme implements Parcelable {
 				theme.getInt("version") > 7
 						? parseIntArray(theme.getJSONArray("strokeWidths"))
 						: getDefaultStrokeWidths(
-								theme.getJSONArray("colors").length())
+						theme.getJSONArray("colors").length())
 		);
 	}
 

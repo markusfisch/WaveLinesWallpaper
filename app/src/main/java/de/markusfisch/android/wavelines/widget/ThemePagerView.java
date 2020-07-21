@@ -523,15 +523,15 @@ public class ThemePagerView extends SurfaceView {
 	private Theme getThemeAt(int index) {
 		return cursor != null && !cursor.isClosed() &&
 				cursor.moveToPosition(index)
-						? Database.themeFromCursor(cursor)
-						: null;
+				? Database.themeFromCursor(cursor)
+				: null;
 	}
 
 	private long getThemeId(int index) {
 		return cursor != null && !cursor.isClosed() &&
 				cursor.moveToPosition(index)
-						? cursor.getLong(idColumn)
-						: 0;
+				? cursor.getLong(idColumn)
+				: 0;
 	}
 
 	private ThemePreview getThemePreview(int index) {

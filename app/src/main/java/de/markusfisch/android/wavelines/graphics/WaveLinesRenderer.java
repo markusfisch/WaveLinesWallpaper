@@ -98,7 +98,7 @@ public class WaveLinesRenderer {
 				continue;
 			}
 
-			float x = 0f;
+			float x;
 			if (y == 0) {
 				canvas.drawColor(wl.color);
 				y += wl.thickness;
