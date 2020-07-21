@@ -148,6 +148,11 @@
 					android:id="@+id/enter_color"
 					android:contentDescription="@string/enter_color"
 					android:src="@drawable/ic_enter_color"/>
+				<ImageButton
+					style="@style/ColorButton"
+					android:id="@+id/rotate_hue"
+					android:contentDescription="@string/rotate_hue"
+					android:src="@drawable/ic_rotate_hue"/>
 			</LinearLayout>
 		</HorizontalScrollView>
 		<HorizontalScrollView

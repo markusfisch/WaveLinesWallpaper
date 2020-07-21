@@ -366,6 +366,12 @@ public class EditorActivity extends AppCompatActivity {
 				askForManualColorInput();
 			}
 		});
+		findViewById(R.id.rotate_hue).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showHueDialog();
+			}
+		});
 	}
 
 	private void setTheme(Theme theme) {
@@ -503,6 +509,79 @@ public class EditorActivity extends AppCompatActivity {
 		} catch (IllegalArgumentException e) {
 			Toast.makeText(this, e.getLocalizedMessage(),
 					Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@SuppressLint("InflateParams")
+	private void showHueDialog() {
+		final ArrayList<Integer> backup = new ArrayList<>(colors);
+		View view = getLayoutInflater().inflate(
+				R.layout.dialog_rotate_hue,
+				// a dialog does not have a parent view group
+				// so InflateParams must be suppressed
+				null);
+		SeekBar hueBar = view.findViewById(R.id.hue);
+		hueBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progressValue,
+					boolean fromUser) {
+				rotateHue(backup, colors, progressValue);
+				updateAllColors();
+				updateColorLabels();
+				updatePreview();
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+		});
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.rotate_hue)
+				.setView(view)
+				.setPositiveButton(android.R.string.ok, null)
+				.setNegativeButton(
+						android.R.string.cancel,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(
+									DialogInterface dialog,
+									int whichButton) {
+								for (int i = 0, l = colors.size(); i < l; ++i) {
+									colors.set(i, backup.get(i));
+								}
+								updateAllColors();
+								updateColorLabels();
+								updatePreview();
+							}
+						})
+				.show();
+	}
+
+	private static void rotateHue(
+			ArrayList<Integer> src,
+			ArrayList<Integer> dst,
+			int degrees) {
+		for (int i = 0, l = Math.min(src.size(), dst.size()); i < l; ++i) {
+			int color = src.get(i);
+			float[] hsv = new float[3];
+			Color.RGBToHSV(
+					(color >> 16) & 0xff,
+					(color >> 8) & 0xff,
+					color & 0xff,
+					hsv
+			);
+			hsv[0] = (hsv[0] + degrees) % 360f;
+			dst.set(i, Color.HSVToColor(hsv));
+		}
+	}
+
+	private void updateAllColors() {
+		for (int i = 0, l = colorsList.getChildCount(); i < l; ++i) {
+			colorsList.getChildAt(i).setBackgroundColor(colors.get(i));
 		}
 	}
 

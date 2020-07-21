@@ -38,6 +38,7 @@
 	<string name="shift_left">Cambio izquierdo</string>
 	<string name="shift_right">Cambio derecho</string>
 	<string name="enter_color">Introducir color</string>
+	<string name="rotate_hue">Rotate hue</string>
 	<string name="hue">Tono: %d</string>
 	<string name="saturation">Saturación: %.02f</string>
 	<string name="value">Valor: %.02f</string>
