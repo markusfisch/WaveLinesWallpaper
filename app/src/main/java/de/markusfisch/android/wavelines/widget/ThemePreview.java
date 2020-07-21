@@ -44,6 +44,10 @@ public class ThemePreview extends SurfaceView {
 		initView();
 	}
 
+	public void setDensity(float density) {
+		renderer.setDensity(density);
+	}
+
 	public void setTheme(Theme theme) {
 		renderer.setTheme(theme);
 	}

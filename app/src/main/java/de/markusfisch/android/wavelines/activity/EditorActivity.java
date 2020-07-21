@@ -93,7 +93,7 @@ public class EditorActivity extends AppCompatActivity {
 	};
 
 	private long themeId;
-	private ThemePreview preview;
+	private ThemePreview themePreview;
 	private SwitchCompat coupledSwitch;
 	private SwitchCompat uniformSwitch;
 	private SwitchCompat shuffleSwitch;
@@ -251,13 +251,14 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private void initViews() {
-		preview = (ThemePreview) findViewById(R.id.preview);
-		preview.setOnClickListener(new View.OnClickListener() {
+		themePreview = (ThemePreview) findViewById(R.id.preview);
+		themePreview.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				PreviewActivity.show(v.getContext(), getNewTheme());
 			}
 		});
+		themePreview.setDensity(1f);
 		coupledSwitch = (SwitchCompat) findViewById(R.id.coupled);
 		coupledSwitch.setOnCheckedChangeListener(switchListener);
 		uniformSwitch = (SwitchCompat) findViewById(R.id.uniform);
@@ -562,7 +563,7 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private void updatePreview() {
-		preview.setTheme(getNewTheme());
+		themePreview.setTheme(getNewTheme());
 	}
 
 	private void updateShiftLabel() {

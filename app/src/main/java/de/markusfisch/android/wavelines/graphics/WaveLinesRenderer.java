@@ -26,6 +26,7 @@ public class WaveLinesRenderer {
 	private float width;
 	private float height;
 	private float maxSize;
+	private float density = WaveLinesApp.dp;
 	private boolean themeUpdate = true;
 	private boolean sizeUpdate = true;
 
@@ -41,6 +42,10 @@ public class WaveLinesRenderer {
 		this.height = height;
 		sizeUpdate = true;
 		themeUpdate = true;
+	}
+
+	public void setDensity(float density) {
+		this.density = density;
 	}
 
 	public void draw(Canvas canvas) {
@@ -237,7 +242,7 @@ public class WaveLinesRenderer {
 				float growth = 0;
 				int color = theme.colors[colorIndex % colors];
 				float strokeWidth = theme.strokeWidths[
-						colorIndex % strokeWidths] * WaveLinesApp.dp;
+						colorIndex % strokeWidths] * density;
 				int yang = -1;
 				if (!theme.uniform) {
 					if (i < firstHalf) {
