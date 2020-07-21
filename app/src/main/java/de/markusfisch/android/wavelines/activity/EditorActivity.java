@@ -413,15 +413,15 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private void addNewColor() {
-		addNewColor(Theme.getSimilarColor(colors.get(selectedColor)));
+		addNewColor(Theme.getSimilarColor(colors.get(selectedColor)), 0);
 	}
 
-	private void addNewColor(int color) {
+	private void addNewColor(int color, int sw) {
 		LayoutInflater inflater = getLayoutInflater();
 		int count = colorsList.getChildCount();
 		addColorView(inflater, color);
 		colors.add(color);
-		strokeWidths.add(0);
+		strokeWidths.add(sw);
 		selectedColor = count;
 		updateColorControls();
 		colorsScroll.postDelayed(new Runnable() {
@@ -445,7 +445,8 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private void duplicateColor() {
-		addNewColor(colors.get(selectedColor));
+		addNewColor(colors.get(selectedColor),
+				strokeWidths.get(selectedColor));
 	}
 
 	private void shiftLeft() {
