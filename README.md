@@ -7,9 +7,12 @@ create your own.
 
 ## Screenshots
 
-![Screenshot Gallery](fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-gallery.png)
-![Screenshot Theme](fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-theme.png)
-![Screenshot Editor](fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-editor.png)
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-gallery.png"
+	alt="Screenshot Gallery" width="160"/>
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-theme.png"
+	alt="Screenshot Theme" width="160"/>
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screencap-editor.png"
+	alt="Screenshot Editor" width="160"/>
 
 ## Download
 
