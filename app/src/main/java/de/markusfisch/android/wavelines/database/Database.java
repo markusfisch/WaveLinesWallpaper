@@ -209,21 +209,38 @@ public class Database {
 				0xffe86f13,
 				0xffcf6310
 		}, null));
-		insertTheme(db, new Theme(false, false, false, 2, 3, .05f, 1f, 0f, .01f, 0f, 0, new int[]{
+		insertTheme(db, new Theme(false, true, false, 2, 1, .1f, .5f, 0f, .1f, .002f, 350, new int[]{
 				0xffbd8119,
 				0xfff7aa21
 		}, null));
-		insertTheme(db, new Theme(true, false, false, 4, 3, .02f, 1f, 0f, .01f, 0f, 32, new int[]{
+		insertTheme(db, new Theme(true, false, false, 4, 2, .02f, 1f, 0f, .01f, 0f, 32, new int[]{
 				0xff8c2fb5,
 				0xffb33ce8,
 				0xff58299f,
 				0xff602daf
 		}, null));
-		insertTheme(db, new Theme(true, false, false, 3, 1, .07999f, 0.3f, 0, .18f, .001f, 48, new int[]{
+		insertTheme(db, new Theme(true, false, false, 3, 1, .08f, 0.3f, 0f, .18f, .001f, 48, new int[]{
 				0xff134dca,
 				0xff1658e7,
 				0xff1143b1
 		}, null));
+		insertTheme(db, new Theme(true, true, false, 12, 1, .04f, 0.7f, .18f, .1f, 0f, 22, new int[]{
+				0xff333333,
+				0xff6fa397,
+				0xffdeda90,
+				0xff9f6ca6,
+				0xffeda1f7,
+				0xff6fa397,
+				0xffdeda90,
+				0xff9f6ca6,
+				0xffeda1f7,
+				0xff6fa397,
+				0xffdeda90,
+				0xff9f6ca6,
+		}, new int[]{
+				1, 1, 1, 1, 1, 1,
+				1, 1, 1, 1, 1, 1,
+		}));
 	}
 
 	private static void createThemes(SQLiteDatabase db) {
