@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.13.0
+* Render wave lines as solids or strokes
+* Add a button to rotate the hue of all colors of a theme
+* Add another default theme using stroke widths
+
 ## 1.12.1
 * Optimize rendering theme preview
 * Improve description of Speed and Shift in editor
