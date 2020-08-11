@@ -1,0 +1,4 @@
+* Render wave lines as solids or strokes
+* Add a button to rotate the hue of all colors of a theme
+* Add another default theme using stroke widths
+

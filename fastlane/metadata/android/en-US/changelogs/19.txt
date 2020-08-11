@@ -1,0 +1,4 @@
+* Optimize rendering theme preview
+* Improve description of Speed and Shift in editor
+* Add another default theme
+
