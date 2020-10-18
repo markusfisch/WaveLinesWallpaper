@@ -64,9 +64,7 @@ public class Preferences {
 		try {
 			String s = preferences.getString("theme_id", null);
 			if (s != null && s.length() > 0) {
-				long id = Long.parseLong(s);
-				setTheme(id);
-				return id;
+				return Long.parseLong(s);
 			}
 		} catch (NumberFormatException e) {
 			// use preset
