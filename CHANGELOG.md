@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.13.1
+* Fix restoring chosen theme
+
 ## 1.13.0
 * Render wave lines as solids or strokes
 * Add a button to rotate the hue of all colors of a theme
