@@ -116,25 +116,24 @@ public class ThemeActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		long id = themesView.getSelectedThemeId();
-		switch (item.getItemId()) {
-			case R.id.set_theme:
-				setAsWallpaper(id, item);
-				return true;
-			case R.id.add_theme:
-				addTheme();
-				return true;
-			case R.id.delete_theme:
-				askDeleteTheme(id);
-				return true;
-			case R.id.duplicate_theme:
-				duplicateTheme(id);
-				return true;
-			case R.id.share_theme:
-				shareTheme(id);
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+		if (itemId == R.id.set_theme) {
+			setAsWallpaper(id, item);
+			return true;
+		} else if (itemId == R.id.add_theme) {
+			addTheme();
+			return true;
+		} else if (itemId == R.id.delete_theme) {
+			askDeleteTheme(id);
+			return true;
+		} else if (itemId == R.id.duplicate_theme) {
+			duplicateTheme(id);
+			return true;
+		} else if (itemId == R.id.share_theme) {
+			shareTheme(id);
+			return true;
 		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private void queryThemesAsync() {

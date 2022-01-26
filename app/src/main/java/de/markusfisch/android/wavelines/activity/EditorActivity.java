@@ -195,15 +195,12 @@ public class EditorActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				saveTheme();
-				break;
-			case R.id.cancel:
-				askDiscardChanges();
-				return true;
-			default:
-				break;
+		int itemId = item.getItemId();
+		if (itemId == android.R.id.home) {
+			saveTheme();
+		} else if (itemId == R.id.cancel) {
+			askDiscardChanges();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

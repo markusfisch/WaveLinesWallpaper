@@ -90,13 +90,11 @@ public class GalleryActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.change_layout:
-				chooseLayout();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
+		if (item.getItemId() == R.id.change_layout) {
+			chooseLayout();
+			return true;
 		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	// ignore warning about missing View.performClick() because this is
