@@ -30,6 +30,38 @@ public class Database {
 
 	private SQLiteDatabase db;
 
+	public static int getInt(Cursor cursor, String column) {
+		int index = cursor.getColumnIndex(column);
+		if (index < 0) {
+			return 0;
+		}
+		return cursor.getInt(index);
+	}
+
+	public static long getLong(Cursor cursor, String column) {
+		int index = cursor.getColumnIndex(column);
+		if (index < 0) {
+			return 0L;
+		}
+		return cursor.getLong(index);
+	}
+
+	public static float getFloat(Cursor cursor, String column) {
+		int index = cursor.getColumnIndex(column);
+		if (index < 0) {
+			return 0f;
+		}
+		return cursor.getFloat(index);
+	}
+
+	public static byte[] getBlob(Cursor cursor, String column) {
+		int index = cursor.getColumnIndex(column);
+		if (index < 0) {
+			return null;
+		}
+		return cursor.getBlob(index);
+	}
+
 	public void open(Context context) {
 		OpenHelper helper = new OpenHelper(context);
 		db = helper.getWritableDatabase();
@@ -132,23 +164,23 @@ public class Database {
 
 	public static Theme themeFromCursor(Cursor cursor) {
 		return new Theme(
-				cursor.getInt(cursor.getColumnIndex(THEMES_COUPLED)) > 0,
-				cursor.getInt(cursor.getColumnIndex(THEMES_UNIFORM)) > 0,
-				cursor.getInt(cursor.getColumnIndex(THEMES_SHUFFLE)) > 0,
-				cursor.getInt(cursor.getColumnIndex(THEMES_LINES)),
-				cursor.getInt(cursor.getColumnIndex(THEMES_WAVES)),
-				cursor.getFloat(cursor.getColumnIndex(THEMES_AMPLITUDE)),
-				cursor.getFloat(cursor.getColumnIndex(THEMES_OSCILLATION)),
-				cursor.getFloat(cursor.getColumnIndex(THEMES_SHIFT)),
-				cursor.getFloat(cursor.getColumnIndex(THEMES_SPEED)),
-				cursor.getFloat(cursor.getColumnIndex(THEMES_GROWTH)),
-				cursor.getInt(cursor.getColumnIndex(THEMES_ROTATION)),
+				getInt(cursor, THEMES_COUPLED) > 0,
+				getInt(cursor, THEMES_UNIFORM) > 0,
+				getInt(cursor, THEMES_SHUFFLE) > 0,
+				getInt(cursor, THEMES_LINES),
+				getInt(cursor, THEMES_WAVES),
+				getFloat(cursor, THEMES_AMPLITUDE),
+				getFloat(cursor, THEMES_OSCILLATION),
+				getFloat(cursor, THEMES_SHIFT),
+				getFloat(cursor, THEMES_SPEED),
+				getFloat(cursor, THEMES_GROWTH),
+				getInt(cursor, THEMES_ROTATION),
 				intArrayFromCursor(cursor, THEMES_COLORS),
 				intArrayFromCursor(cursor, THEMES_STROKE_WIDTHS));
 	}
 
 	private static int[] intArrayFromCursor(Cursor cursor, String column) {
-		byte[] bytes = cursor.getBlob(cursor.getColumnIndex(column));
+		byte[] bytes = getBlob(cursor, column);
 		if (bytes == null) {
 			return null;
 		}

@@ -59,8 +59,7 @@ public class GalleryAdapter
 			return;
 		}
 		holder.themeView.setTheme(Database.themeFromCursor(cursor));
-		final long id = cursor.getLong(cursor.getColumnIndex(
-				Database.THEMES_ID));
+		final long id = Database.getLong(cursor, Database.THEMES_ID);
 		holder.themeView.setSelected(WaveLinesApp.preferences.getTheme() == id);
 		holder.themeView.setOnClickListener(new View.OnClickListener() {
 			@Override
