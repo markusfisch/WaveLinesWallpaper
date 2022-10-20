@@ -320,16 +320,16 @@ public class WaveLinesRenderer {
 	}
 
 	public static class WaveLine {
-		private float length;
+		private final float length;
 		private float thickness;
 		private float growth;
 		private float amplitude;
-		private float oscillation;
+		private final float oscillation;
 		private float shift;
-		private float speed;
-		private float strokeWidth;
-		private int color;
-		private int yang;
+		private final float speed;
+		private final float strokeWidth;
+		private final int color;
+		private final int yang;
 
 		private WaveLine(
 				float length,
