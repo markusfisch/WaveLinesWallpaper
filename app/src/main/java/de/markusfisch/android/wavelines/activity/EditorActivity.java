@@ -2,7 +2,6 @@ package de.markusfisch.android.wavelines.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -85,12 +84,9 @@ public class EditorActivity extends AppCompatActivity {
 		public void onStopTrackingTouch(SeekBar seekBar) {
 		}
 	};
-	private final CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
-			updatePreview();
-			updateShiftLabel();
-		}
+	private final CompoundButton.OnCheckedChangeListener switchListener = (buttonView, isChecked) -> {
+		updatePreview();
+		updateShiftLabel();
 	};
 
 	private long themeId;
@@ -211,14 +207,9 @@ public class EditorActivity extends AppCompatActivity {
 				.setMessage(R.string.sure_to_discard_changes)
 				.setPositiveButton(
 						android.R.string.ok,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(
-									DialogInterface dialog,
-									int whichButton) {
-								themeId = -1;
-								finish();
-							}
+						(dialog, whichButton) -> {
+							themeId = -1;
+							finish();
 						})
 				.setNegativeButton(android.R.string.cancel, null)
 				.show();
@@ -250,12 +241,7 @@ public class EditorActivity extends AppCompatActivity {
 
 	private void initViews() {
 		themePreview = (ThemePreview) findViewById(R.id.preview);
-		themePreview.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				PreviewActivity.show(v.getContext(), getNewTheme());
-			}
-		});
+		themePreview.setOnClickListener(v -> PreviewActivity.show(v.getContext(), getNewTheme()));
 		themePreview.setDensity(1f);
 		coupledSwitch = (SwitchCompat) findViewById(R.id.coupled);
 		coupledSwitch.setOnCheckedChangeListener(switchListener);
@@ -323,53 +309,28 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private void initColorButtons() {
-		findViewById(R.id.add_color).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				addNewColor();
-				updatePreview();
-			}
+		findViewById(R.id.add_color).setOnClickListener(v -> {
+			addNewColor();
+			updatePreview();
 		});
-		findViewById(R.id.remove_color).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				removeColor();
-				updatePreview();
-			}
+		findViewById(R.id.remove_color).setOnClickListener(v -> {
+			removeColor();
+			updatePreview();
 		});
-		findViewById(R.id.duplicate_color).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				duplicateColor();
-				updatePreview();
-			}
+		findViewById(R.id.duplicate_color).setOnClickListener(v -> {
+			duplicateColor();
+			updatePreview();
 		});
-		findViewById(R.id.shift_left).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				shiftLeft();
-				updatePreview();
-			}
+		findViewById(R.id.shift_left).setOnClickListener(v -> {
+			shiftLeft();
+			updatePreview();
 		});
-		findViewById(R.id.shift_right).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				shiftRight();
-				updatePreview();
-			}
+		findViewById(R.id.shift_right).setOnClickListener(v -> {
+			shiftRight();
+			updatePreview();
 		});
-		findViewById(R.id.enter_color).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				askForManualColorInput();
-			}
-		});
-		findViewById(R.id.rotate_hue).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				showHueDialog();
-			}
-		});
+		findViewById(R.id.enter_color).setOnClickListener(v -> askForManualColorInput());
+		findViewById(R.id.rotate_hue).setOnClickListener(v -> showHueDialog());
 	}
 
 	private void setTheme(Theme theme) {
@@ -399,12 +360,9 @@ public class EditorActivity extends AppCompatActivity {
 		View view = inflater.inflate(R.layout.item_color,
 				colorsList, false);
 		view.setBackgroundColor(color);
-		view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				selectedColor = colorsList.indexOfChild(v);
-				updateColorControls();
-			}
+		view.setOnClickListener(v -> {
+			selectedColor = colorsList.indexOfChild(v);
+			updateColorControls();
 		});
 		colorsList.addView(view);
 	}
@@ -421,12 +379,7 @@ public class EditorActivity extends AppCompatActivity {
 		strokeWidths.add(sw);
 		selectedColor = count;
 		updateColorControls();
-		colorsScroll.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				colorsScroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-			}
-		}, 100L);
+		colorsScroll.postDelayed(() -> colorsScroll.fullScroll(HorizontalScrollView.FOCUS_RIGHT), 100L);
 	}
 
 	private void removeColor() {
@@ -489,15 +442,8 @@ public class EditorActivity extends AppCompatActivity {
 				.setView(view)
 				.setPositiveButton(
 						android.R.string.ok,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(
-									DialogInterface dialog,
-									int whichButton) {
-								setColorFromHexName(
-										editText.getText().toString());
-							}
-						})
+						(dialog, whichButton) -> setColorFromHexName(
+								editText.getText().toString()))
 				.setNegativeButton(android.R.string.cancel, null)
 				.show();
 	}
@@ -544,18 +490,13 @@ public class EditorActivity extends AppCompatActivity {
 				.setPositiveButton(android.R.string.ok, null)
 				.setNegativeButton(
 						android.R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(
-									DialogInterface dialog,
-									int whichButton) {
-								for (int i = 0, l = colors.size(); i < l; ++i) {
-									colors.set(i, backup.get(i));
-								}
-								updateAllColors();
-								updateColorLabels();
-								updatePreview();
+						(dialog, whichButton) -> {
+							for (int i = 0, l = colors.size(); i < l; ++i) {
+								colors.set(i, backup.get(i));
 							}
+							updateAllColors();
+							updateColorLabels();
+							updatePreview();
 						})
 				.show()
 				// remove shadow to not obscure the preview and the colors

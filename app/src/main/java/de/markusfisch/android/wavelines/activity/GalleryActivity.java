@@ -2,7 +2,6 @@ package de.markusfisch.android.wavelines.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
@@ -59,12 +57,7 @@ public class GalleryActivity extends AppCompatActivity {
 
 		addScaleGestureDetector(recyclerView);
 
-		findViewById(R.id.add_theme).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				addTheme();
-			}
-		});
+		findViewById(R.id.add_theme).setOnClickListener(v -> addTheme());
 
 		progressView = findViewById(R.id.progress_view);
 	}
@@ -121,12 +114,9 @@ public class GalleryActivity extends AppCompatActivity {
 				return false;
 			}
 		});
-		recyclerView.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				detector.onTouchEvent(event);
-				return false;
-			}
+		recyclerView.setOnTouchListener((v, event) -> {
+			detector.onTouchEvent(event);
+			return false;
 		});
 	}
 
@@ -180,12 +170,8 @@ public class GalleryActivity extends AppCompatActivity {
 				R.array.span_count_values);
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.how_many_columns)
-				.setItems(R.array.span_count_names, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						setSpanCount(values[which]);
-					}
-				})
+				.setItems(R.array.span_count_names,
+						(dialog, which) -> setSpanCount(values[which]))
 				.show();
 	}
 }

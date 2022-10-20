@@ -29,12 +29,7 @@ public class PreviewActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_preview);
 		ThemePreview view = (ThemePreview) findViewById(R.id.theme_view);
 		view.setTheme((Theme) getIntent().getExtras().getParcelable(THEME));
-		view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		view.setOnClickListener(v -> finish());
 	}
 
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)

@@ -61,24 +61,18 @@ public class GalleryAdapter
 		holder.themeView.setTheme(Database.themeFromCursor(cursor));
 		final long id = Database.getLong(cursor, Database.THEMES_ID);
 		holder.themeView.setSelected(WaveLinesApp.preferences.getTheme() == id);
-		holder.themeView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (itemClickListener != null) {
-					itemClickListener.onItemClick(v, id,
-							holder.getAdapterPosition());
-				}
+		holder.themeView.setOnClickListener(v -> {
+			if (itemClickListener != null) {
+				itemClickListener.onItemClick(v, id,
+						holder.getAdapterPosition());
 			}
 		});
-		holder.themeView.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				if (itemClickListener != null) {
-					return itemClickListener.onItemLongClick(v, id,
-							holder.getAdapterPosition());
-				}
-				return false;
+		holder.themeView.setOnLongClickListener(v -> {
+			if (itemClickListener != null) {
+				return itemClickListener.onItemLongClick(v, id,
+						holder.getAdapterPosition());
 			}
+			return false;
 		});
 	}
 

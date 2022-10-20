@@ -9,11 +9,7 @@ import android.view.SurfaceHolder;
 public abstract class CanvasWallpaperService extends WallpaperService {
 	protected abstract class CanvasWallpaperEngine extends Engine {
 		private final Handler handler = new Handler();
-		private final Runnable runnable = new Runnable() {
-			public void run() {
-				nextFrame();
-			}
-		};
+		private final Runnable runnable = this::nextFrame;
 
 		private boolean visible = false;
 		private long delay;

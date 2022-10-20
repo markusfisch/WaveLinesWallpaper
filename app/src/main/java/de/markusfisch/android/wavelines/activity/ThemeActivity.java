@@ -66,15 +66,12 @@ public class ThemeActivity extends AppCompatActivity {
 		themesView = (ThemePagerView) findViewById(R.id.themes);
 		mainLayout = findViewById(R.id.main_layout);
 		progressView = findViewById(R.id.progress_view);
-		findViewById(R.id.edit_theme).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ThemeActivity.this,
-						EditorActivity.class);
-				intent.putExtra(EditorActivity.THEME_ID,
-						themesView.getSelectedThemeId());
-				startActivity(intent);
-			}
+		findViewById(R.id.edit_theme).setOnClickListener(v -> {
+			Intent intent = new Intent(ThemeActivity.this,
+					EditorActivity.class);
+			intent.putExtra(EditorActivity.THEME_ID,
+					themesView.getSelectedThemeId());
+			startActivity(intent);
 		});
 
 		initThemePagerView();
@@ -225,14 +222,7 @@ public class ThemeActivity extends AppCompatActivity {
 				.setMessage(R.string.sure_to_delete_theme)
 				.setPositiveButton(
 						android.R.string.ok,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(
-									DialogInterface dialog,
-									int whichButton) {
-								deleteTheme(id);
-							}
-						})
+						(dialog, whichButton) -> deleteTheme(id))
 				.setNegativeButton(android.R.string.cancel, null)
 				.show();
 	}
@@ -342,19 +332,14 @@ public class ThemeActivity extends AppCompatActivity {
 	}
 
 	private void addThemeFromBitmap(Bitmap bitmap) {
-		Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-			@Override
-			public void onGenerated(Palette p) {
-				addThemeWithColors(getValidColors(new int[]{
-						p.getVibrantColor(0),
-						p.getDarkVibrantColor(0),
-						p.getLightVibrantColor(0),
-						p.getMutedColor(0),
-						p.getDarkMutedColor(0),
-						p.getLightMutedColor(0)
-				}));
-			}
-		});
+		Palette.from(bitmap).generate(p -> addThemeWithColors(getValidColors(new int[]{
+				p.getVibrantColor(0),
+				p.getDarkVibrantColor(0),
+				p.getLightVibrantColor(0),
+				p.getMutedColor(0),
+				p.getDarkMutedColor(0),
+				p.getLightMutedColor(0)
+		})));
 	}
 
 	private static int[] getValidColors(int[] colors) {
@@ -375,49 +360,39 @@ public class ThemeActivity extends AppCompatActivity {
 	}
 
 	private void initThemePagerView() {
-		themesView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// devices with hardware buttons do not automatically
-				// leave lean back mode so show the system UI manually
-				// if it's hidden
-				if (!setSystemUiVisibility(leanBack)) {
-					PreviewActivity.show(v.getContext(),
-							WaveLinesApp.db.getTheme(
-									themesView.getSelectedThemeId()));
-				}
+		themesView.setOnClickListener(v -> {
+			// devices with hardware buttons do not automatically
+			// leave lean back mode so show the system UI manually
+			// if it's hidden
+			if (!setSystemUiVisibility(leanBack)) {
+				PreviewActivity.show(v.getContext(),
+						WaveLinesApp.db.getTheme(
+								themesView.getSelectedThemeId()));
 			}
 		});
 
 		final String title = getString(R.string.themes);
-		themesView.setOnChangeListener(new ThemePagerView.OnChangeListener() {
-			@Override
-			public void onChange(int index, long id) {
-				setTitle(String.format(title, index + 1,
-						themesView.getCount()));
-				updateThemeMenuItem(id);
-			}
+		themesView.setOnChangeListener((index, id) -> {
+			setTitle(String.format(title, index + 1,
+					themesView.getCount()));
+			updateThemeMenuItem(id);
 		});
 	}
 
 	private void initWindowInsets() {
-		ViewCompat.setOnApplyWindowInsetsListener(mainLayout, new OnApplyWindowInsetsListener() {
-			@Override
-			public WindowInsetsCompat onApplyWindowInsets(View v,
-					WindowInsetsCompat insets) {
-				if (insets.hasSystemWindowInsets()) {
-					// restore padding because SYSTEM_UI_FLAG_HIDE_NAVIGATION
-					// somehow removes the padding from mainLayout although
-					// fitsSytemWindows is set; happens only when
-					// windowLayoutInDisplayCutoutMode is set to shortEdges
-					v.setPadding(
-							insets.getSystemWindowInsetLeft(),
-							insets.getSystemWindowInsetTop(),
-							insets.getSystemWindowInsetRight(),
-							insets.getSystemWindowInsetBottom());
-				}
-				return insets.consumeSystemWindowInsets();
+		ViewCompat.setOnApplyWindowInsetsListener(mainLayout, (v, insets) -> {
+			if (insets.hasSystemWindowInsets()) {
+				// restore padding because SYSTEM_UI_FLAG_HIDE_NAVIGATION
+				// somehow removes the padding from mainLayout although
+				// fitsSytemWindows is set; happens only when
+				// windowLayoutInDisplayCutoutMode is set to shortEdges
+				v.setPadding(
+						insets.getSystemWindowInsetLeft(),
+						insets.getSystemWindowInsetTop(),
+						insets.getSystemWindowInsetRight(),
+						insets.getSystemWindowInsetBottom());
 			}
+			return insets.consumeSystemWindowInsets();
 		});
 	}
 
@@ -427,19 +402,16 @@ public class ThemeActivity extends AppCompatActivity {
 			return;
 		}
 		decorView = getWindow().getDecorView();
-		decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-			@Override
-			public void onSystemUiVisibilityChange(int visibility) {
-				if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-					decorView.setSystemUiVisibility(FULL_SCREEN_FLAGS);
-					setToolBarVisibility(true);
-					mainLayout.setVisibility(View.VISIBLE);
-					leanBack = false;
-				} else {
-					setToolBarVisibility(false);
-					mainLayout.setVisibility(View.INVISIBLE);
-					leanBack = true;
-				}
+		decorView.setOnSystemUiVisibilityChangeListener(visibility -> {
+			if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+				decorView.setSystemUiVisibility(FULL_SCREEN_FLAGS);
+				setToolBarVisibility(true);
+				mainLayout.setVisibility(View.VISIBLE);
+				leanBack = false;
+			} else {
+				setToolBarVisibility(false);
+				mainLayout.setVisibility(View.INVISIBLE);
+				leanBack = true;
 			}
 		});
 		decorView.setSystemUiVisibility(FULL_SCREEN_FLAGS);
