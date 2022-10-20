@@ -2,6 +2,7 @@ package de.markusfisch.android.wavelines.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -57,7 +58,7 @@ public class ThemePreview extends SurfaceView {
 		surfaceHolder.addCallback(new SurfaceHolder.Callback() {
 			@Override
 			public void surfaceChanged(
-					SurfaceHolder holder,
+					@NonNull SurfaceHolder holder,
 					int format,
 					int width,
 					int height) {
@@ -67,11 +68,11 @@ public class ThemePreview extends SurfaceView {
 			}
 
 			@Override
-			public void surfaceCreated(SurfaceHolder holder) {
+			public void surfaceCreated(@NonNull SurfaceHolder holder) {
 			}
 
 			@Override
-			public void surfaceDestroyed(SurfaceHolder holder) {
+			public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
 				drawing = false;
 				removeCallbacks(drawRunnable);
 			}

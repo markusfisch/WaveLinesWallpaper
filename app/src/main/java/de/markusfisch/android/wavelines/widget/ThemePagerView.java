@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -243,7 +244,7 @@ public class ThemePagerView extends SurfaceView {
 		surfaceHolder.addCallback(new SurfaceHolder.Callback() {
 			@Override
 			public void surfaceChanged(
-					SurfaceHolder holder,
+					@NonNull SurfaceHolder holder,
 					int format,
 					int width,
 					int height) {
@@ -253,11 +254,11 @@ public class ThemePagerView extends SurfaceView {
 			}
 
 			@Override
-			public void surfaceCreated(SurfaceHolder holder) {
+			public void surfaceCreated(@NonNull SurfaceHolder holder) {
 			}
 
 			@Override
-			public void surfaceDestroyed(SurfaceHolder holder) {
+			public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
 				stopDrawing();
 			}
 		});
@@ -449,7 +450,7 @@ public class ThemePagerView extends SurfaceView {
 			float nd = d / getWidth();
 			if (nd < 0) {
 				// onPull(float) is deprecated but required
-				// because of support for SDK 9
+				// because of support for SDK 9.
 				edgeEffectLeft.onPull(nd);
 			} else if (nd > 0) {
 				edgeEffectRight.onPull(nd);
