@@ -48,8 +48,8 @@ public class GalleryItemView extends View {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		width = getMeasuredWidth();
-		height = width; // make item square for now
+		// Make item a square for now.
+		width = height = getMeasuredWidth();
 		setMeasuredDimension(width, height);
 	}
 
