@@ -164,9 +164,9 @@ public class EditorActivity extends AppCompatActivity {
 
 		if (theme == null) {
 			finish();
+		} else {
+			setTheme(theme);
 		}
-
-		setTheme(theme);
 	}
 
 	@Override
