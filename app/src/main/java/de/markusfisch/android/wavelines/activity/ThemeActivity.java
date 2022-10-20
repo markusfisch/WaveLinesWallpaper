@@ -307,6 +307,7 @@ public class ThemeActivity extends AppCompatActivity {
 			for (int len; (len = in.read(buffer)) > 0; ) {
 				sb.append(new String(buffer, 0, len, "UTF-8"));
 			}
+			in.close();
 			return sb.toString();
 		} catch (IOException e) {
 			return null;
