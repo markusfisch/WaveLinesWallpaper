@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -141,7 +143,10 @@ public class EditorActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_editor);
 
 		WaveLinesApp.initToolbar(this);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 
 		initViews();
 
@@ -484,7 +489,7 @@ public class EditorActivity extends AppCompatActivity {
 			public void onStopTrackingTouch(SeekBar seekBar) {
 			}
 		});
-		new AlertDialog.Builder(this)
+		Window window = new AlertDialog.Builder(this)
 				.setTitle(R.string.rotate_hue)
 				.setView(view)
 				.setPositiveButton(android.R.string.ok, null)
@@ -500,8 +505,10 @@ public class EditorActivity extends AppCompatActivity {
 						})
 				.show()
 				// remove shadow to not obscure the preview and the colors
-				.getWindow()
-				.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+				.getWindow();
+		if (window != null) {
+			window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+		}
 	}
 
 	private static void rotateHue(

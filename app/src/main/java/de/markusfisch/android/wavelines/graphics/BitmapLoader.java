@@ -17,9 +17,11 @@ public class BitmapLoader {
 		try {
 			in = context.getContentResolver().openInputStream(uri);
 			BitmapFactory.Options options = new BitmapFactory.Options();
-			setSampleSize(options, in, maxSize, maxSize);
+			if (in != null) {
+				setSampleSize(options, in, maxSize, maxSize);
+				in.close();
+			}
 
-			in.close();
 			in = context.getContentResolver().openInputStream(uri);
 
 			return BitmapFactory.decodeStream(in, null, options);

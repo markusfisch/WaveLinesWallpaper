@@ -28,7 +28,10 @@ public class PreviewActivity extends AppCompatActivity {
 		hideSystemUi(getWindow());
 		setContentView(R.layout.activity_preview);
 		ThemePreview view = (ThemePreview) findViewById(R.id.theme_view);
-		view.setTheme((Theme) getIntent().getExtras().getParcelable(THEME));
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			view.setTheme((Theme) extras.getParcelable(THEME));
+		}
 		view.setOnClickListener(v -> finish());
 	}
 
