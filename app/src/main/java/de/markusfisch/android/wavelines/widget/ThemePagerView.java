@@ -121,10 +121,6 @@ public class ThemePagerView extends SurfaceView {
 		themeCount = 0;
 	}
 
-	public void setThemes(Cursor cursor) {
-		setThemes(cursor, 0);
-	}
-
 	public void setThemes(Cursor cursor, int index) {
 		closeCursor();
 		if (cursor == null || (themeCount = cursor.getCount()) < 1) {
