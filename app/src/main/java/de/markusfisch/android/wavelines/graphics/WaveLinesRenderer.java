@@ -244,7 +244,7 @@ public class WaveLinesRenderer {
 				float strokeWidth = theme.strokeWidths[
 						colorIndex % strokeWidths] * density;
 				int yang = -1;
-				if (!theme.uniform) {
+				if (!theme.uniform && thicknesses != null) {
 					if (i < firstHalf) {
 						thickness = thicknesses[i];
 						growth = growths[i];
