@@ -254,8 +254,8 @@ public class Theme implements Parcelable {
 
 	private static JSONArray getJsonColorArray(int[] intArray) {
 		JSONArray array = new JSONArray();
-		for (int i = 0, l = intArray.length; i < l; ++i) {
-			array.put(String.format("#%08X", intArray[i]));
+		for (int j : intArray) {
+			array.put(String.format("#%08X", j));
 		}
 		return array;
 	}
@@ -271,8 +271,8 @@ public class Theme implements Parcelable {
 
 	private static JSONArray getJsonIntArray(int[] intArray) {
 		JSONArray array = new JSONArray();
-		for (int i = 0, l = intArray.length; i < l; ++i) {
-			array.put(intArray[i]);
+		for (int j : intArray) {
+			array.put(j);
 		}
 		return array;
 	}

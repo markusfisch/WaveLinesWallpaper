@@ -616,8 +616,8 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	private static void toList(ArrayList<Integer> list, int[] a) {
-		for (int i = 0, l = a.length; i < l; ++i) {
-			list.add(a[i]);
+		for (int j : a) {
+			list.add(j);
 		}
 	}
 }
