@@ -1,6 +1,5 @@
 package de.markusfisch.android.wavelines.service;
 
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -21,12 +20,12 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 
 	private class WaveLinesEngine extends CanvasWallpaperEngine {
 		private final WaveLinesRenderer renderer = new WaveLinesRenderer();
-		private final SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> update();
 
 		WaveLinesEngine() {
 			super();
 			WaveLinesApp.preferences.getPreferences()
-					.registerOnSharedPreferenceChangeListener(listener);
+					.registerOnSharedPreferenceChangeListener(
+							(preferences, key) -> update());
 			update();
 		}
 
