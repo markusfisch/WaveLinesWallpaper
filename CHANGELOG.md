@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.13.2
+* Add a monochome launcher icon
+
 ## 1.13.1
 * Fix restoring chosen theme
 
