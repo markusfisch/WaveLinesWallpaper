@@ -41,17 +41,7 @@
 		<activity
 			android:name=".activity.GalleryActivity"
 			android:theme="@style/AppThemeNoActionBar"
-			android:launchMode="singleTop"
-			android:exported="true">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW"/>
-				<category android:name="android.intent.category.DEFAULT"/>
-				<category android:name="android.intent.category.BROWSABLE"/>
-				<data
-					android:host="www.markusfisch.de"
-					android:scheme="http"/>
-			</intent-filter>
-		</activity>
+			android:launchMode="singleTop"/>
 		<activity
 			android:name=".activity.ThemeActivity"
 			android:launchMode="singleTop"
@@ -80,11 +70,9 @@
 			android:name=".activity.EditorActivity"
 			android:label="@string/edit_theme"
 			android:theme="@style/AppThemeNoActionBar"
-			android:parentActivityName=".activity.ThemeActivity"
-			android:exported="false"/>
+			android:parentActivityName=".activity.ThemeActivity"/>
 		<activity
 			android:name=".activity.PreviewActivity"
-			android:theme="@style/PreviewTheme"
-			android:exported="false"/>
+			android:theme="@style/PreviewTheme"/>
 	</application>
 </manifest>
