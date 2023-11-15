@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.13.3
+* Remove deep linking intent filter
+
 ## 1.13.2
 * Add a monochome launcher icon
 
