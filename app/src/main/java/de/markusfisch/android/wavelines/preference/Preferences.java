@@ -35,7 +35,9 @@ public class Preferences {
 
 	public void setTheme(long id) {
 		themeId = id;
-		putLong(THEME_ID, themeId);
+		// commit() instead of apply to force listeners to take
+		// notice immediately.
+		commitLong(THEME_ID, themeId);
 	}
 
 	public int getGalleryColumns() {
@@ -44,19 +46,19 @@ public class Preferences {
 
 	public void setGalleryColumns(int columns) {
 		galleryColumns = columns;
-		putInt(GALLERY_COLUMNS, galleryColumns);
+		applyInt(GALLERY_COLUMNS, galleryColumns);
 	}
 
-	private void putInt(String key, int value) {
+	private void applyInt(String key, int value) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(key, value);
 		editor.apply();
 	}
 
-	private void putLong(String key, long value) {
+	private void commitLong(String key, long value) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putLong(key, value);
-		editor.apply();
+		editor.commit();
 	}
 
 	// this method will be removed with the next version

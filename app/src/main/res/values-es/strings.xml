@@ -13,6 +13,7 @@
 	<string name="sure_to_delete_theme">¿Estás seguro de que quieres borrar este tema?</string>
 	<string name="set_theme">Utilizar como fondo de pantalla</string>
 	<string name="edit_theme">Editar tema</string>
+	<string name="cannot_set_wallpaper">No se puede establecer el fondo de pantalla</string>
 	<string name="wallpaper_set">Establecer como fondo de pantalla</string>
 	<string name="pick_live_wallpaper">Please pick this app as Live Wallpaper to set this wallpaper</string>
 	<string name="pick_live_wallpaper_manually">You need to pick this app as Live Wallpaper first</string>

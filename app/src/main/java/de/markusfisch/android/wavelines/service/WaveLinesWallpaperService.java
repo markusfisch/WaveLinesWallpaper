@@ -1,5 +1,6 @@
 package de.markusfisch.android.wavelines.service;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -18,23 +19,36 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 		return new WaveLinesEngine();
 	}
 
-	private class WaveLinesEngine extends CanvasWallpaperEngine {
+	private class WaveLinesEngine
+			extends CanvasWallpaperEngine
+			implements SharedPreferences.OnSharedPreferenceChangeListener {
 		private final WaveLinesRenderer renderer = new WaveLinesRenderer();
 
-		WaveLinesEngine() {
+		private WaveLinesEngine() {
 			super();
 			WaveLinesApp.preferences.getPreferences()
-					.registerOnSharedPreferenceChangeListener(
-							(preferences, key) -> update());
+					 .registerOnSharedPreferenceChangeListener(this);
+		}
+
+		@Override
+		public void onCreate(SurfaceHolder holder) {
+			super.onCreate(holder);
+			update();
+		}
+
+		@Override
+		public void onSharedPreferenceChanged(
+			SharedPreferences preferences,
+			String key) {
 			update();
 		}
 
 		@Override
 		public void onSurfaceChanged(
-				SurfaceHolder holder,
-				int format,
-				int width,
-				int height) {
+			SurfaceHolder holder,
+			int format,
+			int width,
+			int height) {
 			super.onSurfaceChanged(holder, format, width, height);
 			renderer.setSize(width, height);
 			isRunning = true;
@@ -48,7 +62,7 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 		private void update() {
 			resetDelay();
 			renderer.setTheme(WaveLinesApp.db.getTheme(
-					WaveLinesApp.preferences.getTheme()));
+					 WaveLinesApp.preferences.getTheme()));
 		}
 	}
 }

@@ -13,6 +13,7 @@
 	<string name="sure_to_delete_theme">Ви впевнені, що хочете видалити цю тему?</string>
 	<string name="set_theme">Використовувати як шпалери</string>
 	<string name="edit_theme">Редагувати тему</string>
+	<string name="cannot_set_wallpaper">Не вдається встановити шпалери</string>
 	<string name="wallpaper_set">Шпалери встановлено</string>
 	<string name="pick_live_wallpaper">Будь ласка, виберіть цю програму як живі шпалери, щоб встановити ці шпалери</string>
 	<string name="pick_live_wallpaper_manually">Спершу вам потрібно вибрати цю програму як живі шпалери</string>
