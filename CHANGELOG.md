@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.13.4
+* Add Ukrainian translation
+* Fix showing wallpaper on Samsung's One UI
+* Fix setting wallpaper on newer Android versions
+
 ## 1.13.3
 * Remove deep linking intent filter
 
