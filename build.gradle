@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		tools_version = '8.3.1'
+		tools_version = '8.10.1'
 		sdk_version = 34
 		support_version = '25.3.1'
 	}
@@ -25,8 +25,8 @@ allprojects {
 		tasks.withType(JavaCompile).tap {
 			configureEach {
 				options.compilerArgs \
-				 << "-Xlint:unchecked" \
-				 << "-Xlint:deprecation"
+					<< "-Xlint:unchecked" \
+					<< "-Xlint:deprecation"
 			}
 		}
 	}
