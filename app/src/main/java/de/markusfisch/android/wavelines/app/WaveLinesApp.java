@@ -1,8 +1,8 @@
 package de.markusfisch.android.wavelines.app;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import de.markusfisch.android.wavelines.R;
 import de.markusfisch.android.wavelines.database.Database;

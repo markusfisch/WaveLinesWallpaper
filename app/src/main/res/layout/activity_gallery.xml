@@ -1,11 +1,11 @@
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 	<include layout="@layout/collapsing_toolbar"/>
-	<android.support.v7.widget.RecyclerView
+	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/themes"
 		android:scrollbars="vertical"
 		android:layout_width="match_parent"
@@ -15,7 +15,7 @@
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
-		<android.support.design.widget.FloatingActionButton
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
 			tools:ignore="UnusedAttribute"
 			android:id="@+id/add_theme"
 			android:layout_width="wrap_content"
@@ -29,4 +29,4 @@
 			app:elevation="4dp"/>
 	</RelativeLayout>
 	<include layout="@layout/progress_view"/>
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

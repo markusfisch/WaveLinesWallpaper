@@ -19,7 +19,7 @@
 			android:gravity="center"
 			android:padding="16dp"
 			android:text="@string/tap_for_full_screen"/>
-		<android.support.design.widget.FloatingActionButton
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
 			tools:ignore="UnusedAttribute"
 			android:id="@+id/edit_theme"
 			android:layout_width="wrap_content"

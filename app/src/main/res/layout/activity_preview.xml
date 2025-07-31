@@ -1,7 +1,4 @@
-<merge
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 	<de.markusfisch.android.wavelines.widget.ThemePreview
 		android:id="@+id/theme_view"
 		android:layout_width="match_parent"

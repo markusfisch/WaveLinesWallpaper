@@ -1,4 +1,4 @@
-<android.support.v4.widget.NestedScrollView
+<androidx.core.widget.NestedScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,19 +10,19 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical">
-		<android.support.v7.widget.SwitchCompat
+		<androidx.appcompat.widget.SwitchCompat
 			android:id="@+id/coupled"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/coupled"
 			android:padding="16dp"/>
-		<android.support.v7.widget.SwitchCompat
+		<androidx.appcompat.widget.SwitchCompat
 			android:id="@+id/uniform"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/uniform"
 			android:padding="16dp"/>
-		<android.support.v7.widget.SwitchCompat
+		<androidx.appcompat.widget.SwitchCompat
 			android:id="@+id/shuffle"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -202,4 +202,4 @@
 			android:max="10"
 			android:layout_marginBottom="24dp"/>
 	</LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>
