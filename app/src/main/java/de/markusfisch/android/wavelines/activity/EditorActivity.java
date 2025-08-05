@@ -186,7 +186,7 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
+	public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putParcelable(THEME, getNewTheme());
 		savedInstanceState.putLong(THEME_ID, themeId);

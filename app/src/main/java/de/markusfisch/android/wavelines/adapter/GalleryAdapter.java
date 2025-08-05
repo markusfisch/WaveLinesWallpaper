@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
@@ -47,6 +48,7 @@ public class GalleryAdapter
 		this.itemClickListener = itemClickListener;
 	}
 
+	@NonNull
 	@Override
 	public GalleryAdapter.ViewHolder onCreateViewHolder(
 			ViewGroup parent,

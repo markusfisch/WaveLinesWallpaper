@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,7 +104,7 @@ public class GalleryActivity extends AppCompatActivity {
 		final int scaleThreshold = Math.round(16f * WaveLinesApp.dp);
 		final ScaleGestureDetector detector = new ScaleGestureDetector(this, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
 			@Override
-			public boolean onScale(ScaleGestureDetector detector) {
+			public boolean onScale(@NonNull ScaleGestureDetector detector) {
 				if (detector.getTimeDelta() > 200) {
 					float diff = detector.getCurrentSpan() -
 							detector.getPreviousSpan();
