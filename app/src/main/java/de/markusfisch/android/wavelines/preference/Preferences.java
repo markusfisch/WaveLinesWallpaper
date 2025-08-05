@@ -68,7 +68,7 @@ public class Preferences {
 	private long getLegacyThemeId(long preset) {
 		try {
 			String s = preferences.getString("theme_id", null);
-			if (s != null && s.length() > 0) {
+			if (s != null && !s.isEmpty()) {
 				return Long.parseLong(s);
 			}
 		} catch (NumberFormatException e) {
