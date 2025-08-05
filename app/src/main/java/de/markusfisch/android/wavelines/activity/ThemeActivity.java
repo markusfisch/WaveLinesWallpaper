@@ -60,7 +60,7 @@ public class ThemeActivity extends AppCompatActivity {
 		super.onCreate(state);
 		setContentView(R.layout.activity_theme);
 
-		themesView = (ThemePagerView) findViewById(R.id.themes);
+		themesView = findViewById(R.id.themes);
 		mainLayout = findViewById(R.id.main_layout);
 		progressView = findViewById(R.id.progress_view);
 		findViewById(R.id.edit_theme).setOnClickListener(v -> {
