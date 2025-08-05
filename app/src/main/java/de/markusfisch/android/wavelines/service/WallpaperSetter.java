@@ -45,9 +45,6 @@ public class WallpaperSetter {
 	}
 
 	private static boolean startChangeLiveWallpaper(Context context) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-			return false;
-		}
 		Intent intent = new Intent(
 				WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
 		intent.putExtra(

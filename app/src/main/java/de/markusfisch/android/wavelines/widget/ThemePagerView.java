@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -329,11 +328,7 @@ public class ThemePagerView extends SurfaceView {
 		edgeEffect.setSize(height, width);
 
 		if (edgeEffect.draw(canvas)) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				postInvalidateOnAnimation();
-			} else {
-				postInvalidate();
-			}
+			postInvalidateOnAnimation();
 		}
 
 		canvas.restoreToCount(restoreCount);
