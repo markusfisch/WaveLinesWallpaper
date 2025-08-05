@@ -2,6 +2,7 @@ package de.markusfisch.android.wavelines.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import androidx.preference.PreferenceManager;
 
 import de.markusfisch.android.wavelines.app.WaveLinesApp;

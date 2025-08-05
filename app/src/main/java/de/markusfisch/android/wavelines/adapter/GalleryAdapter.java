@@ -1,9 +1,10 @@
 package de.markusfisch.android.wavelines.adapter;
 
 import android.database.Cursor;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Database;

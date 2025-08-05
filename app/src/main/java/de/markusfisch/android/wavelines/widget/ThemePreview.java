@@ -2,10 +2,11 @@ package de.markusfisch.android.wavelines.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import androidx.annotation.NonNull;
 
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.graphics.WaveLinesRenderer;

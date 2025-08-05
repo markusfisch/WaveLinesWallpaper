@@ -27,7 +27,7 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 		private WaveLinesEngine() {
 			super();
 			WaveLinesApp.preferences.getPreferences()
-					 .registerOnSharedPreferenceChangeListener(this);
+					.registerOnSharedPreferenceChangeListener(this);
 		}
 
 		@Override
@@ -38,17 +38,17 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 
 		@Override
 		public void onSharedPreferenceChanged(
-			SharedPreferences preferences,
-			String key) {
+				SharedPreferences preferences,
+				String key) {
 			update();
 		}
 
 		@Override
 		public void onSurfaceChanged(
-			SurfaceHolder holder,
-			int format,
-			int width,
-			int height) {
+				SurfaceHolder holder,
+				int format,
+				int width,
+				int height) {
 			super.onSurfaceChanged(holder, format, width, height);
 			renderer.setSize(width, height);
 			isRunning = true;
@@ -62,7 +62,7 @@ public class WaveLinesWallpaperService extends CanvasWallpaperService {
 		private void update() {
 			resetDelay();
 			renderer.setTheme(WaveLinesApp.db.getTheme(
-					 WaveLinesApp.preferences.getTheme()));
+					WaveLinesApp.preferences.getTheme()));
 		}
 	}
 }

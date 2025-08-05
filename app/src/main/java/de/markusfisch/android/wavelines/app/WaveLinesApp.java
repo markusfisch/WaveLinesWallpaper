@@ -1,6 +1,7 @@
 package de.markusfisch.android.wavelines.app;
 
 import android.app.Application;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 

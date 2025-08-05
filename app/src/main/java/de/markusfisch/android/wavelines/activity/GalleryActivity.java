@@ -6,21 +6,22 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.concurrent.Executors;
 
 import de.markusfisch.android.wavelines.R;
 import de.markusfisch.android.wavelines.adapter.GalleryAdapter;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.service.WallpaperSetter;
-
-import java.util.concurrent.Executors;
 
 public class GalleryActivity extends AppCompatActivity {
 	private final Handler handler = new Handler(Looper.getMainLooper());
