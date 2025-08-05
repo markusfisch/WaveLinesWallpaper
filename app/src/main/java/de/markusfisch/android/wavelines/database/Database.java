@@ -97,12 +97,7 @@ public class Database {
 						" ORDER BY " + THEMES_ID +
 						" LIMIT 1",
 				null);
-
 		long themeId = -1;
-		if (cursor == null) {
-			return themeId;
-		}
-
 		if (cursor.moveToFirst()) {
 			themeId = cursor.getLong(0);
 		}
@@ -130,11 +125,6 @@ public class Database {
 						" FROM " + THEMES +
 						" WHERE " + THEMES_ID + "= ?",
 				new String[]{String.valueOf(id)});
-
-		if (cursor == null) {
-			return null;
-		}
-
 		Theme theme = null;
 		if (cursor.moveToFirst()) {
 			theme = themeFromCursor(cursor);
