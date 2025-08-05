@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -73,6 +74,7 @@ public class ThemeActivity extends AppCompatActivity {
 
 		initThemePagerView();
 		initWindowInsets();
+		initToolBar();
 		initDecorView();
 
 		Intent intent = getIntent();
@@ -373,6 +375,19 @@ public class ThemeActivity extends AppCompatActivity {
 			}
 			return insets.consumeSystemWindowInsets();
 		});
+	}
+
+	private void initToolBar() {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+			return;
+		}
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar == null) {
+			return;
+		}
+		// Use a transparent action bar on SDK35+ as there's
+		// no status bar background.
+		actionBar.setBackgroundDrawable(null);
 	}
 
 	private void initDecorView() {
