@@ -1,6 +1,5 @@
 package de.markusfisch.android.wavelines.activity;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -9,9 +8,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import androidx.core.view.ViewCompat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +25,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.Executors;
 
 import de.markusfisch.android.wavelines.R;
 import de.markusfisch.android.wavelines.app.WaveLinesApp;
@@ -34,6 +35,7 @@ import de.markusfisch.android.wavelines.service.WallpaperSetter;
 import de.markusfisch.android.wavelines.widget.ThemePagerView;
 
 public class ThemeActivity extends AppCompatActivity {
+	private final Handler handler = new Handler(Looper.getMainLooper());
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 	private static final int FULL_SCREEN_FLAGS =
 			View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
@@ -137,23 +139,14 @@ public class ThemeActivity extends AppCompatActivity {
 		queryThemesAsync(themesView.getSelectedIndex());
 	}
 
-	// this AsyncTask is running for a short and finite time only
-	// and it's perfectly okay to delay garbage collection of the
-	// parent instance until this task has ended
-	@SuppressLint("StaticFieldLeak")
 	private void queryThemesAsync(final int index) {
 		if (progressView.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		progressView.setVisibility(View.VISIBLE);
-		new AsyncTask<Void, Void, Cursor>() {
-			@Override
-			protected Cursor doInBackground(Void... nothings) {
-				return WaveLinesApp.db.queryThemes();
-			}
-
-			@Override
-			protected void onPostExecute(Cursor cursor) {
+		Executors.newSingleThreadExecutor().execute(() -> {
+			Cursor cursor = WaveLinesApp.db.queryThemes();
+			handler.post(() -> {
 				if (isFinishing()) {
 					return;
 				}
@@ -163,8 +156,8 @@ public class ThemeActivity extends AppCompatActivity {
 							cursor.getCount() : index);
 					updateWallpaper();
 				}
-			}
-		}.execute();
+			});
+		});
 	}
 
 	private void updateWallpaper() {
@@ -301,31 +294,22 @@ public class ThemeActivity extends AppCompatActivity {
 		}
 	}
 
-	// this AsyncTask is running for a short and finite time only
-	// and it's perfectly okay to delay garbage collection of the
-	// parent instance until this task has ended
-	@SuppressLint("StaticFieldLeak")
 	private void addThemeFromImageUriAsync(final Context context,
 			final Uri uri) {
 		if (uri == null || progressView.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		progressView.setVisibility(View.VISIBLE);
-		new AsyncTask<Void, Void, Bitmap>() {
-			@Override
-			protected Bitmap doInBackground(Void... nothings) {
-				return BitmapLoader.getBitmapFromUri(context, uri, 512);
-			}
-
-			@Override
-			protected void onPostExecute(Bitmap bitmap) {
+		Executors.newSingleThreadExecutor().execute(() -> {
+			Bitmap bitmap = BitmapLoader.getBitmapFromUri(context, uri, 512);
+			handler.post(() -> {
 				progressView.setVisibility(View.GONE);
 				if (bitmap == null) {
 					return;
 				}
 				addThemeFromBitmap(bitmap);
-			}
-		}.execute();
+			});
+		});
 	}
 
 	private void addThemeFromBitmap(Bitmap bitmap) {

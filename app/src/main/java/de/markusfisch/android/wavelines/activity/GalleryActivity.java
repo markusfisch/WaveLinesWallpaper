@@ -3,8 +3,9 @@ package de.markusfisch.android.wavelines.activity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +20,11 @@ import de.markusfisch.android.wavelines.app.WaveLinesApp;
 import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.service.WallpaperSetter;
 
+import java.util.concurrent.Executors;
+
 public class GalleryActivity extends AppCompatActivity {
+	private final Handler handler = new Handler(Looper.getMainLooper());
+
 	private GridLayoutManager manager;
 	private GalleryAdapter adapter;
 	private View progressView;
@@ -129,23 +134,14 @@ public class GalleryActivity extends AppCompatActivity {
 		adapter.notifyDataSetChanged();
 	}
 
-	// this AsyncTask is running for a short and finite time only
-	// and it's perfectly okay to delay garbage collection of the
-	// parent instance until this task has ended
-	@SuppressLint("StaticFieldLeak")
 	private void queryThemesAsync(final boolean scrollToLast) {
 		if (progressView.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		progressView.setVisibility(View.VISIBLE);
-		new AsyncTask<Void, Void, Cursor>() {
-			@Override
-			protected Cursor doInBackground(Void... nothings) {
-				return WaveLinesApp.db.queryThemes();
-			}
-
-			@Override
-			protected void onPostExecute(Cursor cursor) {
+		Executors.newSingleThreadExecutor().execute(() -> {
+			Cursor cursor = WaveLinesApp.db.queryThemes();
+			handler.post(() -> {
 				if (isFinishing()) {
 					return;
 				}
@@ -156,8 +152,8 @@ public class GalleryActivity extends AppCompatActivity {
 						manager.scrollToPosition(cursor.getCount() - 1);
 					}
 				}
-			}
-		}.execute();
+			});
+		});
 	}
 
 	private void addTheme() {
