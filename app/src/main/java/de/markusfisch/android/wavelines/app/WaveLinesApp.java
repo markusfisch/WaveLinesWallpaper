@@ -22,10 +22,11 @@ public class WaveLinesApp extends Application {
 		dp = getResources().getDisplayMetrics().density;
 	}
 
-	public static void initToolbar(AppCompatActivity activity) {
-		Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+	public static Toolbar initToolbar(AppCompatActivity activity) {
+		Toolbar toolbar = activity.findViewById(R.id.toolbar);
 		if (toolbar != null) {
 			activity.setSupportActionBar(toolbar);
 		}
+		return toolbar;
 	}
 }

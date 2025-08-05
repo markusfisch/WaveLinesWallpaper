@@ -5,13 +5,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
@@ -22,6 +20,15 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,12 +149,10 @@ public class EditorActivity extends AppCompatActivity {
 		super.onCreate(state);
 		setContentView(R.layout.activity_editor);
 
-		WaveLinesApp.initToolbar(this);
-		ActionBar actionBar = getSupportActionBar();
-		if (actionBar != null) {
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
+		WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+		setWindowInsets(WaveLinesApp.initToolbar(this));
 
+		setHomeAsUpEnabled();
 		initViews();
 
 		Theme theme = null;
@@ -242,6 +247,46 @@ public class EditorActivity extends AppCompatActivity {
 				toArray(colors),
 				toArray(strokeWidths)
 		);
+	}
+
+	private void setWindowInsets(Toolbar toolbar) {
+		ViewCompat.setOnApplyWindowInsetsListener(toolbar, new androidx.core.view.OnApplyWindowInsetsListener() {
+			int originalHeight = -1;
+			int originalPaddingTop = -1;
+
+			@NonNull
+			@Override
+			public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+				int insetTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+
+				if (originalHeight < 0) {
+					originalHeight = v.getLayoutParams().height;
+				}
+				if (originalPaddingTop < 0) {
+					originalPaddingTop = v.getPaddingTop();
+				}
+
+				ViewGroup.LayoutParams lp = v.getLayoutParams();
+				lp.height = originalHeight + insetTop;
+				v.setLayoutParams(lp);
+
+				v.setPadding(
+						v.getPaddingLeft(),
+						originalPaddingTop + insetTop,
+						v.getPaddingRight(),
+						v.getPaddingBottom()
+				);
+
+				return insets;
+			}
+		});
+	}
+
+	private void setHomeAsUpEnabled() {
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	private void initViews() {
