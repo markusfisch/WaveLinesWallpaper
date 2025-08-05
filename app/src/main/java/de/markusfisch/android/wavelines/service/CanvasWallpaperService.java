@@ -49,16 +49,6 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 			super.onSurfaceDestroyed(holder);
 		}
 
-		@Override
-		public void onOffsetsChanged(
-				float xOffset,
-				float yOffset,
-				float xOffsetStep,
-				float yOffsetStep,
-				int xPixelOffset,
-				int yPixelOffset) {
-		}
-
 		protected abstract void drawFrame(Canvas canvas, long now);
 
 		protected void nextFrame() {
