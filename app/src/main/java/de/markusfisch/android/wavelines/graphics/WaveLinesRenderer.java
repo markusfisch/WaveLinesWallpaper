@@ -62,7 +62,7 @@ public class WaveLinesRenderer {
 		}
 
 		// scale for shorter time deltas only
-		double factor = Math.min(.032, (now - lastTime) / 1000.0);
+		float factor = Math.min(.032f, (now - lastTime) / 1000.0f);
 		lastTime = now;
 
 		canvas.save();
@@ -289,7 +289,7 @@ public class WaveLinesRenderer {
 		return true;
 	}
 
-	private void flow(WaveLine wl, double factor) {
+	private void flow(WaveLine wl, float factor) {
 		wl.amplitude += wl.oscillation * factor;
 
 		wl.shift += wl.speed * factor;
