@@ -193,8 +193,6 @@ public class ThemePagerView extends SurfaceView {
 			return true;
 		}
 		switch (event.getActionMasked()) {
-			default:
-				break;
 			case MotionEvent.ACTION_DOWN:
 				initSwipe(event, -1);
 				return true;
@@ -221,6 +219,8 @@ public class ThemePagerView extends SurfaceView {
 				} else {
 					performClick();
 				}
+				break;
+			default:
 				break;
 		}
 		return super.onTouchEvent(event);
