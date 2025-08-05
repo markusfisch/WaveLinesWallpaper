@@ -1,5 +1,6 @@
 package de.markusfisch.android.wavelines.preference;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -56,6 +57,7 @@ public class Preferences {
 		editor.apply();
 	}
 
+	@SuppressLint("ApplySharedPref")
 	private void commitLong(String key, long value) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putLong(key, value);
