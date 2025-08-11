@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.13.5
+* Target Android 16
+
 ## 1.13.4
 * Add Ukrainian translation
 * Fix showing wallpaper on Samsung's One UI
