@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import de.markusfisch.android.wavelines.R;
@@ -25,6 +26,7 @@ import de.markusfisch.android.wavelines.database.Theme;
 import de.markusfisch.android.wavelines.service.WallpaperSetter;
 
 public class GalleryActivity extends AppCompatActivity {
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 	private final Handler handler = new Handler(Looper.getMainLooper());
 
 	private GridLayoutManager manager;
@@ -78,6 +80,7 @@ public class GalleryActivity extends AppCompatActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		executor.shutdownNow();
 		adapter.swapCursor(null);
 		WaveLinesApp.preferences.setGalleryColumns(manager.getSpanCount());
 	}
@@ -141,7 +144,7 @@ public class GalleryActivity extends AppCompatActivity {
 			return;
 		}
 		progressView.setVisibility(View.VISIBLE);
-		Executors.newSingleThreadExecutor().execute(() -> {
+		executor.execute(() -> {
 			Cursor cursor = WaveLinesApp.db.queryThemes();
 			handler.post(() -> {
 				if (isFinishing()) {

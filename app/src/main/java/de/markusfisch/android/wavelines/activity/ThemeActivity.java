@@ -25,6 +25,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import de.markusfisch.android.wavelines.R;
@@ -35,6 +36,7 @@ import de.markusfisch.android.wavelines.service.WallpaperSetter;
 import de.markusfisch.android.wavelines.widget.ThemePagerView;
 
 public class ThemeActivity extends AppCompatActivity {
+	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 	private final Handler handler = new Handler(Looper.getMainLooper());
 	private static final int FULL_SCREEN_FLAGS =
 			View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
@@ -102,6 +104,12 @@ public class ThemeActivity extends AppCompatActivity {
 	}
 
 	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		executor.shutdown();
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_theme, menu);
 		setThemeMenuItem = menu.findItem(R.id.set_theme);
@@ -144,7 +152,7 @@ public class ThemeActivity extends AppCompatActivity {
 			return;
 		}
 		progressView.setVisibility(View.VISIBLE);
-		Executors.newSingleThreadExecutor().execute(() -> {
+		executor.execute(() -> {
 			Cursor cursor = WaveLinesApp.db.queryThemes();
 			handler.post(() -> {
 				if (isFinishing()) {
@@ -300,7 +308,7 @@ public class ThemeActivity extends AppCompatActivity {
 			return;
 		}
 		progressView.setVisibility(View.VISIBLE);
-		Executors.newSingleThreadExecutor().execute(() -> {
+		executor.execute(() -> {
 			Bitmap bitmap = BitmapLoader.getBitmapFromUri(context, uri, 512);
 			handler.post(() -> {
 				progressView.setVisibility(View.GONE);
