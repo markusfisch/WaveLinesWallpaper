@@ -321,14 +321,18 @@ public class ThemeActivity extends AppCompatActivity {
 	}
 
 	private void addThemeFromBitmap(Bitmap bitmap) {
-		Palette.from(bitmap).generate(p -> addThemeWithColors(getValidColors(new int[]{
-				p.getVibrantColor(0),
-				p.getDarkVibrantColor(0),
-				p.getLightVibrantColor(0),
-				p.getMutedColor(0),
-				p.getDarkMutedColor(0),
-				p.getLightMutedColor(0)
-		})));
+		Palette.from(bitmap).generate(p -> {
+			if (p != null) {
+				addThemeWithColors(getValidColors(new int[]{
+						p.getVibrantColor(0),
+						p.getDarkVibrantColor(0),
+						p.getLightVibrantColor(0),
+						p.getMutedColor(0),
+						p.getDarkMutedColor(0),
+						p.getLightMutedColor(0)
+				}));
+			}
+		});
 	}
 
 	private static int[] getValidColors(int[] colors) {
