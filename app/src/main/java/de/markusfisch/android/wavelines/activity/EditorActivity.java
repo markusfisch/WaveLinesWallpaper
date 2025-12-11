@@ -180,9 +180,9 @@ public class EditorActivity extends AppCompatActivity {
 	}
 
 	@Override
-	public void onBackPressed() {
+	public void onStop() {
+		super.onStop();
 		saveTheme();
-		super.onBackPressed();
 	}
 
 	@Override
