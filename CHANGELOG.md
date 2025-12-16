@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.13.6
+* Improve layout for some Android versions
+
 ## 1.13.5
 * Target Android 16
 
