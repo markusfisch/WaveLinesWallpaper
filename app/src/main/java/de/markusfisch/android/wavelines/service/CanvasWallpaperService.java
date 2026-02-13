@@ -12,6 +12,7 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 		private final Runnable runnable = this::nextFrame;
 
 		private boolean visible = false;
+		private boolean paused = false;
 		private long delay;
 
 		@Override
@@ -24,8 +25,10 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 		public void onVisibilityChanged(boolean visible) {
 			this.visible = visible;
 			if (visible) {
-				resetDelay();
-				nextFrame();
+				if (!paused) {
+					resetDelay();
+					nextFrame();
+				}
 			} else {
 				stopRunnable();
 			}
@@ -38,8 +41,10 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 				int width,
 				int height) {
 			super.onSurfaceChanged(holder, format, width, height);
-			resetDelay();
-			nextFrame();
+			if (!paused) {
+				resetDelay();
+				nextFrame();
+			}
 		}
 
 		@Override
@@ -54,7 +59,7 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 		protected void nextFrame() {
 			stopRunnable();
 
-			if (!visible) {
+			if (!visible || paused) {
 				return;
 			}
 
@@ -87,6 +92,16 @@ public abstract class CanvasWallpaperService extends WallpaperService {
 
 		protected void resetDelay() {
 			delay = 32L;
+		}
+
+		protected void setPaused(boolean paused) {
+			this.paused = paused;
+			if (paused) {
+				stopRunnable();
+			} else if (visible) {
+				resetDelay();
+				nextFrame();
+			}
 		}
 
 		private void stopRunnable() {
