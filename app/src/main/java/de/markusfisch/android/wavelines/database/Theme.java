@@ -236,11 +236,7 @@ public class Theme implements Parcelable {
 	}
 
 	private static int[] getDefaultStrokeWidths(int length) {
-		int[] array = new int[length];
-		for (int i = 0; i < length; ++i) {
-			array[i] = 0;
-		}
-		return array;
+		return new int[length];
 	}
 
 	private static int[] parseColorArray(JSONArray array) {
