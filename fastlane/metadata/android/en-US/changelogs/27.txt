@@ -1,0 +1,2 @@
+* Pause wallpaper when battery is low
+

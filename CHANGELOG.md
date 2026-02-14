@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.13.7
+* Pause wallpaper when battery is low
+
 ## 1.13.6
 * Improve layout for some Android versions
 
